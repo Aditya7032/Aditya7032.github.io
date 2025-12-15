@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Aditya Raj Sinha | Data Analyst</title>
+  <title>Aditya Raj Sinha | Data Analyst & Scientist</title>
 
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
@@ -11,12 +11,12 @@
   <style>
     /* ================= THEME VARIABLES ================= */
     :root {
-      --bg-main: #f6fbfb;          /* soothing light background */
+      --bg-main: #f6fbfb;
       --bg-card: #ffffff;
-      --accent: #3AAFA9;          /* teal accent */
-      --accent-soft: #d7f3f1;     /* light teal */
-      --text-main: #17252a;       /* dark slate */
-      --text-muted: #4b6f73;      /* muted teal-grey */
+      --accent: #3AAFA9;
+      --accent-soft: #d7f3f1;
+      --text-main: #17252a;
+      --text-muted: #4b6f73;
       --border-light: #bde5e2;
     }
 
@@ -40,13 +40,11 @@
       transition: background 0.4s ease, color 0.4s ease;
     }
 
-    /* ================= HEADER ================= */
     header {
       padding: 80px 20px;
       text-align: center;
       background: linear-gradient(135deg, var(--bg-card), var(--accent-soft));
       border-bottom: 1px solid var(--border-light);
-      transition: background 0.4s ease;
     }
 
     header img {
@@ -55,29 +53,12 @@
       border-radius: 50%;
       border: 3px solid var(--accent);
       margin-bottom: 20px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    header img:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 25px rgba(58,175,169,0.35);
-    }
+    h1 { font-size: 2.7rem; margin-bottom: 8px; }
+    h2 { color: var(--accent); margin-bottom: 12px; }
+    header p { color: var(--text-muted); }
 
-    h1 {
-      font-size: 2.7rem;
-      margin-bottom: 8px;
-    }
-
-    h2 {
-      color: var(--accent);
-      margin-bottom: 12px;
-    }
-
-    header p {
-      color: var(--text-muted);
-    }
-
-    /* ================= SECTIONS ================= */
     section {
       padding: 70px 20px;
       max-width: 1000px;
@@ -90,30 +71,18 @@
       margin-bottom: 35px;
     }
 
-    /* ================= SKILLS ================= */
-    .skills {
-      display: flex;
-      flex-wrap: wrap;
-    }
-
+    .skills { display: flex; flex-wrap: wrap; }
     .skills span {
       background: var(--accent-soft);
       color: var(--text-main);
       padding: 10px 16px;
       margin: 6px;
       border-radius: 20px;
-      font-size: 0.9rem;
       border: 1px solid var(--border-light);
       transition: all 0.3s ease;
     }
+    .skills span:hover { background: var(--accent); color: #fff; }
 
-    .skills span:hover {
-      background: var(--accent);
-      color: #ffffff;
-      transform: translateY(-2px);
-    }
-
-    /* ================= PROJECT CARDS ================= */
     .project {
       background: var(--bg-card);
       padding: 30px;
@@ -121,38 +90,19 @@
       border-radius: 16px;
       border: 1px solid var(--border-light);
       box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-      transition: all 0.35s ease;
     }
 
-    .project:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
-    }
+    .project h3 { color: var(--accent); }
+    .project p { color: var(--text-muted); }
 
-    .project h3 {
-      margin-top: 0;
+    .project a {
+      display: inline-block;
+      margin-top: 10px;
       color: var(--accent);
+      font-weight: 600;
     }
 
-    .project p {
-      color: var(--text-muted);
-    }
-
-    /* ================= LINKS & BUTTONS ================= */
-    a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .social-links a {
-      margin: 0 14px;
-      font-size: 1.3rem;
-    }
+    .social-links a { margin: 0 14px; font-size: 1.3rem; color: var(--accent); }
 
     .resume-btn {
       display: inline-block;
@@ -162,25 +112,21 @@
       background: var(--accent);
       color: #ffffff;
       font-weight: 600;
-      transition: all 0.3s ease;
     }
 
-    .resume-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 22px rgba(58,175,169,0.45);
-    }
-
-    /* ================= FOOTER ================= */
     footer {
       text-align: center;
       padding: 35px;
       background: var(--bg-card);
       color: var(--text-muted);
-      font-size: 0.9rem;
       border-top: 1px solid var(--border-light);
     }
 
-    /* ================= THEME TOGGLE ================= */
+    /* ============ SCROLL ANIMATION ============ */
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* ============ THEME TOGGLE ============ */
     .theme-toggle {
       position: fixed;
       top: 20px;
@@ -194,32 +140,23 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-      transition: background 0.3s ease;
     }
 
-    .theme-toggle i {
-      color: var(--accent);
-      font-size: 1.2rem;
-    }
+    .theme-toggle i { color: var(--accent); }
 
     @media (max-width: 768px) {
       h1 { font-size: 2.2rem; }
-      section { padding: 50px 18px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- THEME TOGGLE BUTTON -->
-  <div class="theme-toggle" id="themeToggle" title="Toggle light / dark theme">
-    <i class="fas fa-moon"></i>
-  </div>
+  <div class="theme-toggle" id="themeToggle"><i class="fas fa-moon"></i></div>
 
-  <header>
+  <header class="reveal">
     <img src="profile.jpg" alt="Aditya Raj Sinha" />
     <h1>Aditya Raj Sinha</h1>
-    <h2>Fresher Data Analyst | Data & Analytics Enthusiast</h2>
+    <h2>Fresher Data Analyst & Data Scientist | Data & Analytics Enthusiast</h2>
     <p> SQL | Power BI | Tableau | Python | Machine Learning | MongoDB | Statistics | Deep Learning |</p>
 
     <div class="social-links">
@@ -230,7 +167,7 @@
     <a href="#contact" class="resume-btn">Contact Me</a>
   </header>
 
-  <section>
+  <section class="reveal">
     <h2>About Me</h2>
     <p>
       I am a Data Analytics fresher with strong academic and hands-on project experience in data cleaning, analysis, and visualization.
@@ -239,7 +176,7 @@
     </p>
   </section>
 
-  <section>
+  <section class="reveal">
     <h2>Skills</h2>
     <div class="skills">
       <span>Python (Pandas, NumPy)</span>
@@ -254,62 +191,78 @@
     </div>
   </section>
 
-  <section>
+  <section class="reveal">
     <h2>Projects</h2>
 
     <div class="project">
       <h3>News Research & Analytics Tool – Data & NLP Application</h3>
       <p><b>Tools:</b> Python, Streamlit, TF-IDF, BM25, Cosine Similarity, LSA</p>
-      <p>
-        Designed and developed a text analytics system to extract, preprocess, rank, and summarize news articles using NLP techniques.
-        Implemented document similarity scoring and automated summarization to significantly reduce manual review time.
-      </p>
-      <p><b>Impact:</b> Improved information retrieval efficiency for large-scale text data analysis.</p>
+      <p>Designed and developed a text analytics system for ranking and summarizing news articles using NLP techniques.</p>
+      <span style="font-size:1.2rem;color:var(--accent);">
+        <i class="fab fa-github"></i>
+        <i class="fas fa-database" style="margin-left:8px"></i>
+        <i class="fas fa-chart-line" style="margin-left:8px"></i>
+      </span>
     </div>
 
     <div class="project">
       <h3>HR Analytics Dashboard – Workforce Insights</h3>
-      <p><b>Tools:</b> Tableau, Excel, Python, Data Cleaning</p>
-      <p>
-        Built interactive dashboards to track attrition rate, department-wise performance, and experience distribution.
-        Implemented dynamic filters and drill-downs to support data-driven HR decision-making.
-      </p>
-      <p><b>Impact:</b> Enabled stakeholders to identify workforce trends and performance gaps.</p>
+      <p><b>Tools:</b> Tableau, Excel, Python</p>
+      <p>Built interactive dashboards to analyze attrition, performance, and workforce trends.</p>
+      <span style="font-size:1.2rem;color:var(--accent);">
+        <i class="fab fa-github"></i>
+        <i class="fas fa-database" style="margin-left:8px"></i>
+        <i class="fas fa-chart-line" style="margin-left:8px"></i>
+      </span>
     </div>
 
     <div class="project">
       <h3>Renewable Energy Forecasting & Optimization</h3>
-      <p><b>Tools:</b> Python, Scikit-learn, Ensemble Models, Time Series Analysis</p>
-      <p>
-        Performed EDA on solar and wind datasets and built ensemble regression models to forecast energy production.
-        Evaluated models using RMSE and MAE with time-based validation strategies.
-      </p>
-      <p><b>Impact:</b> Provided predictive insights to improve energy planning and supply estimation.</p>
+      <p><b>Tools:</b> Python, Scikit-learn, XGBoost, LightGBM</p>
+      <p>Developed ensemble models to forecast solar and wind energy generation.</p>
+      <span style="font-size:1.2rem;color:var(--accent);">
+        <i class="fab fa-github"></i>
+        <i class="fas fa-database" style="margin-left:8px"></i>
+        <i class="fas fa-chart-line" style="margin-left:8px"></i>
+      </span>
     </div>
 
     <div class="project">
       <h3>Plant Disease Detection – Image Analytics</h3>
       <p><b>Tools:</b> PyTorch, Transfer Learning, EfficientNet</p>
-      <p>
-        Applied transfer learning and data augmentation techniques to classify crop diseases using the PlantVillage dataset.
-        Evaluated model performance using confusion matrix, classification report, and training visualizations.
-      </p>
-      <p><b>Impact:</b> Demonstrated strong capabilities in supervised learning and image-based data analysis.</p>
+      <p>Classified crop diseases using deep learning and transfer learning techniques.</p>
+      <span style="font-size:1.2rem;color:var(--accent);">
+        <i class="fab fa-github"></i>
+        <i class="fas fa-database" style="margin-left:8px"></i>
+        <i class="fas fa-chart-line" style="margin-left:8px"></i>
+      </span>
     </div>
 
     <div class="project">
       <h3>Mental Health Survey Analytics – Sentiment Insight Reporting</h3>
-      <p><b>Tools:</b> Python, VADER, NRC Lexicon, Data Visualization</p>
-      <p>
-        Conducted sentiment and emotion analysis across demographic groups to identify mental health trends.
-        Created visual reports highlighting emotional polarity and stress patterns.
-      </p>
-      <p><b>Impact:</b> Delivered insights useful for designing targeted mental health interventions.</p>
+      <p><b>Tools:</b> Python, VADER, NRC Lexicon</p>
+      <p>Performed sentiment and emotion analysis across demographic groups.</p>
+      <span style="font-size:1.2rem;color:var(--accent);">
+        <i class="fab fa-github"></i>
+        <i class="fas fa-database" style="margin-left:8px"></i>
+        <i class="fas fa-chart-line" style="margin-left:8px"></i>
+      </span>
     </div>
 
   </section>
 
-  <section id="contact">
+    <section class="reveal" id="resume">
+    <h2>Resume</h2>
+    <p>
+      You can download my latest resume to learn more about my academic background, technical skills,
+      and project experience in Data Analytics and Data Science.
+    </p>
+    <a href="resume.pdf" download class="resume-btn">
+      <i class="fas fa-download"></i> Download Resume
+    </a>
+  </section>
+
+  <section id="contact" class="reveal">
     <h2>Contact</h2>
     <p>Email: adityaharsh03@gmail.com</p>
     <p>LinkedIn: <a href="https://www.linkedin.com/in/aditya-raj-sinha-0220a31b6" target="_blank">Aditya Raj Sinha</a></p>
@@ -317,15 +270,13 @@
   </section>
 
   <footer>
-    <p>© 2025 Aditya Raj Sinha | Data Analyst Portfolio</p>
+    <p>© 2025 Aditya Raj Sinha | Data Analyst & Scientist Portfolio</p>
   </footer>
 
-  <!-- THEME TOGGLE SCRIPT -->
   <script>
     const toggle = document.getElementById('themeToggle');
     const icon = toggle.querySelector('i');
 
-    // Load saved theme
     if (localStorage.getItem('theme') === 'dark') {
       document.body.classList.add('dark');
       icon.classList.replace('fa-moon', 'fa-sun');
@@ -337,6 +288,16 @@
       icon.classList.toggle('fa-moon', !isDark);
       icon.classList.toggle('fa-sun', isDark);
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    window.addEventListener('scroll', () => {
+      reveals.forEach(r => {
+        const windowHeight = window.innerHeight;
+        const elementTop = r.getBoundingClientRect().top;
+        if (elementTop < windowHeight - 100) r.classList.add('active');
+      });
     });
   </script>
 
