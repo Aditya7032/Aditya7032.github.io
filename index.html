@@ -12,12 +12,12 @@
         /* --- VARIABLES --- */
         :root {
             --primary-accent: #00f2ff; /* Cyber Cyan */
-            --secondary-accent: #7000ff; /* Data Purple */
-            --dark-bg: #020203; /* Deep Dark */
-            --panel-bg: rgba(15, 20, 25, 0.85); /* Dark Glass */
+            --secondary-accent: #bf00ff; /* Electric Purple */
+            --dark-bg: #05080a;
+            --panel-bg: rgba(15, 20, 25, 0.8); /* Dark Glass */
             --text-main: #ffffff;
             --text-muted: #b0b0b0;
-            --border-color: rgba(0, 242, 255, 0.3);
+            --border-color: rgba(0, 242, 255, 0.2);
         }
 
         /* --- RESET --- */
@@ -42,15 +42,15 @@
         ul { list-style: none; }
         img { max-width: 100%; display: block; }
 
-        /* --- PROFESSIONAL GRID BACKGROUND --- */
-        #grid-canvas {
+        /* --- NEURAL MESH BACKGROUND --- */
+        #network-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: linear-gradient(to bottom, #000000, #0a0f1c);
+            background: radial-gradient(circle at center, #0a0e17 0%, #000000 100%);
         }
 
         /* --- TOP BAR --- */
@@ -78,8 +78,8 @@
 
         /* --- NAVIGATION --- */
         header {
-            background: rgba(2, 2, 3, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(2, 2, 3, 0.9);
+            backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -148,10 +148,9 @@
             overflow: hidden;
         }
 
-        /* --- UPDATED PROFILE SHAPE (SQUIRCLE) --- */
         .profile-wrapper {
-            width: 240px; /* Wider to fit shoulders */
-            height: 280px; /* Taller */
+            width: 240px; 
+            height: 280px; 
             position: relative;
             margin-bottom: 40px;
             z-index: 10;
@@ -159,14 +158,12 @@
 
         .drone-landing {
             width: 100%; height: 100%;
-            border-radius: 20px; /* Soft Rounded Corners */
+            border-radius: 20px; /* Squircle Shape */
             border: 3px solid var(--primary-accent);
-            /* Make sure 'profile.jpg' is in the same folder */
-            background: url('profile.jpg') center top/cover no-repeat; /* Focus on top/center */
+            /* Make sure 'profile.jpg' is in the folder */
+            background: url('profile.jpg') center top/cover no-repeat;
             background-color: #111;
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.4);
-            
-            /* Animation */
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.4);
             animation: dropIn 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
             transform: translateY(-800px) scale(0.8);
             opacity: 0;
@@ -175,12 +172,12 @@
         .hud-ring {
             position: absolute; inset: -15px;
             border: 2px dashed var(--primary-accent);
-            border-radius: 30px; /* Matching shape */
+            border-radius: 30px;
             opacity: 0.6;
             animation: pulseBorder 3s infinite;
         }
 
-        /* Corner accents for tech feel */
+        /* Tech Corners */
         .hud-corner {
             position: absolute;
             width: 20px; height: 20px;
@@ -236,7 +233,7 @@
         /* --- SKILLS SECTION --- */
         .skills-section {
             padding: 80px 0;
-            background: rgba(2, 2, 3, 0.8);
+            background: rgba(5, 8, 10, 0.6);
             text-align: center;
             border-top: 1px solid rgba(255,255,255,0.05);
         }
@@ -264,7 +261,7 @@
             border: 1px solid rgba(255,255,255,0.05);
             transition: 0.3s;
             text-align: left;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
         }
         .skill-card:hover { transform: translateY(-5px); border-color: var(--primary-accent); }
 
@@ -288,7 +285,7 @@
         /* --- PROJECTS SECTION --- */
         .projects-section {
             padding: 80px 0;
-            background: transparent; /* See grid behind */
+            background: transparent;
         }
 
         .projects-grid {
@@ -304,7 +301,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden; 
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
         }
         .project-card:hover { transform: translateY(-5px); box-shadow: 0 0 30px rgba(0, 242, 255, 0.15); }
 
@@ -427,7 +424,7 @@
 </head>
 <body>
 
-    <canvas id="grid-canvas"></canvas>
+    <canvas id="network-canvas"></canvas>
 
     <div class="top-bar">
         <div class="top-container">
@@ -624,7 +621,6 @@
         <div class="container">
             <h3>Let's Collaborate</h3>
             <p style="margin-bottom: 30px; color: #ccc;">Open for full-time opportunities in Data Science & Analytics.</p>
-            
             <div class="newsletter-form">
                 <a href="mailto:adityaharsh03@gmail.com" class="btn-mail-large">Send Me an Email</a>
             </div>
@@ -654,61 +650,76 @@
             menu.classList.toggle("active");
         }
 
-        /* --- CYBER GRID ANIMATION --- */
-        const canvas = document.getElementById('grid-canvas');
+        /* --- NEURAL MESH ANIMATION SCRIPT --- */
+        const canvas = document.getElementById('network-canvas');
         const ctx = canvas.getContext('2d');
 
         let width, height;
-        let offset = 0;
+        let particles = [];
 
         function init() {
             width = window.innerWidth;
             height = window.innerHeight;
             canvas.width = width;
             canvas.height = height;
+            
+            // Create particles
+            particles = [];
+            const numParticles = Math.floor(width * height / 10000); // Responsive density
+            
+            for(let i=0; i<numParticles; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.5, // Slow drift
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2 + 1
+                });
+            }
         }
 
-        function drawGrid() {
+        function draw() {
             ctx.clearRect(0, 0, width, height);
             
-            // Background Gradient
-            let gradient = ctx.createLinearGradient(0, 0, 0, height);
-            gradient.addColorStop(0, '#000000');
-            gradient.addColorStop(1, '#0a0f1c');
-            ctx.fillStyle = gradient;
-            ctx.fillRect(0, 0, width, height);
+            // Update and draw particles
+            particles.forEach((p, index) => {
+                p.x += p.vx;
+                p.y += p.vy;
 
-            ctx.beginPath();
-            
-            // Perspective Grid Lines
-            const gridSize = 40;
-            const speed = 0.5;
-            
-            offset = (offset + speed) % gridSize;
+                // Bounce off edges
+                if(p.x < 0 || p.x > width) p.vx *= -1;
+                if(p.y < 0 || p.y > height) p.vy *= -1;
 
-            ctx.strokeStyle = 'rgba(0, 242, 255, 0.15)'; // Cyan Grid
-            ctx.lineWidth = 1;
+                // Draw Particle
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#00f2ff';
+                ctx.fill();
 
-            // Horizontal moving lines
-            for (let y = offset; y < height; y += gridSize) {
-                ctx.moveTo(0, y);
-                ctx.lineTo(width, y);
-            }
+                // Connect to nearby particles
+                for(let j=index+1; j<particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
 
-            // Vertical static lines (with perspective faking)
-            const centerX = width / 2;
-            for (let x = 0; x <= width; x += gridSize * 2) {
-                ctx.moveTo(x, 0);
-                ctx.lineTo(x, height); // Simplified for clean look
-            }
+                    if(dist < 120) { // Connection threshold
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 242, 255, ${1 - dist/120})`; // Fade with distance
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            });
 
-            ctx.stroke();
-            requestAnimationFrame(drawGrid);
+            requestAnimationFrame(draw);
         }
 
         window.addEventListener('resize', init);
         init();
-        drawGrid();
+        draw();
     </script>
 
 </body>
