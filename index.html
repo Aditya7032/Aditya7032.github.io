@@ -33,7 +33,7 @@
             line-height: 1.6;
         }
 
-        /* Fluid Typography (Scales with screen size) */
+        /* Fluid Typography */
         h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-family: 'Montserrat', sans-serif; font-weight: 700; letter-spacing: -1px; margin-bottom: 0.5rem; }
         h2 { font-size: clamp(1.8rem, 3vw, 2.5rem); font-family: 'Montserrat', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; }
         h3 { font-size: 1.2rem; font-family: 'Montserrat', sans-serif; font-weight: 600; }
@@ -101,36 +101,31 @@
         }
 
         .profile-wrapper {
-            width: 220px; height: 300px; /* Rectangular Portrait */
+            width: 240px; height: 320px; /* Rectangular Portrait */
             position: relative; margin-bottom: 40px;
         }
 
-        /* SVG Drone Container */
+        /* Simplified Drone Container */
         .drone-svg-container {
-            position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
-            width: 340px; height: 120px; z-index: 20;
-            will-change: transform, top, opacity;
-            animation: droneSequence 5s var(--ease-out-back) forwards;
+            position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
+            width: 320px; height: 100px; z-index: 20;
+            will-change: transform, top;
+            animation: droneSequence 4s ease-in-out forwards;
         }
 
-        .sci-fi-drone { width: 100%; height: 100%; filter: drop-shadow(0 0 10px var(--primary)); }
+        .sci-fi-drone { width: 100%; height: 100%; filter: drop-shadow(0 0 8px var(--primary)); }
         
-        /* Drone Lights blinking */
-        .blink-red { animation: blink 1s infinite; fill: #ff4d4d; }
-        .blink-green { animation: blink 1s infinite 0.5s; fill: #00ff00; }
-        @keyframes blink { 50% { opacity: 0.3; } }
-
         /* Propellers */
-        .propeller { transform-origin: center; animation: spinProp 0.05s linear infinite; }
+        .propeller { transform-origin: center; animation: spinProp 0.08s linear infinite; }
         @keyframes spinProp { 100% { transform: rotate(360deg); } }
 
-        /* Retracting Cable */
+        /* Simple Cable */
         .drone-cable {
-            position: absolute; top: 60px; left: 50%; width: 2px; height: 0;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.8), var(--primary));
+            position: absolute; top: 55px; left: 50%; width: 2px; height: 0;
+            background: linear-gradient(to bottom, #fff, var(--primary));
             transform: translateX(-50%); z-index: 15;
-            box-shadow: 0 0 8px var(--primary);
-            animation: cableAction 5s ease-in-out forwards;
+            box-shadow: 0 0 5px var(--primary);
+            animation: cableAction 4s ease-in-out forwards;
         }
 
         /* Profile Image Landing */
@@ -138,13 +133,13 @@
             width: 100%; height: 100%;
             border-radius: 20px; /* Modern Squircle */
             border: 3px solid var(--primary);
-            background: url('profile.jpg') center top/cover;
+            background: url('profile.jpg') center/cover;
             background-color: #111;
-            box-shadow: 0 0 50px var(--primary-dim);
+            box-shadow: 0 0 40px rgba(0, 242, 255, 0.4);
             position: relative; z-index: 10; opacity: 0;
-            transform: translateY(-100vh);
+            transform: translateY(-600px);
             will-change: transform, opacity;
-            animation: payloadSequence 5s var(--ease-out-back) forwards;
+            animation: payloadSequence 4s ease-in-out forwards;
         }
 
         /* HUD Ring Pulse */
@@ -152,86 +147,80 @@
             position: absolute; inset: -20px;
             border: 2px dashed var(--primary);
             border-radius: 30px; opacity: 0;
-            animation: fadeInHud 1s ease 4.2s forwards, pulseBorder 4s infinite;
+            animation: fadeInHud 1s ease 3.8s forwards, pulseBorder 3s infinite;
         }
 
         /* Animation Timeline */
         @keyframes droneSequence {
-            0% { top: -30vh; opacity: 1; }
-            15% { top: -30vh; }
-            35% { top: -50px; opacity: 1; } /* Arrive */
-            55% { top: -50px; opacity: 1; } /* Hover/Drop */
-            65% { top: -80px; opacity: 1; } /* Recoil */
-            100% { top: -100vh; opacity: 0; } /* Depart */
+            0% { top: -200px; opacity: 1; }
+            15% { top: -200px; opacity: 1; }
+            40% { top: -60px; opacity: 1; } /* Arrive */
+            60% { top: -60px; opacity: 1; } /* Drop */
+            70% { top: -70px; opacity: 1; } /* Recoil */
+            100% { top: -500px; opacity: 0; } /* Depart */
         }
         @keyframes cableAction {
-            0% { height: 200px; opacity: 1; top: -190px; }
-            35% { height: 60px; opacity: 1; top: -10px; }
-            55% { height: 60px; opacity: 1; top: -10px; }
-            60% { height: 0px; opacity: 0; top: -10px; }
-            100% { height: 0; opacity: 0; }
+            0% { height: 100px; opacity: 1; top: -145px; }
+            40% { height: 60px; opacity: 1; top: -5px; }
+            60% { height: 60px; opacity: 1; top: -5px; }
+            65% { height: 0px; opacity: 0; top: -5px; }
+            100% { height: 0px; opacity: 0; top: -500px; }
         }
         @keyframes payloadSequence {
-            0% { transform: translateY(-100vh); opacity: 1; }
-            35% { transform: translateY(0); opacity: 1; } /* Land */
+            0% { transform: translateY(-600px); opacity: 1; }
+            40% { transform: translateY(0); opacity: 1; } /* Land */
+            60% { transform: translateY(0); opacity: 1; } /* Stay */
             100% { transform: translateY(0); opacity: 1; } /* Stay */
         }
-        @keyframes fadeInHud { to { opacity: 0.5; } }
+        @keyframes fadeInHud { to { opacity: 0.6; } }
         @keyframes pulseBorder {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.05); opacity: 0.8; border-color: #fff; }
+            0% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.03); opacity: 1; border-color: #fff; }
+            100% { transform: scale(1); opacity: 0.6; }
         }
 
         /* --- 5. TEXT & TYPING --- */
-        .hero-content { position: relative; z-index: 5; margin-top: 20px; }
+        .hero-content { position: relative; z-index: 5; margin-top: 10px; }
         
         .gradient-text {
             background: linear-gradient(90deg, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 40px rgba(0,242,255,0.3);
-            opacity: 0; animation: slideUpFade 0.8s ease 4.5s forwards;
+            text-shadow: 0 0 30px rgba(0,242,255,0.2);
+            opacity: 0; animation: slideUp 1s ease 4s forwards;
         }
 
         .typing-container {
             font-family: 'Orbitron', sans-serif;
-            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-            color: var(--text-muted); margin: 15px 0 30px;
-            min-height: 1.8em; opacity: 0;
-            animation: slideUpFade 0.8s ease 4.7s forwards;
+            font-size: clamp(1.2rem, 2.5vw, 2rem);
+            color: var(--text-muted); margin: 15px 0 25px;
+            min-height: 50px; opacity: 0;
+            animation: slideUp 1s ease 4.2s forwards;
         }
 
         .txt-rotate { color: var(--primary); font-weight: 700; border-right: 2px solid var(--primary); padding-right: 5px; animation: caret 0.8s infinite; }
         @keyframes caret { 50% { border-color: transparent; } }
 
-        .hero-desc { max-width: 600px; margin: 0 auto 40px; opacity: 0; animation: slideUpFade 0.8s ease 4.9s forwards; }
+        .hero-desc { max-width: 700px; margin: 0 auto 30px; opacity: 0; animation: slideUp 1s ease 4.5s forwards; }
 
         .hero-btn {
-            display: inline-block; padding: 15px 50px;
+            display: inline-block; padding: 15px 40px;
             background: transparent; color: #fff;
             border: 2px solid var(--primary);
-            font-family: 'Orbitron', sans-serif; font-weight: 700; letter-spacing: 2px;
+            font-family: 'Orbitron', sans-serif; font-weight: 700; letter-spacing: 1px;
             text-transform: uppercase; position: relative; overflow: hidden;
             transition: 0.4s; opacity: 0;
-            animation: slideUpFade 0.8s ease 5.1s forwards;
+            animation: slideUp 1s ease 4.8s forwards;
         }
-        .hero-btn::before {
-            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
-            background: var(--primary); z-index: -1; transition: 0.4s;
-        }
-        .hero-btn:hover { color: #000; box-shadow: 0 0 30px var(--primary); }
-        .hero-btn:hover::before { left: 0; }
+        .hero-btn:hover { color: #000; background: var(--primary); box-shadow: 0 0 30px var(--primary); }
 
-        @keyframes slideUpFade {
-            from { transform: translateY(30px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
+        @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         /* --- 6. SECTIONS & CARDS (Glassmorphism) --- */
         section { padding: 100px 0; position: relative; }
         
         .section-header { text-align: center; margin-bottom: 70px; }
-        .divider { width: 60px; height: 4px; background: var(--primary); margin: 15px auto 0; box-shadow: 0 0 15px var(--primary); border-radius: 2px; }
+        .divider { width: 80px; height: 3px; background: var(--primary); margin: 15px auto 0; box-shadow: 0 0 10px var(--primary); border-radius: 2px; }
 
         /* Reveal on Scroll Class */
         .reveal { opacity: 0; transform: translateY(50px); transition: all 0.8s ease; }
@@ -244,33 +233,33 @@
             background: var(--glass-panel);
             border: 1px solid rgba(255,255,255,0.05);
             padding: 30px; border-radius: 12px;
-            transition: 0.4s; backdrop-filter: blur(10px);
+            transition: 0.3s; backdrop-filter: blur(10px);
         }
-        .skill-card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,242,255,0.1); }
+        .skill-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px rgba(0,242,255,0.1); }
         
         .skill-card h3 { color: var(--primary); margin-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
         .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
-        .tag { font-size: 0.85rem; background: rgba(0, 242, 255, 0.1); color: #fff; padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(0, 242, 255, 0.2); }
+        .tag { font-size: 0.8rem; background: rgba(0, 242, 255, 0.1); color: #fff; padding: 5px 12px; border-radius: 4px; border: 1px solid rgba(0, 242, 255, 0.2); }
 
         /* Projects */
         .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
         .project-card {
             background: var(--glass-panel); border-radius: 12px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; display: flex; flex-direction: column;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; display: flex; flex-direction: column;
         }
-        .project-card:hover { transform: translateY(-10px); box-shadow: 0 15px 40px rgba(0,0,0,0.5); border-color: var(--primary-dim); }
+        .project-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.5); border-color: var(--primary-dim); }
         
-        .project-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.4s; }
-        .project-card:hover .project-img { transform: scale(1.05); }
+        .project-img { width: 100%; height: 220px; object-fit: cover; border-bottom: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
         
         .card-content { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; position: relative; background: var(--glass-panel); }
-        .project-title { color: #fff; margin-bottom: 10px; }
-        .tech-stack { color: var(--primary); font-size: 0.8rem; font-weight: 700; margin-top: auto; padding-top: 20px; font-family: 'Orbitron', sans-serif; }
+        .project-title { color: #fff; margin-bottom: 10px; font-size: 1.4rem; }
+        .project-desc { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 20px; flex-grow: 1; }
+        .tech-stack { color: var(--primary); font-size: 0.8rem; font-weight: 700; margin-top: auto; padding-top: 20px; font-family: 'Orbitron', sans-serif; margin-bottom: 15px;}
         
         .btn-small {
-            display: inline-block; margin-top: 15px; padding: 8px 20px;
+            display: inline-block; padding: 8px 20px;
             border: 1px solid var(--text-muted); color: var(--text-muted);
-            font-size: 0.8rem; font-weight: 600; text-transform: uppercase; border-radius: 4px;
+            font-size: 0.8rem; font-weight: 600; text-transform: uppercase; border-radius: 4px; align-self: flex-start;
         }
         .btn-small:hover { border-color: var(--primary); color: var(--primary); background: rgba(0, 242, 255, 0.05); }
 
@@ -280,23 +269,22 @@
         .split-text { 
             padding: 60px; display: flex; flex-direction: column; justify-content: center; 
             background: linear-gradient(135deg, rgba(15,20,25,0.9), rgba(5,8,10,0.95));
-            border-left: 2px solid var(--primary);
+            border-top: 1px solid var(--primary);
         }
         .split-img { 
             background: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80') center/cover; 
-            position: relative;
+            filter: grayscale(100%) contrast(1.2);
         }
-        .split-img::after { content: ''; position: absolute; inset: 0; background: rgba(0, 242, 255, 0.1); mix-blend-mode: overlay; }
 
         /* Contact */
-        .newsletter { background: linear-gradient(to top, #000, #05080a); border-top: 1px solid #111; }
+        .newsletter { background: linear-gradient(to top, #000, #05080a); border-top: 1px solid #111; padding: 80px 0; text-align: center;}
         .btn-mail-large {
-            padding: 18px 50px; font-size: 1.1rem;
-            background: var(--primary); color: #000; font-weight: 800; border: none;
-            box-shadow: 0 0 25px var(--primary-dim); border-radius: 50px; cursor: pointer;
-            transition: 0.3s; margin-top: 30px;
+            padding: 15px 45px; font-size: 1rem;
+            background: var(--primary); color: #000; font-weight: 700; border: none;
+            box-shadow: 0 0 20px var(--primary-dim); border-radius: 4px; cursor: pointer;
+            transition: 0.3s; margin-top: 30px; text-transform: uppercase;
         }
-        .btn-mail-large:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 0 40px var(--primary); background: #fff; }
+        .btn-mail-large:hover { transform: translateY(-3px); box-shadow: 0 0 35px var(--primary); background: #fff; }
 
         /* Footer */
         footer { background: #000; padding: 60px 0 30px; border-top: 1px solid #111; text-align: center; font-size: 0.9rem; }
@@ -308,20 +296,20 @@
         @media (max-width: 768px) {
             .nav-menu {
                 display: flex; flex-direction: column; position: fixed; top: 0; right: -100%;
-                width: 70%; height: 100vh; background: rgba(5, 8, 10, 0.98);
+                width: 75%; height: 100vh; background: rgba(5, 8, 10, 0.98);
                 justify-content: center; transition: 0.4s; box-shadow: -10px 0 30px rgba(0,0,0,0.8);
-                backdrop-filter: blur(10px); border-left: 1px solid var(--primary);
+                backdrop-filter: blur(10px); border-left: 1px solid var(--primary); z-index: 1001;
             }
             .nav-menu.active { right: 0; }
             .hamburger { display: block; z-index: 1002; }
             
             .hero { padding-top: 120px; }
             /* Adjust Drone Scale for Mobile */
-            .profile-wrapper { transform: scale(0.85); margin-bottom: 20px; }
-            .drone-svg-container { width: 300px; }
+            .profile-wrapper { transform: scale(0.9); margin-bottom: 20px; }
+            .drone-svg-container { width: 280px; }
             
             .split-text { padding: 40px 20px; }
-            .project-img { height: 180px; }
+            .project-img { height: 200px; }
         }
     </style>
 </head>
@@ -342,7 +330,7 @@
 
     <header>
         <div class="nav-container">
-            <a href="#" class="logo">Aditya.AI</a>
+            <a href="#" class="logo">Aditya Raj Sinha</a>
             <div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="#" onclick="toggleMenu()">Home</a></li>
@@ -361,23 +349,21 @@
                     <svg class="sci-fi-drone" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                                <feGaussianBlur stdDeviation="3" result="blur"/>
+                                <feGaussianBlur stdDeviation="2" result="blur"/>
                                 <feComposite in="SourceGraphic" in2="blur" operator="over"/>
                             </filter>
                         </defs>
-                        <path d="M70 70 L60 85 L80 85 M130 70 L140 85 L120 85" stroke="#00f2ff" stroke-width="2" fill="none" />
-                        <path d="M80 50 L120 50 L135 60 L120 75 L80 75 L65 60 Z" fill="#0b1015" stroke="#00f2ff" stroke-width="2" filter="url(#glow)"/>
-                        <circle cx="65" cy="60" r="3" class="blink-red"/>
-                        <circle cx="135" cy="60" r="3" class="blink-green"/>
-                        <circle cx="100" cy="62" r="6" fill="#00f2ff" opacity="0.9" filter="url(#glow)"/>
-                        <line x1="75" y1="55" x2="40" y2="40" stroke="#00f2ff" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="125" y1="55" x2="160" y2="40" stroke="#00f2ff" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="75" y1="70" x2="40" y2="85" stroke="#00f2ff" stroke-width="3" stroke-linecap="round"/>
-                        <line x1="125" y1="70" x2="160" y2="85" stroke="#00f2ff" stroke-width="3" stroke-linecap="round"/>
-                        <g class="propeller" style="transform-origin: 40px 40px;"><ellipse cx="40" cy="40" rx="28" ry="2" fill="#00f2ff" opacity="0.5"/><ellipse cx="40" cy="40" rx="2" ry="28" fill="#00f2ff" opacity="0.5"/></g>
-                        <g class="propeller" style="transform-origin: 160px 40px;"><ellipse cx="160" cy="40" rx="28" ry="2" fill="#00f2ff" opacity="0.5"/><ellipse cx="160" cy="40" rx="2" ry="28" fill="#00f2ff" opacity="0.5"/></g>
-                        <g class="propeller" style="transform-origin: 40px 85px;"><ellipse cx="40" cy="85" rx="28" ry="2" fill="#00f2ff" opacity="0.5"/><ellipse cx="40" cy="85" rx="2" ry="28" fill="#00f2ff" opacity="0.5"/></g>
-                        <g class="propeller" style="transform-origin: 160px 85px;"><ellipse cx="160" cy="85" rx="28" ry="2" fill="#00f2ff" opacity="0.5"/><ellipse cx="160" cy="85" rx="2" ry="28" fill="#00f2ff" opacity="0.5"/></g>
+                        <path d="M70 70 L65 85 L85 85 M130 70 L135 85 L115 85" stroke="#00f2ff" stroke-width="2" fill="none" />
+                        <path d="M80 50 L120 50 L130 60 L120 70 L80 70 L70 60 Z" fill="#111" stroke="#00f2ff" stroke-width="2" filter="url(#glow)"/>
+                        <circle cx="100" cy="60" r="5" fill="#00f2ff" opacity="0.9"/>
+                        <line x1="75" y1="55" x2="40" y2="40" stroke="#00f2ff" stroke-width="3" />
+                        <line x1="125" y1="55" x2="160" y2="40" stroke="#00f2ff" stroke-width="3" />
+                        <line x1="75" y1="65" x2="40" y2="80" stroke="#00f2ff" stroke-width="3" />
+                        <line x1="125" y1="65" x2="160" y2="80" stroke="#00f2ff" stroke-width="3" />
+                        <g class="propeller" style="transform-origin: 40px 40px;"><ellipse cx="40" cy="40" rx="25" ry="3" fill="#00f2ff" opacity="0.6"/><ellipse cx="40" cy="40" rx="3" ry="25" fill="#00f2ff" opacity="0.6"/></g>
+                        <g class="propeller" style="transform-origin: 160px 40px;"><ellipse cx="160" cy="40" rx="25" ry="3" fill="#00f2ff" opacity="0.6"/><ellipse cx="160" cy="40" rx="3" ry="25" fill="#00f2ff" opacity="0.6"/></g>
+                        <g class="propeller" style="transform-origin: 40px 80px;"><ellipse cx="40" cy="80" rx="25" ry="3" fill="#00f2ff" opacity="0.6"/><ellipse cx="40" cy="80" rx="3" ry="25" fill="#00f2ff" opacity="0.6"/></g>
+                        <g class="propeller" style="transform-origin: 160px 80px;"><ellipse cx="160" cy="80" rx="25" ry="3" fill="#00f2ff" opacity="0.6"/><ellipse cx="160" cy="80" rx="3" ry="25" fill="#00f2ff" opacity="0.6"/></g>
                     </svg>
                     <div class="drone-cable"></div>
                 </div>
@@ -389,10 +375,10 @@
             <div class="hero-content">
                 <h1 class="gradient-text">Aditya Raj Sinha</h1>
                 <div class="typing-container">
-                    I am a <span class="txt-rotate" data-period="2000" data-rotate='[ "Data Scientist.", "Data Analyst.", "Visualizer.", "NLP Engineer.", "Problem Solver." ]'></span>
+                    I am a <span class="txt-rotate" data-period="2000" data-rotate='[ "Data Scientist.", "Data Analyst.", "Visualizer.", "NLP Enthusiast.", "Problem Solver." ]'></span>
                 </div>
-                <p class="hero-desc">Transforming complex datasets into actionable business insights through advanced Machine Learning and Interactive Intelligence.</p>
-                <a href="#projects" class="hero-btn">Explore Projects</a>
+                <p class="hero-desc">Deriving Insights From Data through Machine Learning, NLP, and Business Intelligence.</p>
+                <a href="#projects" class="hero-btn">View My Work</a>
             </div>
         </section>
 
@@ -400,10 +386,8 @@
             <div class="split-col split-img"></div>
             <div class="split-col split-text">
                 <h2 style="color: var(--primary);">About Me</h2>
-                <div class="divider" style="margin: 10px 0 30px 0;"></div>
-                <p>I am a Data Science postgraduate with a rigorous background in Physics, bringing a unique analytical perspective to data problems. I specialize in bridging the gap between raw unstructured data and strategic business decisions.</p>
-                <br>
-                <p>Currently, I am a <strong>Data Science Intern at NullClass</strong>, architecting generative AI models. My passion lies in building robust end-to-end pipelines, from data ingestion and cleaning to model deployment and monitoring.</p>
+                <p>I am a Data Science postgraduate with a strong foundation in Physics. I specialize in bridging the gap between raw data and strategic business decisions.</p>
+                <p style="margin-top: 1rem;">Currently, I am a <strong>Data Science Intern at NullClass</strong>, working on generative AI models. I have a passion for building end-to-end pipelines, from data ingestion to deployment.</p>
             </div>
         </section>
 
@@ -415,31 +399,52 @@
                 </div>
                 <div class="skills-grid">
                     <div class="skill-card">
-                        <h3><i class="fas fa-code"></i> Core Stack</h3>
+                        <h3>Programming & Analysis</h3>
                         <div class="skill-tags">
                             <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">R</span>
-                            <span class="tag">Pandas</span><span class="tag">NumPy</span>
+                            <span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">EDA</span>
+                            <span class="tag">A/B Testing</span>
                         </div>
                     </div>
                     <div class="skill-card">
-                        <h3><i class="fas fa-brain"></i> AI & ML</h3>
+                        <h3>Machine Learning & AI</h3>
                         <div class="skill-tags">
                             <span class="tag">Scikit-learn</span><span class="tag">TensorFlow</span><span class="tag">PyTorch</span>
-                            <span class="tag">XGBoost</span><span class="tag">Regression</span>
+                            <span class="tag">Ensemble Models</span><span class="tag">Regression</span>
+                            <span class="tag">Time Series</span>
                         </div>
                     </div>
                     <div class="skill-card">
-                        <h3><i class="fas fa-language"></i> NLP</h3>
+                        <h3>NLP</h3>
                         <div class="skill-tags">
-                            <span class="tag">TF-IDF</span><span class="tag">Transformers</span><span class="tag">LSA</span>
-                            <span class="tag">NLTK</span><span class="tag">Spacy</span>
+                            <span class="tag">TF-IDF</span><span class="tag">BM25</span><span class="tag">Cosine Similarity</span>
+                            <span class="tag">LSA</span><span class="tag">VADER</span><span class="tag">NRC Lexicon</span>
                         </div>
                     </div>
                     <div class="skill-card">
-                        <h3><i class="fas fa-chart-pie"></i> Visualization</h3>
+                        <h3>Visualization & BI</h3>
                         <div class="skill-tags">
-                            <span class="tag">Tableau</span><span class="tag">Power BI</span><span class="tag">Matplotlib</span>
-                            <span class="tag">Seaborn</span>
+                            <span class="tag">Tableau</span><span class="tag">Power BI</span><span class="tag">Excel</span>
+                            <span class="tag">DAX</span><span class="tag">Matplotlib</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Tools & Platforms</h3>
+                        <div class="skill-tags">
+                            <span class="tag">Jupyter</span><span class="tag">Streamlit</span><span class="tag">Google Colab</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Data Handling</h3>
+                        <div class="skill-tags">
+                            <span class="tag">Data Cleaning</span><span class="tag">Preprocessing</span>
+                            <span class="tag">Feature Engineering</span><span class="tag">ETL</span>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <h3>Databases</h3>
+                        <div class="skill-tags">
+                            <span class="tag">MongoDB</span><span class="tag">Neo4j</span>
                         </div>
                     </div>
                 </div>
@@ -449,7 +454,7 @@
         <section class="projects-section reveal" id="projects">
             <div class="container">
                 <div class="section-header">
-                    <h2>Selected Works</h2>
+                    <h2>Featured Projects</h2>
                     <div class="divider"></div>
                 </div>
                 <div class="projects-grid">
@@ -457,40 +462,70 @@
                     <div class="project-card">
                         <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80" alt="News Analytics" class="project-img">
                         <div class="card-content">
-                            <h3 class="project-title">News Research Tool</h3>
-                            <p class="project-desc">NLP-driven platform automating article summarization. Implemented TF-IDF and BM25 algorithms for high-accuracy relevance scoring.</p>
-                            <div class="tech-stack">PYTHON • NLP • STREAMLIT</div>
-                            <a href="https://github.com/Aditya7032/News-Research-Analytics-Tool-Data-NLP-Application" target="_blank" class="btn-small">View Code</a>
+                            <div class="project-title">News Research & Analytics Tool</div>
+                            <div class="project-desc">Built an NLP-driven platform automating article ingestion and summarization. Implemented TF-IDF and BM25 for relevance scoring.</div>
+                            <div class="tech-stack">PYTHON | NLP | TF-IDF | STREAMLIT</div>
+                            <a href="https://github.com/Aditya7032/News-Research-Analytics-Tool-Data-NLP-Application" target="_blank" class="btn-small">View on GitHub</a>
                         </div>
                     </div>
 
                     <div class="project-card">
-                        <img src="https://images.unsplash.com/photo-1611974765270-ca1258634369?auto=format&fit=crop&w=800&q=80" alt="Stock Market" class="project-img">
+                        <img src="https://images.unsplash.com/photo-1559589689-577aabd1db4f?auto=format&fit=crop&w=800&q=80" alt="Stock Market Bull" class="project-img">
                         <div class="card-content">
-                            <h3 class="project-title">Stock Market Predictor</h3>
-                            <p class="project-desc">End-to-end pipeline using Random Forest to predict closing prices. Integrated with Power BI for real-time dashboarding.</p>
-                            <div class="tech-stack">ML • TIME SERIES • POWER BI</div>
-                            <a href="https://github.com/Aditya7032/Stock-Market-Prediction-Analytics-Dashboard-Power-BI-Python-" target="_blank" class="btn-small">View Code</a>
+                            <div class="project-title">Stock Market Prediction</div>
+                            <div class="project-desc">Designed an end-to-end system integrating Python pipelines with Power BI. Used Random Forest to predict closing prices (MAE/RMSE evaluation).</div>
+                            <div class="tech-stack">PYTHON | ML | TIME SERIES | POWER BI</div>
+                            <a href="https://github.com/Aditya7032/Stock-Market-Prediction-Analytics-Dashboard-Power-BI-Python-" target="_blank" class="btn-small">View on GitHub</a>
                         </div>
                     </div>
 
                     <div class="project-card">
                         <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" alt="HR Analytics" class="project-img">
                         <div class="card-content">
-                            <h3 class="project-title">HR Attrition Dashboard</h3>
-                            <p class="project-desc">Interactive Tableau dashboard analyzing employee churn. Identified key attrition factors resulting in actionable HR strategies.</p>
-                            <div class="tech-stack">TABLEAU • DATA CLEANING • KPI</div>
-                            <a href="https://github.com/Aditya7032/HR-analytics" target="_blank" class="btn-small">View Code</a>
+                            <div class="project-title">HR Analytics Dashboard</div>
+                            <div class="project-desc">Developed an interactive dashboard to analyze attrition. Performed data cleaning in Python and built drill-down visualizations in Tableau.</div>
+                            <div class="tech-stack">TABLEAU | DATA CLEANING | KPI ANALYSIS</div>
+                            <a href="https://github.com/Aditya7032/HR-analytics" target="_blank" class="btn-small">View on GitHub</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80" alt="Renewable Energy" class="project-img">
+                        <div class="card-content">
+                            <div class="project-title">Renewable Energy Forecasting</div>
+                            <div class="project-desc">Conducted EDA on solar/wind data. Built ensemble regression models (XGBoost, LightGBM) to forecast energy output.</div>
+                            <div class="tech-stack">PYTHON | XGBOOST | LIGHTGBM | ENSEMBLE</div>
+                            <a href="https://github.com/Aditya7032/Renewable_energy_forcasting_-_optimization" target="_blank" class="btn-small">View on GitHub</a>
                         </div>
                     </div>
 
                     <div class="project-card">
                         <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=800&q=80" alt="Plant Disease" class="project-img">
                         <div class="card-content">
-                            <h3 class="project-title">Crop Disease Detection</h3>
-                            <p class="project-desc">Deep Learning CNN model using Transfer Learning (EfficientNet) to detect plant diseases from leaf images with 95% accuracy.</p>
-                            <div class="tech-stack">PYTORCH • CNN • DEEP LEARNING</div>
-                            <a href="https://github.com/Aditya7032/Plant-Disease-Detection-" target="_blank" class="btn-small">View Code</a>
+                            <div class="project-title">Plant Disease Detection</div>
+                            <div class="project-desc">Developed a deep learning image classification system using the PlantVillage dataset. Applied transfer learning with EfficientNet.</div>
+                            <div class="tech-stack">PYTORCH | EFFICIENTNET | DEEP LEARNING</div>
+                            <a href="https://github.com/Aditya7032/Plant-Disease-Detection-" target="_blank" class="btn-small">View on GitHub</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <img src="https://images.unsplash.com/photo-1493836512294-502baa1986e2?auto=format&fit=crop&w=800&q=80" alt="Mental Health" class="project-img">
+                        <div class="card-content">
+                            <div class="project-title">Mental Health Analytics</div>
+                            <div class="project-desc">Performed sentiment analysis on survey responses using VADER and NRC Lexicon. Uncovered emotional patterns across demographics.</div>
+                            <div class="tech-stack">PYTHON | VADER | NLP | SENTIMENT ANALYSIS</div>
+                            <a href="https://github.com/Aditya7032/Mental-Health-Survey-Analytics-Sentiment-Insight-Reporting" target="_blank" class="btn-small">View on GitHub</a>
+                        </div>
+                    </div>
+
+                    <div class="project-card">
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="GDP Analysis Graph" class="project-img">
+                        <div class="card-content">
+                            <div class="project-title">GDP Analysis Dashboard</div>
+                            <div class="project-desc">Built an interactive dashboard to analyze global GDP trends (2017–2024). Created complex DAX measures for YoY Growth %.</div>
+                            <div class="tech-stack">POWER BI | DAX | DATA MODELING</div>
+                            <a href="#" class="btn-small">View Project</a>
                         </div>
                     </div>
 
@@ -500,10 +535,10 @@
 
         <section class="newsletter reveal" id="contact">
             <div class="container">
-                <h3>Ready to Transform Data?</h3>
-                <p style="margin-bottom: 30px; color: #ccc;">Open for full-time Data Science & Analytics opportunities.</p>
+                <h3>Let's Collaborate</h3>
+                <p style="margin-bottom: 30px; color: #ccc;">Open for full-time opportunities in Data Science & Analytics.</p>
                 <div class="newsletter-form">
-                    <a href="mailto:adityaharsh03@gmail.com" class="btn-mail-large">Start a Conversation</a>
+                    <a href="mailto:adityaharsh03@gmail.com" class="btn-mail-large">Send Me an Email</a>
                 </div>
             </div>
         </section>
@@ -522,7 +557,7 @@
                 <a href="https://github.com/Aditya7032"><i class="fab fa-github"></i></a>
             </div>
             <div class="copyright">
-                <p>&copy; 2026 Aditya Raj Sinha. Crafted with Code.</p>
+                <p>&copy; 2026 Aditya Raj Sinha. All Rights Reserved.</p>
             </div>
         </div>
     </footer>
