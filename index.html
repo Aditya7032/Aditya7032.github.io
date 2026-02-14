@@ -12,12 +12,12 @@
         /* --- VARIABLES --- */
         :root {
             --primary-accent: #00f2ff; /* Cyber Cyan */
-            --secondary-accent: #ff9d00; /* Solar Orange */
-            --dark-bg: #050505;
-            --panel-bg: rgba(20, 20, 25, 0.75); /* Dark Glass */
+            --secondary-accent: #7000ff; /* Data Purple */
+            --dark-bg: #020203; /* Deep Dark */
+            --panel-bg: rgba(15, 20, 25, 0.85); /* Dark Glass */
             --text-main: #ffffff;
             --text-muted: #b0b0b0;
-            --border-color: rgba(0, 242, 255, 0.2);
+            --border-color: rgba(0, 242, 255, 0.3);
         }
 
         /* --- RESET --- */
@@ -42,20 +42,20 @@
         ul { list-style: none; }
         img { max-width: 100%; display: block; }
 
-        /* --- SOLAR SYSTEM BACKGROUND --- */
-        #solar-system {
+        /* --- PROFESSIONAL GRID BACKGROUND --- */
+        #grid-canvas {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             z-index: -1;
-            background: radial-gradient(circle at center, #0b0d14 0%, #000000 100%);
+            background: linear-gradient(to bottom, #000000, #0a0f1c);
         }
 
         /* --- TOP BAR --- */
         .top-bar {
-            background: rgba(0,0,0,0.8);
+            background: rgba(0,0,0,0.9);
             border-bottom: 1px solid var(--border-color);
             color: var(--text-muted);
             padding: 8px 0;
@@ -78,8 +78,8 @@
 
         /* --- NAVIGATION --- */
         header {
-            background: rgba(5, 8, 10, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(2, 2, 3, 0.95);
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 1000;
@@ -137,7 +137,7 @@
 
         /* --- HERO SECTION --- */
         .hero {
-            height: 700px;
+            height: 750px;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -145,32 +145,62 @@
             text-align: center;
             padding: 0 20px;
             position: relative;
+            overflow: hidden;
         }
 
+        /* --- UPDATED PROFILE SHAPE (SQUIRCLE) --- */
         .profile-wrapper {
-            width: 180px;
-            height: 180px;
+            width: 240px; /* Wider to fit shoulders */
+            height: 280px; /* Taller */
             position: relative;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            z-index: 10;
         }
 
         .drone-landing {
             width: 100%; height: 100%;
-            border-radius: 50%;
+            border-radius: 20px; /* Soft Rounded Corners */
             border: 3px solid var(--primary-accent);
-            background: url('profile.jpg') center/cover;
-            background-color: #000;
-            box-shadow: 0 0 40px rgba(0, 242, 255, 0.4);
-            animation: droneDrop 1.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-            transform: translateY(-800px); 
+            /* Make sure 'profile.jpg' is in the same folder */
+            background: url('profile.jpg') center top/cover no-repeat; /* Focus on top/center */
+            background-color: #111;
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.4);
+            
+            /* Animation */
+            animation: dropIn 2s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+            transform: translateY(-800px) scale(0.8);
             opacity: 0;
         }
 
         .hud-ring {
             position: absolute; inset: -15px;
-            border: 1px dashed var(--primary-accent);
-            border-radius: 50%;
-            animation: rotate 10s linear infinite;
+            border: 2px dashed var(--primary-accent);
+            border-radius: 30px; /* Matching shape */
+            opacity: 0.6;
+            animation: pulseBorder 3s infinite;
+        }
+
+        /* Corner accents for tech feel */
+        .hud-corner {
+            position: absolute;
+            width: 20px; height: 20px;
+            border: 3px solid var(--primary-accent);
+            transition: 0.3s;
+        }
+        .tl { top: -25px; left: -25px; border-right: none; border-bottom: none; }
+        .tr { top: -25px; right: -25px; border-left: none; border-bottom: none; }
+        .bl { bottom: -25px; left: -25px; border-right: none; border-top: none; }
+        .br { bottom: -25px; right: -25px; border-left: none; border-top: none; }
+
+        @keyframes dropIn {
+            0% { transform: translateY(-800px) scale(0.8); opacity: 0; }
+            100% { transform: translateY(0) scale(1); opacity: 1; }
+        }
+
+        @keyframes pulseBorder {
+            0% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+            100% { opacity: 0.3; transform: scale(1); }
         }
 
         .hero h1 {
@@ -206,8 +236,9 @@
         /* --- SKILLS SECTION --- */
         .skills-section {
             padding: 80px 0;
-            background: rgba(5, 5, 10, 0.6);
+            background: rgba(2, 2, 3, 0.8);
             text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
         }
 
         .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
@@ -233,7 +264,7 @@
             border: 1px solid rgba(255,255,255,0.05);
             transition: 0.3s;
             text-align: left;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
         }
         .skill-card:hover { transform: translateY(-5px); border-color: var(--primary-accent); }
 
@@ -257,8 +288,7 @@
         /* --- PROJECTS SECTION --- */
         .projects-section {
             padding: 80px 0;
-            /* Transparent so you can see planets behind it */
-            background: transparent;
+            background: transparent; /* See grid behind */
         }
 
         .projects-grid {
@@ -274,7 +304,7 @@
             display: flex;
             flex-direction: column;
             overflow: hidden; 
-            backdrop-filter: blur(15px); /* Strong blur for glass effect */
+            backdrop-filter: blur(10px);
         }
         .project-card:hover { transform: translateY(-5px); box-shadow: 0 0 30px rgba(0, 242, 255, 0.15); }
 
@@ -316,11 +346,11 @@
         .btn-small:hover { border-color: var(--primary-accent); color: var(--primary-accent); }
 
         /* --- ABOUT / SPLIT SECTION --- */
-        .split-section { display: flex; flex-wrap: wrap; margin-top: 50px; }
+        .split-section { display: flex; flex-wrap: wrap; margin-top: 50px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .split-col { flex: 1; min-width: 350px; min-height: 400px; }
         
         .split-text {
-            background: rgba(10, 13, 17, 0.9);
+            background: rgba(10, 15, 20, 0.9);
             padding: 60px;
             display: flex;
             flex-direction: column;
@@ -337,7 +367,7 @@
         .newsletter {
             padding: 60px 0;
             text-align: center;
-            background: rgba(5, 5, 5, 0.8);
+            background: rgba(0, 0, 0, 0.8);
             color: #fff;
             border-top: 1px solid var(--border-color);
         }
@@ -371,7 +401,7 @@
 
         /* --- FOOTER --- */
         footer {
-            background: #020202;
+            background: #000;
             color: #666;
             padding: 50px 0 20px;
             text-align: center;
@@ -384,13 +414,7 @@
         .copyright { border-top: 1px solid #222; padding-top: 20px; margin-top: 20px; }
 
         /* --- ANIMATIONS --- */
-        @keyframes droneDrop {
-            0% { transform: translateY(-800px); opacity: 0; }
-            70% { transform: translateY(30px); opacity: 1; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
         @keyframes slideUp { to { transform: translateY(0); opacity: 1; } }
-        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
         /* --- RESPONSIVE --- */
         @media (max-width: 768px) {
@@ -403,7 +427,7 @@
 </head>
 <body>
 
-    <canvas id="solar-system"></canvas>
+    <canvas id="grid-canvas"></canvas>
 
     <div class="top-bar">
         <div class="top-container">
@@ -433,6 +457,11 @@
     <section class="hero">
         <div class="profile-wrapper">
             <div class="hud-ring"></div>
+            <div class="hud-corner tl"></div>
+            <div class="hud-corner tr"></div>
+            <div class="hud-corner bl"></div>
+            <div class="hud-corner br"></div>
+            
             <div class="drone-landing"></div>
         </div>
         <h1>Deriving Insights<br>From Data</h1>
@@ -595,6 +624,7 @@
         <div class="container">
             <h3>Let's Collaborate</h3>
             <p style="margin-bottom: 30px; color: #ccc;">Open for full-time opportunities in Data Science & Analytics.</p>
+            
             <div class="newsletter-form">
                 <a href="mailto:adityaharsh03@gmail.com" class="btn-mail-large">Send Me an Email</a>
             </div>
@@ -624,97 +654,61 @@
             menu.classList.toggle("active");
         }
 
-        /* --- SOLAR SYSTEM ANIMATION ENGINE --- */
-        const canvas = document.getElementById('solar-system');
+        /* --- CYBER GRID ANIMATION --- */
+        const canvas = document.getElementById('grid-canvas');
         const ctx = canvas.getContext('2d');
 
         let width, height;
-        let centerX, centerY;
-
-        // Planet configuration: distance (orbit radius), speed, size, color
-        const planets = [
-            { dist: 60, speed: 0.02, size: 3, color: '#aaa' },       // Mercury
-            { dist: 90, speed: 0.015, size: 5, color: '#e3bb76' },   // Venus
-            { dist: 130, speed: 0.01, size: 5.5, color: '#00f2ff' }, // Earth (Cyber Cyan)
-            { dist: 170, speed: 0.008, size: 4, color: '#ff4d4d' },  // Mars
-            { dist: 240, speed: 0.005, size: 12, color: '#d4a373' }, // Jupiter
-            { dist: 300, speed: 0.004, size: 10, color: '#f4e4ba' }, // Saturn
-            { dist: 350, speed: 0.003, size: 8, color: '#7000ff' },  // Uranus (Purple Accent)
-            { dist: 400, speed: 0.002, size: 8, color: '#3d5afe' }   // Neptune
-        ];
-
-        let stars = [];
+        let offset = 0;
 
         function init() {
             width = window.innerWidth;
             height = window.innerHeight;
             canvas.width = width;
             canvas.height = height;
-            centerX = width / 2;
-            centerY = height / 2;
-
-            // Initialize Stars
-            stars = [];
-            for (let i = 0; i < 200; i++) {
-                stars.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    size: Math.random() * 2,
-                    opacity: Math.random()
-                });
-            }
         }
 
-        function drawSolarSystem() {
-            // Dark background with trail effect (optional, here clearing full rect)
-            ctx.fillStyle = '#050505';
+        function drawGrid() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Background Gradient
+            let gradient = ctx.createLinearGradient(0, 0, 0, height);
+            gradient.addColorStop(0, '#000000');
+            gradient.addColorStop(1, '#0a0f1c');
+            ctx.fillStyle = gradient;
             ctx.fillRect(0, 0, width, height);
 
-            // Draw Stars
-            stars.forEach(star => {
-                ctx.fillStyle = `rgba(255, 255, 255, ${star.opacity})`;
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-
-            // Draw Sun
-            ctx.shadowBlur = 30;
-            ctx.shadowColor = '#ff9d00';
-            ctx.fillStyle = '#ffcc00';
             ctx.beginPath();
-            ctx.arc(centerX, centerY, 20, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.shadowBlur = 0; // Reset shadow for other elements
+            
+            // Perspective Grid Lines
+            const gridSize = 40;
+            const speed = 0.5;
+            
+            offset = (offset + speed) % gridSize;
 
-            // Draw Planets & Orbits
-            const time = Date.now();
+            ctx.strokeStyle = 'rgba(0, 242, 255, 0.15)'; // Cyan Grid
+            ctx.lineWidth = 1;
 
-            planets.forEach(planet => {
-                // Orbit Path
-                ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, planet.dist, 0, Math.PI * 2);
-                ctx.stroke();
+            // Horizontal moving lines
+            for (let y = offset; y < height; y += gridSize) {
+                ctx.moveTo(0, y);
+                ctx.lineTo(width, y);
+            }
 
-                // Planet Position
-                const angle = time * planet.speed * 0.05; // Speed modifier
-                const x = centerX + Math.cos(angle) * planet.dist;
-                const y = centerY + Math.sin(angle) * planet.dist;
+            // Vertical static lines (with perspective faking)
+            const centerX = width / 2;
+            for (let x = 0; x <= width; x += gridSize * 2) {
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, height); // Simplified for clean look
+            }
 
-                // Draw Planet
-                ctx.fillStyle = planet.color;
-                ctx.beginPath();
-                ctx.arc(x, y, planet.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
-
-            requestAnimationFrame(drawSolarSystem);
+            ctx.stroke();
+            requestAnimationFrame(drawGrid);
         }
 
         window.addEventListener('resize', init);
         init();
-        drawSolarSystem();
+        drawGrid();
     </script>
 
 </body>
