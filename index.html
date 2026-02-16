@@ -156,83 +156,84 @@
             overflow: hidden; 
         }
 
-        /* --- PROFILE IMAGE STYLING --- */
+        /* --- QR SCANNER EFFECT --- */
         .profile-wrapper {
             width: 240px; 
             height: 320px; 
             position: relative;
             margin-bottom: 30px;
-        }
-
-        .drone-carrier {
-            position: absolute;
-            top: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 280px;
-            height: 60px;
-            background: 
-                linear-gradient(90deg, transparent 0%, var(--primary-accent) 40%, var(--primary-accent) 60%, transparent 100%),
-                linear-gradient(to bottom, #333 0%, #000 100%);
-            clip-path: polygon(0 0, 100% 0, 85% 100%, 15% 100%);
-            box-shadow: 0 0 20px var(--primary-accent);
-            z-index: 20;
             opacity: 0;
-            animation: droneFlight 4s ease-in-out forwards;
+            animation: fadeInProfile 1.5s ease-out 0.5s forwards;
         }
 
-        .drone-carrier::after {
+        @keyframes fadeInProfile {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .scanner-frame {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            border: 2px solid var(--primary-accent);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(0, 242, 255, 0.2);
+            background: #000;
+        }
+
+        /* Corner accents */
+        .scanner-frame::before {
             content: '';
             position: absolute;
-            bottom: -20px;
-            left: 50%;
-            width: 3px;
-            height: 20px;
-            background: var(--primary-accent);
-            box-shadow: 0 0 8px var(--primary-accent);
+            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            border-radius: 15px;
+            border: 2px solid transparent;
+            background: linear-gradient(45deg, var(--primary-accent) 10%, transparent 20%, transparent 80%, var(--primary-accent) 90%) border-box;
+            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            z-index: 5;
+            pointer-events: none;
         }
 
-        .drone-landing {
-            width: 100%; height: 100%;
-            border-radius: 25px; /* Upright Rectangle with curves */
-            border: 3px solid var(--primary-accent);
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            /* Update this URL to your actual image path */
             background: url('profile.jpg') center/cover;
-            background-color: #000;
-            box-shadow: 0 0 40px rgba(0, 242, 255, 0.4);
-            position: relative;
-            z-index: 10;
-            opacity: 0;
-            transform: translateY(-600px);
-            animation: payloadDrop 4s ease-in-out forwards;
+            filter: contrast(1.1) brightness(0.9);
         }
 
-        .hud-ring {
-            position: absolute; inset: -15px;
-            border: 2px dashed var(--primary-accent);
-            border-radius: 35px;
-            opacity: 0;
-            animation: fadeInHud 1s ease 3.5s forwards, pulseBorder 3s infinite;
+        .scanner-grid {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: 
+                linear-gradient(rgba(0, 242, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 242, 255, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+            z-index: 2;
+            pointer-events: none;
         }
 
-        @keyframes droneFlight {
-            0% { top: -200px; opacity: 1; }
-            40% { top: 0px; opacity: 1; } 
-            60% { top: 0px; opacity: 1; } 
-            100% { top: -300px; opacity: 0; } 
+        .scan-line {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: var(--primary-accent);
+            box-shadow: 0 0 15px var(--primary-accent), 0 0 30px var(--primary-accent);
+            z-index: 3;
+            opacity: 0.8;
+            animation: scanMove 3s ease-in-out infinite;
         }
 
-        @keyframes payloadDrop {
-            0% { transform: translateY(-600px) scale(0.8); opacity: 1; }
-            40% { transform: translateY(0) scale(0.8); opacity: 1; } 
-            60% { transform: translateY(0) scale(0.8); opacity: 1; } 
-            100% { transform: translateY(0) scale(1); opacity: 1; } 
-        }
-
-        @keyframes fadeInHud { to { opacity: 0.6; } }
-        @keyframes pulseBorder {
-            0% { transform: scale(1); opacity: 0.6; }
-            50% { transform: scale(1.03); opacity: 1; border-color: #fff; }
-            100% { transform: scale(1); opacity: 0.6; }
+        @keyframes scanMove {
+            0% { top: -10%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 110%; opacity: 0; }
         }
 
         /* --- UPDATED TEXT ANIMATION STYLES --- */
@@ -244,7 +245,7 @@
             -webkit-text-fill-color: transparent;
             text-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
             opacity: 0;
-            animation: slideUp 1s ease 4s forwards;
+            animation: slideUp 1s ease 1s forwards;
         }
 
         .typing-container {
@@ -254,10 +255,9 @@
             margin-bottom: 20px;
             min-height: 50px;
             opacity: 0;
-            animation: slideUp 1s ease 4.2s forwards;
+            animation: slideUp 1s ease 1.2s forwards;
         }
 
-        /* The cursor effect */
         .txt-rotate {
             color: var(--primary-accent);
             border-right: 0.08em solid #fff;
@@ -273,7 +273,7 @@
             margin-bottom: 30px;
             color: var(--text-muted);
             opacity: 0;
-            animation: slideUp 1s ease 4.5s forwards;
+            animation: slideUp 1s ease 1.5s forwards;
         }
 
         .hero-btn {
@@ -285,7 +285,7 @@
             text-transform: uppercase;
             font-size: 1rem;
             opacity: 0;
-            animation: slideUp 1s ease 4.8s forwards;
+            animation: slideUp 1s ease 1.8s forwards;
         }
         .hero-btn:hover { box-shadow: 0 0 30px var(--primary-accent); }
         @keyframes slideUp { to { transform: translateY(0); opacity: 1; } }
@@ -509,10 +509,11 @@
 
     <section class="hero">
         <div class="profile-wrapper">
-            <div class="drone-carrier"></div>
-            
-            <div class="hud-ring"></div>
-            <div class="drone-landing"></div>
+            <div class="scanner-frame">
+                <div class="scanner-grid"></div>
+                <div class="profile-img"></div>
+                <div class="scan-line"></div>
+            </div>
         </div>
         
         <h1>Aditya Raj Sinha</h1>
@@ -527,7 +528,7 @@
         <div class="split-col split-img"></div>
         <div class="split-col split-text">
             <h2 style="color: var(--primary-accent);">About Me</h2>
-            <p>I am a Data Science postgraduate with a strong foundation in Physics. I specialize in bridging the gap between raw data and strategic business decisions.</p>
+            <p>I am a Data Science postgraduate with a strong foundation in ML, data visualization, statistics and analysis. I specialize in bridging the gap between raw data and strategic business decisions.</p>
             <p>Currently, I am a <strong>Data Science Intern at NullClass</strong>, working on generative AI models. I have a passion for building end-to-end pipelines, from data ingestion to deployment.</p>
         </div>
     </section>
@@ -707,12 +708,31 @@
             menu.classList.toggle("active");
         }
 
-        /* --- NEURAL NETWORK MOTION SCRIPT --- */
+        /* --- INTERACTIVE NEURAL NETWORK SCRIPT --- */
         const canvas = document.getElementById('neural-canvas');
         const ctx = canvas.getContext('2d');
 
         let width, height;
         let particles = [];
+        
+        // --- 1. MOUSE INTERACTION SETUP ---
+        let mouse = {
+            x: null,
+            y: null,
+            radius: 150 // Interaction radius
+        };
+
+        window.addEventListener('mousemove', function(event){
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+        
+        // Reset mouse when leaving window so particles stop sticking
+        window.addEventListener('mouseout', function(){
+            mouse.x = undefined;
+            mouse.y = undefined;
+        });
+
 
         function init() {
             width = window.innerWidth;
@@ -722,13 +742,13 @@
             
             // Create particles (nodes)
             particles = [];
-            const numParticles = Math.floor(width * height / 12000); // Node Density
+            const numParticles = Math.floor(width * height / 10000); 
             
             for(let i=0; i<numParticles; i++) {
                 particles.push({
                     x: Math.random() * width,
                     y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.5, // Velocity
+                    vx: (Math.random() - 0.5) * 0.5,
                     vy: (Math.random() - 0.5) * 0.5,
                     size: Math.random() * 2 + 1
                 });
@@ -738,7 +758,6 @@
         function drawNeuralNetwork() {
             ctx.clearRect(0, 0, width, height);
             
-            // Update and draw particles
             particles.forEach((p, index) => {
                 p.x += p.vx;
                 p.y += p.vy;
@@ -747,22 +766,46 @@
                 if(p.x < 0 || p.x > width) p.vx *= -1;
                 if(p.y < 0 || p.y > height) p.vy *= -1;
 
+                // --- 2. MOUSE INTERACTION LOGIC ---
+                // If mouse is active (on screen)
+                if(mouse.x != undefined) {
+                    let dx = mouse.x - p.x;
+                    let dy = mouse.y - p.y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+
+                    if (distance < mouse.radius) {
+                        // A. Push particles slightly away (Interaction)
+                        if (distance < mouse.radius) {
+                            p.x -= dx / 25; // Subtle repulsion
+                            p.y -= dy / 25;
+                        }
+
+                        // B. Draw Line from Mouse to Particle (Super Node Effect)
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(0, 242, 255, ${1 - distance/mouse.radius})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouse.x, mouse.y);
+                        ctx.stroke();
+                    }
+                }
+
                 // Draw Nodes
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = '#00f2ff'; // Cyan Nodes
+                ctx.fillStyle = '#00f2ff'; 
                 ctx.fill();
 
-                // Draw Connections (Synapses)
+                // Draw Particle-to-Particle Connections
                 for(let j=index+1; j<particles.length; j++) {
                     const p2 = particles[j];
                     const dx = p.x - p2.x;
                     const dy = p.y - p2.y;
                     const dist = Math.sqrt(dx*dx + dy*dy);
 
-                    if(dist < 120) { // Connection threshold
+                    if(dist < 120) { 
                         ctx.beginPath();
-                        ctx.strokeStyle = `rgba(0, 242, 255, ${1 - dist/120})`; // Fade with distance
+                        ctx.strokeStyle = `rgba(0, 242, 255, ${1 - dist/120})`;
                         ctx.lineWidth = 0.5;
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
