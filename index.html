@@ -1,954 +1,515 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Z8YT3643CY"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-Z8YT3643CY');
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aditya Raj Sinha | Data Scientist</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Open+Sans:wght@300;400;600&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
-    <style>
-        /* --- 1. VARIABLES --- */
-        :root {
-            --primary-accent: #00f2ff; /* Cyber Cyan */
-            --secondary-accent: #7000ff; /* Deep Data Purple */
-            --dark-bg: #05080a; /* Deepest Black/Blue */
-            --panel-bg: rgba(10, 15, 20, 0.75); /* Glassy Panel */
-            --text-main: #ffffff;
-            --text-muted: #b0b0b0;
-            --border-color: rgba(0, 242, 255, 0.3);
-        }
-
-        /* --- 2. GLOBAL RESET & SCROLLBAR --- */
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--dark-bg); }
-        ::-webkit-scrollbar-thumb { 
-            background: var(--primary-accent); 
-            border-radius: 4px;
-            box-shadow: 0 0 10px var(--primary-accent);
-        }
-        
-        ::selection {
-            background: var(--primary-accent);
-            color: #000;
-        }
-
-        html {
-            height: 100%;
-            width: 100%;
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'Open Sans', sans-serif;
-            color: var(--text-main);
-            line-height: 1.6;
-            background-color: transparent; /* Transparent for canvas visibility */
-            overflow-x: hidden;
-            min-height: 100vh;
-            width: 100%;
-            position: relative;
-        }
-
-        h1, h2, h3 {
-            font-family: 'Montserrat', sans-serif;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: 700;
-        }
-
-        a { text-decoration: none; transition: 0.3s; color: inherit; }
-        ul { list-style: none; }
-        img { max-width: 100%; display: block; }
-
-        /* --- 3. BACKGROUND CANVAS --- */
-        #neural-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1; 
-            background: radial-gradient(circle at center, #0e121d 0%, #000000 100%);
-        }
-
-        /* --- 4. UI COMPONENTS --- */
-        
-        /* Top Bar */
-        .top-bar {
-            background: rgba(0,0,0,0.8);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            backdrop-filter: blur(5px);
-            color: var(--text-muted);
-            padding: 8px 0;
-            font-size: 0.85rem;
-            position: relative;
-            z-index: 1001;
-            width: 100%;
-        }
-        
-        .top-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .social-icons a { color: var(--text-muted); margin-left: 15px; font-size: 1rem; transition: 0.3s; }
-        .social-icons a:hover { color: var(--primary-accent); transform: scale(1.2); text-shadow: 0 0 15px var(--primary-accent); }
-
-        /* Navigation */
-        header {
-            background: rgba(5, 8, 12, 0.8);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-            width: 100%;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
-        }
-
-        .nav-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            font-weight: 700;
-            color: var(--text-main);
-            border: 2px solid var(--primary-accent);
-            padding: 5px 15px;
-            letter-spacing: 2px;
-            box-shadow: 0 0 15px rgba(0, 242, 255, 0.2);
-            text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
-            transition: 0.3s;
-        }
-        .logo:hover { background: rgba(0, 242, 255, 0.1); box-shadow: 0 0 25px var(--primary-accent); }
-
-        .nav-menu { display: flex; gap: 25px; }
-
-        .nav-menu a {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--text-main);
-            text-transform: uppercase;
-            font-family: 'Montserrat', sans-serif;
-            position: relative;
-        }
-
-        .nav-menu a::after {
-            content: '';
-            position: absolute;
-            width: 0; height: 2px;
-            bottom: -5px; left: 0;
-            background-color: var(--primary-accent);
-            transition: width 0.3s;
-            box-shadow: 0 0 10px var(--primary-accent);
-        }
-        .nav-menu a:hover::after { width: 100%; }
-        .nav-menu a:hover { color: var(--primary-accent); }
-
-        .btn-book {
-            background: transparent;
-            color: var(--primary-accent) !important;
-            padding: 8px 25px;
-            border: 1px solid var(--primary-accent);
-            font-weight: 700;
-            transition: 0.4s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn-book:hover { 
-            background: var(--primary-accent); 
-            color: #000 !important; 
-            box-shadow: 0 0 30px var(--primary-accent);
-        }
-
-        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; color: var(--primary-accent); }
-
-        /* --- 5. HERO SECTION --- */
-        .hero {
-            height: 800px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 0 20px;
-            position: relative;
-            overflow: hidden; 
-            width: 100%;
-        }
-
-        .profile-wrapper {
-            width: 260px; 
-            height: 340px; 
-            position: relative;
-            margin-bottom: 40px;
-            opacity: 0;
-            animation: fadeInProfile 1.5s ease-out 0.5s forwards;
-            perspective: 1000px;
-        }
-
-        @keyframes fadeInProfile {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .scanner-frame {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            border: 2px solid var(--primary-accent);
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 0 35px rgba(0, 242, 255, 0.3);
-            background: #000;
-        }
-
-        .scanner-frame::before {
-            content: '';
-            position: absolute;
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
-            border-radius: 15px;
-            border: 2px solid transparent;
-            background: linear-gradient(45deg, var(--primary-accent) 20%, transparent 40%, transparent 60%, var(--primary-accent) 80%) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            z-index: 5;
-            pointer-events: none;
-        }
-
-        .profile-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            background: url('profile.jpg') center/cover; 
-            filter: contrast(1.1) brightness(0.9) grayscale(20%);
-            transition: 0.5s;
-        }
-        .scanner-frame:hover .profile-img { filter: contrast(1) brightness(1) grayscale(0%); scale: 1.05; }
-
-        .scan-line {
-            position: absolute;
-            width: 100%;
-            height: 3px;
-            background: var(--primary-accent);
-            box-shadow: 0 0 15px var(--primary-accent), 0 0 30px var(--primary-accent);
-            z-index: 3;
-            opacity: 0.8;
-            animation: scanMove 3s ease-in-out infinite;
-        }
-
-        @keyframes scanMove {
-            0% { top: -10%; opacity: 0; }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
-            100% { top: 110%; opacity: 0; }
-        }
-
-        .hero h1 {
-            font-size: 3.8rem;
-            margin-bottom: 10px;
-            background: linear-gradient(90deg, #ffffff, var(--primary-accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
-            opacity: 0;
-            animation: slideUp 1s ease 1s forwards;
-        }
-
-        .typing-container {
-            font-size: 1.8rem;
-            color: var(--text-muted);
-            font-family: 'Orbitron', sans-serif;
-            margin-bottom: 20px;
-            min-height: 40px;
-            opacity: 0;
-            animation: slideUp 1s ease 1.2s forwards;
-            text-shadow: 0 0 10px rgba(255,255,255,0.1);
-        }
-
-        .txt-rotate {
-            color: var(--primary-accent);
-            border-right: 2px solid var(--primary-accent);
-            padding-right: 5px;
-            animation: blink-caret 0.75s step-end infinite;
-        }
-        
-        @keyframes blink-caret { from, to { border-color: transparent; } 50% { border-color: var(--primary-accent); } }
-
-        .hero p {
-            font-size: 1.1rem;
-            max-width: 650px;
-            margin-bottom: 40px;
-            color: #ccc;
-            opacity: 0;
-            animation: slideUp 1s ease 1.5s forwards;
-            line-height: 1.8;
-        }
-
-        .hero-btn {
-            padding: 15px 45px;
-            background: var(--primary-accent);
-            border: none;
-            color: #05080a;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 1rem;
-            letter-spacing: 1px;
-            opacity: 0;
-            border-radius: 2px;
-            animation: slideUp 1s ease 1.8s forwards;
-            position: relative;
-            z-index: 1;
-        }
-        .hero-btn::before {
-            content: '';
-            position: absolute; top:0; left:0; width:0%; height:100%;
-            background: #fff; z-index: -1; transition: 0.3s;
-        }
-        .hero-btn:hover::before { width: 100%; }
-        .hero-btn:hover { box-shadow: 0 0 40px var(--primary-accent); }
-
-        @keyframes slideUp { to { transform: translateY(0); opacity: 1; } }
-
-        /* --- 6. SKILLS SECTION --- */
-        .skills-section {
-            padding: 100px 0;
-            background: rgba(5, 8, 10, 0.4); 
-            text-align: center;
-            width: 100%;
-        }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-
-        .section-header { margin-bottom: 70px; }
-        .section-header h2 { font-size: 2.5rem; margin-bottom: 15px; color: #fff; }
-        .section-header .divider {
-            height: 4px; width: 100px;
-            background: linear-gradient(90deg, transparent, var(--primary-accent), transparent);
-            margin: 0 auto;
-        }
-
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-
-        .skill-card {
-            background: var(--panel-bg);
-            padding: 35px 30px;
-            border: 1px solid rgba(255,255,255,0.05);
-            text-align: left;
-            backdrop-filter: blur(10px);
-            border-radius: 10px;
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .skill-card:hover { 
-            transform: translateY(-10px); 
-            border-color: var(--primary-accent); 
-            box-shadow: 0 0 30px rgba(0, 242, 255, 0.15);
-        }
-
-        .skill-card h3 { 
-            color: var(--primary-accent); 
-            margin-bottom: 20px; 
-            font-size: 1.2rem; 
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 10px;
-        }
-        
-        .skill-tags { display: flex; flex-wrap: wrap; gap: 10px; }
-        .tag {
-            font-size: 0.85rem;
-            background: rgba(0, 242, 255, 0.08);
-            color: #eee;
-            padding: 6px 12px;
-            border-radius: 4px;
-            border: 1px solid rgba(0, 242, 255, 0.1);
-            transition: 0.3s;
-        }
-        .skill-card:hover .tag { background: rgba(0, 242, 255, 0.2); border-color: var(--primary-accent); }
-
-        /* --- 7. PROJECTS SECTION --- */
-        .projects-section {
-            padding: 100px 0;
-            width: 100%;
-        }
-
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 40px;
-        }
-
-        .project-card {
-            background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            transition: 0.4s;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden; 
-            backdrop-filter: blur(15px);
-            border-radius: 12px;
-            position: relative;
-        }
-        .project-card:hover { 
-            transform: translateY(-10px) scale(1.02); 
-            box-shadow: 0 10px 40px rgba(0, 242, 255, 0.2); 
-            border-color: var(--primary-accent);
-        }
-
-        .project-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            transition: 0.5s;
-        }
-        .project-card:hover .project-img { height: 210px; filter: brightness(1.1); }
-
-        .card-content {
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .project-title { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main); font-weight: 700; }
-        .project-desc { font-size: 0.95rem; color: #ccc; margin-bottom: 25px; flex-grow: 1; line-height: 1.7; }
-        
-        .tech-stack {
-            font-size: 0.8rem;
-            color: var(--primary-accent);
-            margin-bottom: 25px;
-            font-weight: 700;
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        .btn-small {
-            display: inline-block;
-            padding: 10px 25px;
-            border: 1px solid #555;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            color: #ccc;
-            align-self: flex-start;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-        .btn-small:hover { 
-            border-color: var(--primary-accent); 
-            background: var(--primary-accent);
-            color: #000;
-            box-shadow: 0 0 20px var(--primary-accent);
-        }
-
-        /* --- 8. ABOUT SPLIT --- */
-        .split-section { display: flex; flex-wrap: wrap; margin-top: 50px; width: 100%; border-top: 1px solid rgba(0,242,255,0.1); border-bottom: 1px solid rgba(0,242,255,0.1); }
-        .split-col { flex: 1; min-width: 350px; min-height: 500px; }
-        
-        .split-text {
-            background: rgba(10, 13, 17, 0.95);
-            padding: 80px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .split-img {
-            background: url('https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80') center/cover;
-            filter: grayscale(100%) contrast(1.2);
-            transition: 0.5s;
-        }
-        .split-section:hover .split-img { filter: grayscale(0%) contrast(1.1); }
-
-        /* --- 9. FOOTER & CONTACT --- */
-        .newsletter {
-            padding: 80px 0;
-            text-align: center;
-            background: linear-gradient(to top, rgba(0,0,0,1), rgba(10,15,20,0.8));
-            color: #fff;
-            border-top: 1px solid var(--border-color);
-            width: 100%;
-        }
-
-        .newsletter h3 { margin-bottom: 20px; font-size: 2rem; }
-        
-        .btn-mail-large {
-            padding: 18px 50px;
-            background: transparent;
-            color: var(--primary-accent);
-            border: 2px solid var(--primary-accent);
-            font-weight: 700;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 1.1rem;
-            transition: 0.3s;
-            border-radius: 5px;
-        }
-        .btn-mail-large:hover { 
-            background: var(--primary-accent); 
-            color: #000;
-            box-shadow: 0 0 40px var(--primary-accent); 
-            transform: translateY(-5px);
-        }
-
-        footer {
-            background: #000;
-            color: #666;
-            padding: 60px 0 30px;
-            text-align: center;
-            font-size: 0.9rem;
-            border-top: 1px solid #111;
-            width: 100%;
-        }
-        
-        .footer-links a { margin: 0 15px; color: #aaa; text-transform: uppercase; font-size: 0.8rem; transition: 0.3s; }
-        .footer-links a:hover { color: var(--primary-accent); text-shadow: 0 0 10px var(--primary-accent); }
-        .copyright { border-top: 1px solid #222; padding-top: 20px; margin-top: 20px; }
-
-        @media (max-width: 768px) {
-            .nav-menu { display: none; flex-direction: column; position: absolute; top: 70px; left: 0; width: 100%; background: #0f1216; padding: 20px; border-bottom: 1px solid var(--primary-accent); }
-            .nav-menu.active { display: flex; }
-            .hamburger { display: block; }
-            .hero h1 { font-size: 2.5rem; }
-            .split-text { padding: 40px; }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Raj Sinha — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@400;500;600;700&family=Exo+2:ital,wght@0,300;0,400;0,600;0,700;1,300&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --v:#7c3aed;--v2:#a855f7;--c:#06b6d4;--c2:#67e8f9;
+  --g:#10b981;--ro:#f59e0b;--r:#f43f5e;
+  --bg:#03010a;--g1:rgba(12,4,30,.96);--g2:rgba(7,2,18,.94);
+  --b1:rgba(124,58,237,.28);--b2:rgba(124,58,237,.12);
+  --tx:#f1f0ff;--mu:#6b5ea8;
+  --fT:"Bebas Neue",cursive;--fB:"Exo 2",sans-serif;
+  --fM:"Share Tech Mono",monospace;--fU:"Rajdhani",sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--fB);background:var(--bg);color:var(--tx);overflow-x:hidden;min-height:100vh}
+a{text-decoration:none;color:inherit}
+img{display:block}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#03010a}::-webkit-scrollbar-thumb{background:var(--v)}
+::selection{background:var(--v);color:#fff}
+#cv{position:fixed;inset:0;z-index:0;pointer-events:none}
+.aurora{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.ab{position:absolute;border-radius:50%;filter:blur(90px);mix-blend-mode:screen;animation:abf 18s ease-in-out infinite alternate}
+.ab1{width:680px;height:560px;top:-15%;left:-10%;background:radial-gradient(ellipse,rgba(124,58,237,.16),transparent 68%);animation-duration:22s}
+.ab2{width:500px;height:500px;top:30%;right:-12%;background:radial-gradient(ellipse,rgba(6,182,212,.12),transparent 68%);animation-duration:26s;animation-delay:-8s}
+.ab3{width:420px;height:380px;bottom:-10%;left:25%;background:radial-gradient(ellipse,rgba(168,85,247,.1),transparent 68%);animation-duration:30s;animation-delay:-14s}
+.ab4{width:320px;height:320px;top:12%;right:28%;background:radial-gradient(ellipse,rgba(245,158,11,.07),transparent 68%);animation-duration:24s;animation-delay:-5s}
+@keyframes abf{0%{transform:translate(0,0) scale(1)}33%{transform:translate(40px,-30px) scale(1.08)}66%{transform:translate(-25px,45px) scale(.96)}100%{transform:translate(30px,20px) scale(1.05)}}
+.grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.028;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E")}
+.scan{position:fixed;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0,transparent 3px,rgba(124,58,237,.007) 3px,rgba(124,58,237,.007) 4px);animation:scA 16s linear infinite}
+@keyframes scA{to{background-position:0 200px}}
+.vig{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 42%,rgba(3,1,10,.92) 100%)}
+#prog{position:fixed;top:0;left:0;height:2px;width:0%;z-index:9999;background:linear-gradient(90deg,var(--r),var(--v),var(--c));box-shadow:0 0 12px var(--v);transition:width .12s}
+#glw{position:fixed;width:340px;height:340px;border-radius:50%;pointer-events:none;z-index:1;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(124,58,237,.036) 0%,transparent 62%);mix-blend-mode:screen;opacity:0;transition:opacity .4s}
+.wrap{position:relative;z-index:3}
+.burst{position:fixed;pointer-events:none;z-index:9998;transform:translate(-50%,-50%)}
+.br{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);border-radius:50%;border:1.5px solid var(--v);width:0;height:0;animation:bR .6s cubic-bezier(.2,.8,.4,1) forwards}
+.br:nth-child(2){border-color:var(--c);animation-delay:.1s}.br:nth-child(3){border-color:var(--ro);animation-delay:.2s}
+@keyframes bR{to{width:96px;height:96px;opacity:0}}
+.bd{position:absolute;top:50%;left:50%;width:3px;height:3px;border-radius:50%;background:var(--v);animation:bD .55s ease-out forwards}
+@keyframes bD{0%{opacity:1;transform:translate(-50%,-50%) rotate(var(--ang,0deg)) translateY(0)}100%{opacity:0;transform:translate(-50%,-50%) rotate(var(--ang,0deg)) translateY(-60px)}}
+.toast{position:fixed;top:68px;right:18px;z-index:9997;background:rgba(8,3,20,.97);border:1px solid rgba(124,58,237,.4);border-left:3px solid var(--v);padding:13px 18px 11px;min-width:224px;transform:translateX(140%);transition:transform .35s cubic-bezier(.2,.8,.4,1);box-shadow:0 0 40px rgba(124,58,237,.2)}
+.toast.show{transform:translateX(0)}
+.ti{font-size:1.25rem;display:block;margin-bottom:3px}.tm{font-family:var(--fU);font-weight:700;font-size:.84rem;color:#fff;letter-spacing:1px}.txp{font-family:var(--fM);font-size:.62rem;color:var(--c2);margin-top:3px;display:block;letter-spacing:2px}
+#boot{position:fixed;inset:0;z-index:99999;background:#03010a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity .9s}
+#boot.out{opacity:0;pointer-events:none}
+.bt{font-family:var(--fT);font-size:clamp(2.8rem,6vw,5.4rem);letter-spacing:8px;color:var(--v2);text-shadow:0 0 40px var(--v),0 0 80px rgba(168,85,247,.3);animation:glitch 3s infinite;text-align:center}
+@keyframes glitch{0%,84%,100%{transform:none;text-shadow:0 0 40px var(--v)}86%{transform:translate(-3px,1px);text-shadow:-3px 0 var(--r),3px 0 var(--c)}88%{transform:translate(2px,-1px);text-shadow:3px 0 var(--r),-2px 0 var(--c)}90%{transform:none}}
+.bsub{font-family:var(--fM);font-size:.68rem;color:var(--mu);letter-spacing:4px}
+.bbar{width:320px;height:8px;background:rgba(255,255,255,.06);border:1px solid rgba(124,58,237,.22)}
+.bfill{height:100%;width:0%;background:linear-gradient(90deg,var(--r),var(--v),var(--c));box-shadow:0 0 10px var(--v);transition:width .07s}
+.blog{font-family:var(--fM);font-size:.6rem;color:var(--mu);width:320px;max-height:110px;overflow:hidden}
+.blog p{margin-bottom:3px}.blog .ok{color:var(--g)}.blog .wn{color:var(--ro)}
+.bpress{font-family:var(--fU);font-weight:700;font-size:.74rem;letter-spacing:3px;text-transform:uppercase;color:var(--v2);display:none;animation:blnk 1.2s ease-in-out infinite}
+@keyframes blnk{0%,100%{opacity:1}50%{opacity:.2}}
+.bskip{font-family:var(--fM);font-size:.58rem;color:var(--mu);border:1px solid rgba(255,255,255,.1);padding:6px 20px;cursor:pointer;background:transparent;letter-spacing:2px;transition:.2s;display:none}
+.bskip:hover{color:var(--v2);border-color:var(--v)}
+.hud{position:fixed;top:0;left:0;width:100%;z-index:1000;background:rgba(3,1,10,.92);border-bottom:1px solid var(--b1);backdrop-filter:blur(28px);height:56px;display:flex;align-items:center;padding:0 40px;gap:22px}
+.hlogo{font-family:var(--fT);font-size:1.4rem;letter-spacing:6px;color:var(--v2);text-shadow:0 0 18px rgba(168,85,247,.5);border:1px solid rgba(124,58,237,.3);padding:3px 14px;white-space:nowrap;flex-shrink:0;transition:.25s}
+.hlogo:hover{background:rgba(124,58,237,.1);box-shadow:0 0 24px rgba(124,58,237,.28)}
+.hbars{display:flex;flex-direction:column;gap:5px;min-width:124px}
+.hbr{display:flex;align-items:center;gap:8px}
+.hbt{font-family:var(--fU);font-size:.54rem;font-weight:700;letter-spacing:2px;width:20px;color:var(--mu)}
+.htrack{flex:1;height:6px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);overflow:hidden}
+.hf{height:100%;position:relative;transition:width .7s}
+.hf::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shim 2.8s infinite}
+@keyframes shim{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+.hpf{background:linear-gradient(90deg,#059669,var(--g));box-shadow:0 0 6px var(--g)}
+.hxf{background:linear-gradient(90deg,var(--v),var(--v2));box-shadow:0 0 6px var(--v)}
+.hlv{display:flex;flex-direction:column;align-items:center;line-height:1}
+.hlv .ll{font-family:var(--fU);font-size:.5rem;color:var(--mu);letter-spacing:2px}
+.hlv .ln{font-family:var(--fT);font-size:1.7rem;color:var(--v2);text-shadow:0 0 14px rgba(168,85,247,.6);line-height:1}
+.hnav{display:flex;margin-left:auto}
+.hnav a{font-family:var(--fU);font-weight:600;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--mu);padding:0 14px;height:56px;display:flex;align-items:center;border-right:1px solid rgba(255,255,255,.04);transition:.22s;position:relative}
+.hnav a::after{content:"";position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--v2);box-shadow:0 0 8px var(--v);transition:.3s}
+.hnav a:hover,.hnav a.act{color:var(--v2)}.hnav a:hover::after,.hnav a.act::after{width:100%}
+.hcv{font-family:var(--fU);font-weight:700;font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:#fff;background:linear-gradient(135deg,var(--v),var(--v2));padding:8px 18px;margin-left:12px;border:none;transition:.28s;flex-shrink:0;cursor:pointer;box-shadow:0 0 20px rgba(124,58,237,.35)}
+.hcv:hover{transform:translateY(-2px);box-shadow:0 4px 28px rgba(124,58,237,.6)}
+.hmb{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;margin-left:auto}
+.hmb span{display:block;width:22px;height:2px;background:var(--v2);transition:.3s}
+.mobn{display:none;position:fixed;top:56px;left:0;width:100%;background:rgba(3,1,10,.98);border-bottom:1px solid var(--b1);flex-direction:column;z-index:999;backdrop-filter:blur(22px)}
+.mobn a{font-family:var(--fU);font-weight:600;font-size:.8rem;letter-spacing:2px;text-transform:uppercase;color:var(--mu);padding:16px 28px;border-bottom:1px solid rgba(255,255,255,.05);transition:.2s}
+.mobn a:hover{color:var(--v2);background:rgba(124,58,237,.06)}.mobn.open{display:flex}
+#btt{position:fixed;bottom:26px;right:26px;z-index:900;width:40px;height:40px;background:rgba(3,1,10,.9);border:1px solid rgba(124,58,237,.3);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;opacity:0;transform:translateY(14px);pointer-events:none}
+#btt.vis{opacity:1;transform:translateY(0);pointer-events:auto}
+#btt:hover{background:rgba(124,58,237,.16);border-color:var(--v);box-shadow:0 0 20px rgba(124,58,237,.35)}
+#btt svg{width:14px;height:14px;stroke:var(--v2);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.sec{padding:90px 80px;position:relative}.secA{background:rgba(12,4,26,.75)}
+.slbl{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.sln{width:28px;height:1px;background:linear-gradient(90deg,var(--v),var(--c));box-shadow:0 0 6px var(--v)}
+.stag{font-family:var(--fM);font-size:.6rem;color:var(--c2);letter-spacing:4px;text-transform:uppercase}
+.stit{font-family:var(--fT);font-size:clamp(2.4rem,4vw,3.8rem);letter-spacing:3px;color:#fff;margin-bottom:48px;line-height:1}
+.stit span{background:linear-gradient(135deg,var(--v2),var(--c));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sdiv{position:relative;height:42px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.sdiv::before{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:linear-gradient(90deg,transparent,rgba(124,58,237,.16) 20%,rgba(6,182,212,.18) 50%,rgba(124,58,237,.16) 80%,transparent)}
+.sdivA{background:rgba(12,4,26,.75)}.sdivA .sdtxt{background:rgba(12,4,26,.75)}
+.sdtxt{font-family:var(--fM);font-size:.49rem;color:rgba(168,85,247,.3);letter-spacing:7px;text-transform:uppercase;background:var(--bg);padding:0 16px;position:relative;z-index:1;animation:sdP 4s ease-in-out infinite}
+@keyframes sdP{0%,100%{opacity:.3}50%{opacity:.7}}
+.sdn{position:absolute;width:5px;height:5px;border-radius:50%;top:50%;transform:translateY(-50%);animation:nTr 7s linear infinite}
+.sdn:nth-child(1){background:var(--v2);box-shadow:0 0 8px var(--v)}
+.sdn:nth-child(2){animation-delay:-2.3s;background:var(--c);box-shadow:0 0 8px var(--c)}
+.sdn:nth-child(3){animation-delay:-4.6s;background:var(--ro);box-shadow:0 0 8px var(--ro)}
+@keyframes nTr{0%{left:-10px;opacity:0}5%{opacity:1}95%{opacity:1}100%{left:calc(100% + 10px);opacity:0}}
+.rv,.rv1,.rv2,.rv3,.rv4,.rv5{opacity:0;transform:translateY(32px)}
+.rv{transition:opacity .65s ease,transform .65s ease}.rv1{transition:opacity .65s .12s ease,transform .65s .12s ease}
+.rv2{transition:opacity .65s .24s ease,transform .65s .24s ease}.rv3{transition:opacity .65s .36s ease,transform .65s .36s ease}
+.rv4{transition:opacity .65s .48s ease,transform .65s .48s ease}.rv5{transition:opacity .65s .6s ease,transform .65s .6s ease}
+.rv.in,.rv1.in,.rv2.in,.rv3.in,.rv4.in,.rv5.in{opacity:1;transform:none}
+.hero{min-height:100vh;display:grid;grid-template-columns:1fr 390px;align-items:center;padding:80px 80px 60px;gap:64px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;bottom:-60px;right:390px;width:1px;height:calc(100% + 120px);background:linear-gradient(to bottom,transparent,rgba(124,58,237,.1),transparent);transform:rotate(12deg);pointer-events:none}
+.eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:22px;opacity:0;animation:sUp .8s .3s ease forwards}
+.eyl{width:38px;height:1px;background:linear-gradient(90deg,var(--v),var(--c));box-shadow:0 0 8px var(--v)}
+.eyebrow span{font-family:var(--fM);font-size:.65rem;color:var(--c2);letter-spacing:4px;text-transform:uppercase}
+@keyframes sUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:none}}
+.hname{font-family:var(--fT);font-size:clamp(3.6rem,6.5vw,7.8rem);line-height:.9;letter-spacing:1px;margin-bottom:20px;opacity:0;animation:sUp .9s .5s ease forwards}
+.hname .l1{display:block;color:#fff}
+.hname .l2{display:block;background:linear-gradient(135deg,var(--v2),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 24px rgba(124,58,237,.5))}
+.hname .l3{display:block;font-size:.34em;color:rgba(255,255,255,.15);letter-spacing:18px;margin-top:8px}
+.hrole{display:flex;align-items:center;gap:12px;margin-bottom:24px;opacity:0;animation:sUp .8s .7s ease forwards}
+.hrp{font-family:var(--fM);font-size:.64rem;color:var(--mu);letter-spacing:2px}
+.hrt{font-family:var(--fU);font-weight:600;font-size:1rem;color:#fff;letter-spacing:1px;min-width:255px}
+.hrc{color:var(--c2);animation:cur .8s step-end infinite}
+@keyframes cur{0%,100%{opacity:1}50%{opacity:0}}
+.hbio{font-family:var(--fB);font-weight:300;font-size:.9rem;line-height:2.05;color:rgba(241,240,255,.46);max-width:560px;margin-bottom:34px;opacity:0;animation:sUp .8s .9s ease forwards}
+.hbio strong{color:rgba(167,139,250,.9);font-weight:600}
+.stats{display:flex;border:1px solid var(--b1);margin-bottom:32px;overflow:hidden;max-width:500px;opacity:0;animation:sUp .8s 1.1s ease forwards}
+.si{flex:1;padding:13px 14px;border-right:1px solid var(--b1);background:rgba(12,4,26,.7);cursor:pointer;transition:.25s;text-align:center}
+.si:last-child{border-right:none}.si:hover{background:rgba(124,58,237,.12)}
+.sn{font-family:var(--fT);font-size:1.85rem;color:var(--v2);display:block;line-height:1;text-shadow:0 0 14px rgba(168,85,247,.5)}
+.sl{font-family:var(--fU);font-weight:500;font-size:.54rem;color:var(--mu);letter-spacing:2px;text-transform:uppercase;display:block;margin-top:4px}
+.btns{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:sUp .8s 1.3s ease forwards}
+.btn{font-family:var(--fU);font-weight:700;font-size:.74rem;letter-spacing:3px;text-transform:uppercase;padding:13px 28px;display:inline-flex;align-items:center;gap:8px;position:relative;overflow:hidden;transition:.28s;cursor:pointer}
+.btn::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.1),transparent);transform:translateX(-100%);transition:.44s}
+.btn:hover::before{transform:translateX(100%)}
+.btnA{background:linear-gradient(135deg,var(--v),var(--v2));color:#fff;border:none;box-shadow:0 0 24px rgba(124,58,237,.4)}
+.btnA:hover{box-shadow:0 0 42px rgba(124,58,237,.65);transform:translateY(-3px)}
+.btnO{background:transparent;color:var(--v2);border:1px solid rgba(124,58,237,.5)}
+.btnO:hover{background:rgba(124,58,237,.12);box-shadow:0 0 20px rgba(124,58,237,.3);transform:translateY(-3px)}
+.btnC{background:transparent;color:var(--c2);border:1px solid rgba(6,182,212,.4)}
+.btnC:hover{background:rgba(6,182,212,.1);box-shadow:0 0 20px rgba(6,182,212,.3);transform:translateY(-3px)}
+.socs{display:flex;gap:10px;margin-top:18px;opacity:0;animation:sUp .8s 1.5s ease forwards}
+.soc{font-family:var(--fM);font-size:.59rem;color:var(--mu);border:1px solid rgba(255,255,255,.1);padding:7px 13px;display:flex;align-items:center;gap:6px;transition:.25s}
+.soc svg{width:12px;height:12px;fill:currentColor}
+.soc:hover{color:var(--v2);border-color:rgba(124,58,237,.5);background:rgba(124,58,237,.08)}
+.hright{position:relative;opacity:0;animation:fadeR 1s .6s ease forwards}
+@keyframes fadeR{from{opacity:0;transform:translateX(28px)}to{opacity:1;transform:none}}
+.pcard{background:var(--g1);border:1px solid var(--b1);overflow:hidden;position:relative;backdrop-filter:blur(32px);box-shadow:0 0 80px rgba(124,58,237,.1),inset 0 0 60px rgba(0,0,0,.5)}
+.pcard::before{content:"";position:absolute;top:-1px;left:-1px;width:24px;height:24px;border-top:2px solid var(--v2);border-left:2px solid var(--v2);z-index:6}
+.pcard::after{content:"";position:absolute;bottom:-1px;right:-1px;width:24px;height:24px;border-bottom:2px solid var(--v2);border-right:2px solid var(--v2);z-index:6}
+.pcctr{position:absolute;top:-1px;right:-1px;width:24px;height:24px;border-top:2px solid var(--c);border-right:2px solid var(--c);z-index:6}
+.pccbl{position:absolute;bottom:-1px;left:-1px;width:24px;height:24px;border-bottom:2px solid var(--c);border-left:2px solid var(--c);z-index:6}
+.piw{width:100%;height:360px;position:relative;overflow:hidden}
+.pi{width:100%;height:100%;object-fit:cover;object-position:top center;filter:contrast(1.06) brightness(.88) saturate(.68);transition:.55s}
+.pcard:hover .pi{filter:contrast(1.08) brightness(.96) saturate(.88);transform:scale(1.035)}
+.pscan{position:absolute;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--v2),var(--c),transparent);box-shadow:0 0 10px var(--v);opacity:.44;z-index:4;animation:scMv 4.5s ease-in-out infinite}
+@keyframes scMv{0%{top:-2px;opacity:0}8%{opacity:.44}92%{opacity:.44}100%{top:100%;opacity:0}}
+.pio{position:absolute;inset:0;z-index:3;background:linear-gradient(to bottom,transparent 40%,rgba(3,1,10,.97) 100%)}
+.pst{position:absolute;bottom:13px;left:13px;z-index:5;display:flex;align-items:center;gap:7px;font-family:var(--fM);font-size:.55rem;color:var(--g);letter-spacing:2px}
+.pdot{width:6px;height:6px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:pdP 2s ease-in-out infinite}
+@keyframes pdP{0%,100%{opacity:1}50%{opacity:.3}}
+.piw .noimg{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(160deg,rgba(124,58,237,.08),rgba(6,182,212,.04))}
+.noimg svg{width:90px;height:90px;opacity:.18;fill:var(--v2)}.noimg span{font-family:var(--fM);font-size:.56rem;color:rgba(168,85,247,.4);letter-spacing:3px}
+.pterm{margin:0 14px 12px;background:rgba(0,0,0,.6);border:1px solid rgba(124,58,237,.14);padding:11px 13px;font-family:var(--fM);font-size:.58rem;color:var(--mu);line-height:2}
+.pt{color:var(--v2)}.pk{color:var(--c)}.pv{color:rgba(200,185,255,.8)}
+.pid{padding:14px 16px 16px;border-top:1px solid var(--b1);background:rgba(0,0,0,.55)}
+.pidn{font-family:var(--fT);font-size:1.38rem;letter-spacing:3px;color:#fff;margin-bottom:3px}
+.pidc{font-family:var(--fM);font-size:.59rem;color:var(--v2);letter-spacing:3px;margin-bottom:12px}
+.pidb{display:flex;flex-direction:column;gap:6px}.pidbr{display:flex;align-items:center;gap:10px}
+.pidbl{font-family:var(--fU);font-weight:600;font-size:.59rem;color:var(--mu);width:28px}
+.pidbt{flex:1;height:5px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.07);overflow:hidden}
+.pidbf{height:100%;width:0;transition:width 1.5s ease}.pidbv{font-family:var(--fM);font-size:.56rem;color:var(--mu);width:24px;text-align:right}
+.agrid{display:grid;grid-template-columns:340px 1fr;gap:56px;align-items:start}
+.aframe{position:relative;border:1px solid var(--b1);overflow:hidden}
+.aframe::before{content:"";position:absolute;top:-1px;left:-1px;width:22px;height:22px;border-top:2px solid var(--v2);border-left:2px solid var(--v2);z-index:6}
+.aframe::after{content:"";position:absolute;bottom:-1px;right:-1px;width:22px;height:22px;border-bottom:2px solid var(--c);border-right:2px solid var(--c);z-index:6}
+.aftr{position:absolute;top:-1px;right:-1px;width:22px;height:22px;border-top:2px solid var(--c);border-right:2px solid var(--c);z-index:6}
+.afbl{position:absolute;bottom:-1px;left:-1px;width:22px;height:22px;border-bottom:2px solid var(--v2);border-left:2px solid var(--v2);z-index:6}
+.aimg{width:100%;height:430px;object-fit:cover;object-position:top center;filter:contrast(1.06) brightness(.88) saturate(.68);transition:.55s}
+.aframe:hover .aimg{filter:contrast(1.08) brightness(.96) saturate(.88);transform:scale(1.03)}
+.aframe .noimg{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:linear-gradient(160deg,rgba(124,58,237,.08),rgba(6,182,212,.04))}
+.ascn{position:absolute;left:0;width:100%;height:2px;background:linear-gradient(90deg,transparent,var(--v2),var(--c),transparent);box-shadow:0 0 8px var(--v);opacity:.4;z-index:5;animation:aSc 4.5s ease-in-out infinite}
+@keyframes aSc{0%{top:-2px;opacity:0}8%{opacity:.4}92%{opacity:.4}100%{top:100%;opacity:0}}
+.aio{position:absolute;inset:0;z-index:4;background:linear-gradient(to bottom,transparent 52%,rgba(3,1,10,.95) 100%)}
+.ast{position:absolute;bottom:12px;left:12px;z-index:5;display:flex;align-items:center;gap:7px;font-family:var(--fM);font-size:.55rem;color:var(--g);letter-spacing:2px}
+.asdot{width:6px;height:6px;border-radius:50%;background:var(--g);box-shadow:0 0 6px var(--g);animation:asd 2s ease-in-out infinite}
+@keyframes asd{0%,100%{opacity:1}50%{opacity:.3}}
+.aterm{margin:10px 0 0;background:rgba(0,0,0,.6);border:1px solid rgba(124,58,237,.14);padding:11px 13px;font-family:var(--fM);font-size:.57rem;color:var(--mu);line-height:2}
+.aquote{font-family:var(--fT);font-size:clamp(1.3rem,2.2vw,1.9rem);letter-spacing:2px;color:rgba(255,255,255,.1);margin-bottom:20px;line-height:1.28;position:relative;padding-left:20px}
+.aquote::before{content:'"';position:absolute;left:0;top:-5px;font-size:2.6rem;color:rgba(124,58,237,.18);line-height:1;font-family:Georgia,serif}
+.aquote em{background:linear-gradient(135deg,var(--v2),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal}
+.abio{font-family:var(--fB);font-weight:300;font-size:.88rem;line-height:2.05;color:rgba(241,240,255,.44);margin-bottom:24px}
+.abio strong{color:rgba(167,139,250,.9);font-weight:600}
+.akv{display:grid;grid-template-columns:1fr 1fr;gap:9px 20px;margin-bottom:24px}
+.akvi{display:flex;flex-direction:column;gap:2px}
+.akvk{font-family:var(--fM);font-size:.56rem;color:var(--mu);letter-spacing:2px;text-transform:uppercase}
+.akvv{font-family:var(--fU);font-weight:700;font-size:.84rem;color:#fff}
+.atags{display:flex;flex-wrap:wrap;gap:8px}
+.atag{font-family:var(--fM);font-size:.56rem;color:var(--v2);padding:5px 11px;border:1px solid rgba(124,58,237,.2);background:rgba(124,58,237,.06);letter-spacing:1px;transition:.22s}
+.atag:hover{background:rgba(124,58,237,.16);border-color:rgba(124,58,237,.5)}
+.skgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(272px,1fr));gap:14px}
+.skc{background:var(--g1);border:1px solid var(--b2);padding:24px;position:relative;overflow:hidden;cursor:pointer;transition:.36s;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+.skc::before{content:"";position:absolute;top:0;left:0;width:3px;height:0;background:linear-gradient(to bottom,var(--v),var(--c));transition:height .4s}
+.skc:hover{border-color:rgba(124,58,237,.4);transform:translateY(-6px);box-shadow:0 14px 50px rgba(0,0,0,.65)}
+.skc:hover::before{height:100%}
+.skh{display:flex;align-items:center;gap:11px;margin-bottom:15px}.skie{font-size:1.22rem}
+.sknm{font-family:var(--fU);font-weight:700;font-size:.77rem;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(135deg,var(--v2),var(--c2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.sklv{margin-left:auto;font-family:var(--fM);font-size:.6rem;color:var(--ro);position:relative;cursor:help}
+.sklv::after{content:attr(data-tip);position:absolute;bottom:135%;right:0;background:rgba(3,1,10,.97);border:1px solid rgba(124,58,237,.28);padding:7px 11px;font-family:var(--fB);font-size:.67rem;color:var(--tx);white-space:nowrap;pointer-events:none;opacity:0;transform:translateY(6px);transition:.22s;z-index:100}
+.sklv:hover::after{opacity:1;transform:translateY(0)}
+.skbar{height:3px;background:rgba(255,255,255,.05);margin-bottom:14px;overflow:hidden}
+.skf{height:100%;background:linear-gradient(90deg,var(--v),var(--c));transition:width 1.4s ease;width:0}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.tag{font-family:var(--fM);font-size:.59rem;color:rgba(167,139,250,.48);padding:3px 9px;border:1px solid rgba(124,58,237,.12);background:rgba(124,58,237,.04);transition:.22s}
+.skc:hover .tag{color:var(--v2);border-color:rgba(124,58,237,.36);background:rgba(124,58,237,.1)}
+.tl{position:relative;padding-left:40px}
+.tl::before{content:"";position:absolute;left:5px;top:12px;width:1px;height:calc(100% - 24px);background:linear-gradient(to bottom,var(--v),var(--c) 55%,transparent)}
+.tli{position:relative;margin-bottom:22px;background:var(--g1);border:1px solid var(--b2);padding:24px 26px;cursor:pointer;transition:.3s;clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%)}
+.tli:hover{border-color:rgba(124,58,237,.4);box-shadow:0 0 40px rgba(0,0,0,.65)}
+.tli::before{content:"";position:absolute;left:-36px;top:26px;width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,var(--v),var(--c));box-shadow:0 0 12px var(--v)}
+.tld{font-family:var(--fM);font-size:.6rem;color:var(--c2);letter-spacing:2px;margin-bottom:6px}
+.tlt{font-family:var(--fT);font-size:1.34rem;letter-spacing:2px;color:#fff;margin-bottom:4px}
+.tlo{font-family:var(--fU);font-weight:600;font-size:.74rem;background:linear-gradient(135deg,var(--v2),var(--c));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:12px;letter-spacing:1px}
+.tli ul{list-style:none}.tli ul li{font-family:var(--fB);font-weight:300;font-size:.8rem;color:rgba(241,240,255,.44);padding-left:18px;position:relative;line-height:1.9;margin-bottom:3px}
+.tli ul li::before{content:"▸";position:absolute;left:0;color:var(--v2);font-size:.7rem}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(315px,1fr));gap:18px}
+.mc{background:var(--g1);border:1px solid var(--b2);overflow:hidden;position:relative;cursor:pointer;transition:.44s;clip-path:polygon(0 0,calc(100% - 17px) 0,100% 17px,100% 100%,0 100%)}
+.mc:hover{border-color:rgba(124,58,237,.38);transform:translateY(-8px);box-shadow:0 22px 72px rgba(0,0,0,.75)}
+.miw{position:relative;overflow:hidden;height:190px}
+.mimg{width:100%;height:100%;object-fit:cover;filter:saturate(.4) brightness(.5) contrast(1.12);transition:.5s}
+.mc:hover .mimg{filter:saturate(.72) brightness(.68) contrast(1.05);transform:scale(1.06)}
+.mio{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.03) 25%,rgba(3,1,10,.97) 100%)}
+.mnum{position:absolute;top:11px;left:13px;z-index:3;font-family:var(--fT);font-size:2.5rem;color:rgba(255,255,255,.05);letter-spacing:2px;line-height:1}
+.mbadge{position:absolute;top:11px;right:11px;z-index:3;font-family:var(--fU);font-weight:700;font-size:.56rem;letter-spacing:2px;padding:3px 10px}
+.bA{background:linear-gradient(135deg,var(--v),var(--v2));color:#fff}
+.bB{background:var(--r);color:#fff}
+.bC{background:rgba(6,182,212,.18);color:var(--c2);border:1px solid rgba(6,182,212,.4)}
+.bD{background:rgba(245,158,11,.18);color:var(--ro);border:1px solid rgba(245,158,11,.35)}
+.mbody{padding:18px 20px 20px}
+.mtit{font-family:var(--fT);font-size:1.28rem;letter-spacing:2px;color:#fff;margin-bottom:6px;line-height:1.1}
+.mdesc{font-family:var(--fB);font-weight:300;font-size:.76rem;color:rgba(241,240,255,.4);line-height:1.9;margin-bottom:12px}
+.mstk{font-family:var(--fM);font-size:.56rem;color:var(--c2);border-left:2px solid var(--c);padding-left:9px;margin-bottom:15px;letter-spacing:1px;opacity:.78}
+.mft{display:flex;align-items:center;justify-content:space-between}
+.mxp{font-family:var(--fM);font-size:.57rem;color:var(--ro);letter-spacing:2px}
+.mlnk{font-family:var(--fU);font-weight:700;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--v2);border:1px solid rgba(124,58,237,.35);padding:6px 14px;display:inline-flex;align-items:center;gap:5px;transition:.25s}
+.mlnk:hover{background:linear-gradient(135deg,var(--v),var(--v2));color:#fff;border-color:transparent;box-shadow:0 0 20px rgba(124,58,237,.5)}
+.mlnk svg{width:10px;height:10px;fill:currentColor;transition:.3s}.mlnk:hover svg{transform:translate(3px,-3px)}
+.mcF{grid-column:1/-1;display:grid;grid-template-columns:1.4fr 1fr;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,22px 100%,0 calc(100% - 22px))}
+.mcF .miw{height:100%;min-height:265px}
+.mcF .mio{background:linear-gradient(to right,rgba(3,1,10,0) 25%,rgba(3,1,10,.97) 78%)}
+.mcF:hover .mimg{transform:scale(1.04)}.mcF .mbody{padding:32px 28px;display:flex;flex-direction:column;justify-content:center}.mcF .mtit{font-size:1.65rem}
+.hwrap{padding:0 80px 90px}
+.hcard{background:linear-gradient(135deg,rgba(124,58,237,.12),rgba(6,182,212,.05));border:1px solid rgba(124,58,237,.28);padding:58px;text-align:center;position:relative;overflow:hidden;cursor:pointer;clip-path:polygon(0 0,calc(100% - 26px) 0,100% 26px,100% 100%,26px 100%,0 calc(100% - 26px))}
+.hcard::before{content:"";position:absolute;top:-90px;left:50%;transform:translateX(-50%);width:600px;height:280px;background:radial-gradient(ellipse,rgba(124,58,237,.14),transparent 70%);pointer-events:none}
+.htrophy{font-size:3.6rem;display:block;margin-bottom:20px;filter:drop-shadow(0 0 18px rgba(245,158,11,.6));animation:trf 3s ease-in-out infinite}
+@keyframes trf{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-12px) rotate(4deg)}}
+.htit{font-family:var(--fT);font-size:clamp(1.8rem,3.5vw,3rem);letter-spacing:4px;color:#fff;margin-bottom:12px}
+.htit em{background:linear-gradient(135deg,var(--ro),var(--v2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-style:normal}
+.hdesc{font-family:var(--fB);font-weight:300;font-size:.88rem;color:rgba(241,240,255,.44);max-width:580px;margin:0 auto 24px;line-height:2}
+.hpill{display:inline-block;font-family:var(--fU);font-weight:700;font-size:.68rem;letter-spacing:3px;text-transform:uppercase;color:var(--v2);border:1px solid rgba(124,58,237,.5);padding:9px 26px;background:rgba(124,58,237,.08)}
+.cgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.cc{background:var(--g1);border:1px solid var(--b2);padding:24px;cursor:pointer;transition:.3s;position:relative;overflow:hidden}
+.cc::after{content:"";position:absolute;bottom:0;left:0;width:0;height:2px;background:linear-gradient(90deg,var(--v),var(--c));transition:width .44s}
+.cc:hover{border-color:rgba(124,58,237,.4);transform:translateY(-5px)}.cc:hover::after{width:100%}
+.ccico{font-size:1.9rem;display:block;margin-bottom:13px}.ccn{font-family:var(--fU);font-weight:700;font-size:.86rem;color:#fff;margin-bottom:5px;line-height:1.4}
+.ccby{font-family:var(--fM);font-size:.6rem;color:var(--v2);margin-bottom:13px}
+.ccb{display:inline-flex;align-items:center;gap:5px;font-family:var(--fU);font-weight:600;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--g)}
+.ctsec{text-align:center}
+.ctsub{font-family:var(--fB);font-weight:300;font-size:.88rem;color:var(--mu);max-width:460px;margin:0 auto 44px;line-height:2}
+.ctgrd{display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-bottom:44px}
+.ctc{background:var(--g1);border:1px solid var(--b2);padding:22px 26px;min-width:180px;display:flex;flex-direction:column;align-items:center;gap:9px;cursor:pointer;transition:.3s}
+.ctc:hover{border-color:rgba(124,58,237,.4);box-shadow:0 0 40px rgba(0,0,0,.75);transform:translateY(-5px)}
+.ctc svg{width:23px;height:23px;fill:var(--v2)}
+.ctl{font-family:var(--fM);font-size:.55rem;color:var(--mu);letter-spacing:2px;text-transform:uppercase}
+.ctv{font-family:var(--fU);font-weight:700;font-size:.78rem;color:#fff}
+footer{background:#03010a;border-top:1px solid rgba(255,255,255,.05);padding:18px 80px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:11px}
+.ftxt{font-family:var(--fM);font-size:.56rem;color:var(--mu)}
+.flinks{display:flex;gap:20px}
+.flinks a{font-family:var(--fM);font-size:.56rem;color:var(--mu);transition:.2s}
+.flinks a:hover{color:var(--v2)}
+@media(max-width:1100px){.hero{grid-template-columns:1fr;padding:80px 40px 60px}.hright{display:none}.agrid{grid-template-columns:1fr;gap:32px}.agrid>div:first-child{max-width:360px;margin:0 auto}.sec,.hwrap{padding-left:40px;padding-right:40px}footer{padding-left:40px;padding-right:40px}}
+@media(max-width:768px){.hud{padding:0 16px;gap:10px}.hbars,.hlv,.hnav,.hcv{display:none}.hmb{display:flex}.hero{padding:76px 20px 48px}.sec,.hwrap{padding-left:20px;padding-right:20px}.mcF{grid-template-columns:1fr}.mcF .miw{height:200px;min-height:unset}.mcF .mio{background:linear-gradient(to bottom,rgba(3,1,10,0) 25%,rgba(3,1,10,.97) 100%)}footer{flex-direction:column;text-align:center;padding:16px 20px}.hcard{padding:36px 20px}.stit{margin-bottom:32px}.btns{flex-direction:column;align-items:flex-start}.akv{grid-template-columns:1fr}.agrid>div:first-child{max-width:100%}#btt{bottom:16px;right:16px}}
+</style>
 </head>
 <body>
-
-    <canvas id="neural-canvas"></canvas>
-
-    <div class="top-bar">
-        <div class="top-container">
-            <span><i class="fas fa-terminal"></i> Data Scientist & Analyst</span>
-            <div class="social-icons">
-                <a href="https://linkedin.com/in/aditya-raj-sinha-0220a31b6" target="_blank"><i class="fab fa-linkedin"></i></a>
-                <a href="https://github.com/Aditya7032" target="_blank"><i class="fab fa-github"></i></a>
-                <a href="mailto:adityaharsh03@gmail.com"><i class="fas fa-envelope"></i></a>
-            </div>
-        </div>
+<canvas id="cv"></canvas>
+<div class="aurora"><div class="ab ab1"></div><div class="ab ab2"></div><div class="ab ab3"></div><div class="ab ab4"></div></div>
+<div class="grain"></div><div class="scan"></div><div class="vig"></div>
+<div id="prog"></div><div id="glw"></div>
+<div id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg></div>
+<div class="toast" id="toast"><span class="ti" id="ticon">🎯</span><span class="tm" id="tmsg">Achievement!</span><span class="txp" id="txp">+50 XP</span></div>
+<div id="boot">
+  <div class="bt">ADITYA.EXE</div>
+  <div class="bsub">DATA ANALYST · BUILD 2026</div>
+  <div class="bbar"><div class="bfill" id="bfill"></div></div>
+  <div class="blog" id="blog"></div>
+  <div class="bpress" id="bpress">PRESS ANY KEY OR CLICK TO ENTER</div>
+  <button class="bskip" id="bskip">[ SKIP INTRO ]</button>
+</div>
+<div class="wrap" id="main" style="display:none">
+  <nav class="hud">
+    <a href="#hero" class="hlogo">ARS</a>
+    <div class="hbars">
+      <div class="hbr"><span class="hbt">HP</span><div class="htrack"><div class="hf hpf" style="width:92%"></div></div></div>
+      <div class="hbr"><span class="hbt">XP</span><div class="htrack"><div class="hf hxf" id="xpbar" style="width:0%"></div></div></div>
     </div>
-
-    <header>
-        <div class="nav-container">
-            <div class="logo">Aditya Raj Sinha</div>
-            <div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
-            <ul class="nav-menu" id="nav-menu">
-                <li><a href="#">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="ADITYA_RESUME(UPDATED).pdf" download class="btn-book">Download CV</a></li>
-            </ul>
+    <div class="hlv"><span class="ll">LVL</span><span class="ln" id="lvnum">1</span></div>
+    <div class="hnav">
+      <a href="#hero" class="act" onclick="navClick(this)">Home</a>
+      <a href="#about" onclick="navClick(this)">About</a>
+      <a href="#skills" onclick="navClick(this)">Skills</a>
+      <a href="#exp" onclick="navClick(this)">Experience</a>
+      <a href="#projects" onclick="navClick(this)">Projects</a>
+      <a href="#contact" onclick="navClick(this)">Contact</a>
+    </div>
+    <a href="ADITYA_RESUME_UPDATED_.pdf" download class="hcv" onclick="gainXP(100,'📄','Resume!','+100 XP')">↓ Resume</a>
+    <div class="hmb" onclick="toggleMob()"><span></span><span></span><span></span></div>
+  </nav>
+  <div class="mobn" id="mobn">
+    <a href="#hero" onclick="closeMob()">Home</a><a href="#about" onclick="closeMob()">About</a>
+    <a href="#skills" onclick="closeMob()">Skills</a><a href="#exp" onclick="closeMob()">Experience</a>
+    <a href="#projects" onclick="closeMob()">Projects</a><a href="#contact" onclick="closeMob()">Contact</a>
+    <a href="ADITYA_RESUME_UPDATED_.pdf" download onclick="closeMob()" style="color:var(--v2)">↓ Resume</a>
+  </div>
+  <section class="hero" id="hero">
+    <div>
+      <div class="eyebrow"><div class="eyl"></div><span>Data Analyst · Business Intelligence · NLP</span></div>
+      <h1 class="hname"><span class="l1">ADITYA</span><span class="l2">RAJ SINHA</span><span class="l3">DATA ANALYST</span></h1>
+      <div class="hrole"><span class="hrp">LOADING &gt;</span><span class="hrt" id="typed"></span><span class="hrc">█</span></div>
+      <p class="hbio">M.Sc. Data Science from <strong>VIT–AP (CGPA 8.19)</strong>. Specialized in <strong>Business Intelligence & data visualization</strong> — crafting Tableau & Power BI dashboards, SQL pipelines, and NLP systems that transform complex datasets into <strong>clear, actionable decisions</strong>.</p>
+      <div class="stats">
+        <div class="si" onclick="gainXP(10,'📊','Stats!','+10 XP')"><span class="sn">8.19</span><span class="sl">CGPA</span></div>
+        <div class="si" onclick="gainXP(10,'💼','Projects!','+10 XP')"><span class="sn">7+</span><span class="sl">Projects</span></div>
+        <div class="si" onclick="gainXP(15,'🏆','Winner!','+15 XP')"><span class="sn">🥇</span><span class="sl">Hackathon</span></div>
+        <div class="si" onclick="gainXP(10,'🎓','Certs!','+10 XP')"><span class="sn">3</span><span class="sl">Certs</span></div>
+      </div>
+      <div class="btns">
+        <a href="#projects" class="btn btnA" onclick="gainXP(25,'🎯','Exploring!','+25 XP')">▶ View Projects</a>
+        <a href="#contact" class="btn btnO" onclick="gainXP(15,'📡','Connecting!','+15 XP')">Connect</a>
+        <a href="ADITYA_RESUME_UPDATED_.pdf" download class="btn btnC" onclick="gainXP(100,'📄','Resume!','+100 XP')">⬇ Resume</a>
+      </div>
+      <div class="socs">
+        <a href="https://linkedin.com/in/aditya-raj-sinha-0220a31b6" target="_blank" class="soc" onclick="gainXP(20,'💼','LinkedIn!','+20 XP')"><svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.68 1.68 0 0 0-1.68 1.69c0 .93.76 1.68 1.68 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>LinkedIn</a>
+        <a href="https://github.com/Aditya7032" target="_blank" class="soc" onclick="gainXP(20,'💻','GitHub!','+20 XP')"><svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>GitHub</a>
+        <a href="mailto:adityaharsh03@gmail.com" class="soc" onclick="gainXP(15,'📧','Email!','+15 XP')"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg>Email</a>
+      </div>
+    </div>
+    <div class="hright">
+      <div class="pcard">
+        <div class="pcctr"></div><div class="pccbl"></div>
+        <div class="piw">
+          <img src="profile.jpg" alt="Aditya Raj Sinha" class="pi" onerror="this.style.display='none';document.getElementById('pnoimg').style.display='flex'">
+          <div class="noimg" id="pnoimg" style="display:none"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg><span>ADD PROFILE.JPG</span></div>
+          <div class="pscan"></div><div class="pio"></div>
+          <div class="pst"><div class="pdot"></div>OPEN TO WORK</div>
         </div>
-    </header>
-
-    <section class="hero">
-        <div class="profile-wrapper">
-            <div class="scanner-frame">
-                <div class="profile-img"></div>
-                <div class="scan-line"></div>
-            </div>
+        <div class="pterm"><span class="pt">$ </span>cat profile.json<br><span class="pk">"role"</span>: <span class="pv">"Data Analyst"</span><br><span class="pk">"focus"</span>: <span class="pv">"BI · Analytics · NLP"</span><br><span class="pk">"status"</span>: <span style="color:var(--g)">"Available 🟢"</span></div>
+        <div class="pid">
+          <div class="pidn">ADITYA R. SINHA</div><div class="pidc">CLASS: DATA ANALYST</div>
+          <div class="pidb">
+            <div class="pidbr"><span class="pidbl">BI</span><div class="pidbt"><div class="pidbf" data-w="92" style="background:linear-gradient(90deg,var(--v),var(--v2))"></div></div><span class="pidbv">92</span></div>
+            <div class="pidbr"><span class="pidbl">SQL</span><div class="pidbt"><div class="pidbf" data-w="88" style="background:linear-gradient(90deg,var(--v),var(--c))"></div></div><span class="pidbv">88</span></div>
+            <div class="pidbr"><span class="pidbl">PY</span><div class="pidbt"><div class="pidbf" data-w="85" style="background:linear-gradient(90deg,var(--c),var(--c2))"></div></div><span class="pidbv">85</span></div>
+            <div class="pidbr"><span class="pidbl">NLP</span><div class="pidbt"><div class="pidbf" data-w="80" style="background:linear-gradient(90deg,var(--r),var(--v2))"></div></div><span class="pidbv">80</span></div>
+          </div>
         </div>
-        
-        <h1>Aditya Raj Sinha</h1>
-        <div class="typing-container">
-            I am a <span class="txt-rotate" data-period="2000" data-rotate='[ "Data Scientist.", "Data Analyst.", "Visualizer.", "NLP Enthusiast.", "Problem Solver." ]'></span>
+      </div>
+    </div>
+  </section>
+  <div class="sdiv"><div class="sdn"></div><div class="sdn"></div><div class="sdn"></div><span class="sdtxt">identity.log</span></div>
+  <section class="sec secA" id="about">
+    <div class="slbl rv"><div class="sln"></div><span class="stag">Player Profile</span></div>
+    <h2 class="stit rv1">About <span>Me</span></h2>
+    <div class="agrid">
+      <div class="rv">
+        <div class="aframe">
+          <div class="aftr"></div><div class="afbl"></div>
+          <img src="profile.jpg" alt="Aditya" class="aimg" onerror="this.style.display='none';document.getElementById('anoimg').style.display='flex'">
+          <div class="noimg" id="anoimg" style="display:none"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg><span>ADD PROFILE.JPG</span></div>
+          <div class="ascn"></div><div class="aio"></div>
+          <div class="ast"><div class="asdot"></div>OPEN TO WORK</div>
         </div>
-        <p>Deriving Insights From Data through Machine Learning, NLP, and Business Intelligence.</p>
-        <a href="#projects" class="hero-btn">View My Work</a>
-    </section>
-
-    <section class="split-section" id="about">
-        <div class="split-col split-img"></div>
-        <div class="split-col split-text">
-            <h2 style="color: var(--primary-accent);">About Me</h2>
-            <p style="color: #ddd; font-size: 1.1rem; line-height: 1.8;">I am a Data Science postgraduate with a strong foundation in Physics. I specialize in bridging the gap between raw data and strategic business decisions.</p>
-            <br>
-            <p style="color: #ddd; font-size: 1.1rem; line-height: 1.8;">Currently, I am a <strong>Data Science Intern at NullClass</strong>, working on generative AI models. I have a passion for building end-to-end pipelines, from data ingestion to deployment.</p>
+        <div class="aterm"><span class="pt">$ </span>whoami<br><span class="pk">"name"</span>: <span class="pv">"Aditya Raj Sinha"</span><br><span class="pk">"seeking"</span>: <span class="pv">"Data Analyst Roles"</span><br><span class="pk">"email"</span>: <span class="pv">"adityaharsh03@gmail.com"</span></div>
+      </div>
+      <div class="rv1">
+        <div class="aquote">Turning raw data into <em>decisions that matter</em></div>
+        <p class="abio">I'm a <strong>Data Analyst</strong> with an M.Sc. in Data Science from <strong>VIT–AP (CGPA 8.19)</strong> and a physics background that sharpens analytical thinking.<br><br>My core strength is <strong>making data speak clearly</strong> — interactive Tableau & Power BI dashboards, Python-driven EDA, SQL data pipelines, and NLP systems that surface meaning from unstructured text.<br><br>Won a <strong>GenAI Hackathon (1st Place)</strong> and delivered 7+ analytics projects across finance, HR, healthcare, energy, and media.</p>
+        <div class="akv">
+          <div class="akvi"><span class="akvk">Degree</span><span class="akvv">M.Sc. Data Science</span></div>
+          <div class="akvi"><span class="akvk">University</span><span class="akvv">VIT–AP</span></div>
+          <div class="akvi"><span class="akvk">CGPA</span><span class="akvv">8.19 / 10</span></div>
+          <div class="akvi"><span class="akvk">Background</span><span class="akvv">B.Sc. Physics</span></div>
+          <div class="akvi"><span class="akvk">Current Role</span><span class="akvv">DS Intern @ NullClass</span></div>
+          <div class="akvi"><span class="akvk">Focus</span><span class="akvv">Analytics · BI · NLP</span></div>
         </div>
-    </section>
-
-    <section class="skills-section" id="skills">
-        <div class="container">
-            <div class="section-header">
-                <h2>Technical Arsenal</h2>
-                <div class="divider"></div>
-            </div>
-            <div class="skills-grid">
-                <div class="skill-card">
-                    <h3>Programming & Analysis</h3>
-                    <div class="skill-tags">
-                        <span class="tag">Python</span><span class="tag">SQL</span><span class="tag">R</span>
-                        <span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">EDA</span>
-                        <span class="tag">A/B Testing</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <h3>Machine Learning & AI</h3>
-                    <div class="skill-tags">
-                        <span class="tag">Scikit-learn</span><span class="tag">TensorFlow</span><span class="tag">PyTorch</span>
-                        <span class="tag">Ensemble Models</span><span class="tag">Regression</span>
-                        <span class="tag">Time Series</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <h3>NLP</h3>
-                    <div class="skill-tags">
-                        <span class="tag">TF-IDF</span><span class="tag">BM25</span><span class="tag">Cosine Similarity</span>
-                        <span class="tag">LSA</span><span class="tag">VADER</span><span class="tag">NRC Lexicon</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <h3>Visualization & BI</h3>
-                    <div class="skill-tags">
-                        <span class="tag">Tableau</span><span class="tag">Power BI</span><span class="tag">Excel</span>
-                        <span class="tag">DAX</span><span class="tag">Matplotlib</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <h3>Tools & Platforms</h3>
-                    <div class="skill-tags">
-                        <span class="tag">Jupyter</span><span class="tag">Streamlit</span><span class="tag">Google Colab</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <h3>Data Handling</h3>
-                    <div class="skill-tags">
-                        <span class="tag">Data Cleaning</span><span class="tag">Preprocessing</span>
-                        <span class="tag">Feature Engineering</span><span class="tag">ETL</span>
-                    </div>
-                </div>
-                <div class="skill-card">
-                    <h3>Databases</h3>
-                    <div class="skill-tags">
-                        <span class="tag">MongoDB</span><span class="tag">Neo4j</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="projects-section" id="projects">
-        <div class="container">
-            <div class="section-header" style="text-align: center;">
-                <h2>Featured Projects</h2>
-                <div class="divider"></div>
-            </div>
-            <div class="projects-grid">
-                
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=800&q=80" alt="News Analytics" class="project-img">
-                    <div class="card-content">
-                        <div class="project-title">News Research & Analytics Tool</div>
-                        <div class="project-desc">Built an NLP-driven platform automating article ingestion and summarization. Implemented TF-IDF and BM25 for relevance scoring.</div>
-                        <div class="tech-stack">PYTHON | NLP | TF-IDF | STREAMLIT</div>
-                        <a href="https://github.com/Aditya7032/News-Research-Analytics-Tool-Data-NLP-Application" target="_blank" class="btn-small">View on GitHub</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1559589689-577aabd1db4f?auto=format&fit=crop&w=800&q=80" alt="Stock Market Bull" class="project-img">
-                    <div class="card-content">
-                        <div class="project-title">Stock Market Prediction</div>
-                        <div class="project-desc">Designed an end-to-end system integrating Python pipelines with Power BI. Used Random Forest to predict closing prices (MAE/RMSE evaluation).</div>
-                        <div class="tech-stack">PYTHON | ML | TIME SERIES | POWER BI</div>
-                        <a href="https://github.com/Aditya7032/Stock-Market-Prediction-Analytics-Dashboard-Power-BI-Python-" target="_blank" class="btn-small">View on GitHub</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" alt="HR Analytics" class="project-img">
-                    <div class="card-content">
-                        <div class="project-title">HR Analytics Dashboard</div>
-                        <div class="project-desc">Developed an interactive dashboard to analyze attrition. Performed data cleaning in Python and built drill-down visualizations in Tableau.</div>
-                        <div class="tech-stack">TABLEAU | DATA CLEANING | KPI ANALYSIS</div>
-                        <a href="https://github.com/Aditya7032/HR-analytics" target="_blank" class="btn-small">View on GitHub</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80" alt="Renewable Energy" class="project-img">
-                    <div class="card-content">
-                        <div class="project-title">Renewable Energy Forecasting</div>
-                        <div class="project-desc">Conducted EDA on solar/wind data. Built ensemble regression models (XGBoost, LightGBM) to forecast energy output.</div>
-                        <div class="tech-stack">PYTHON | XGBOOST | LIGHTGBM | ENSEMBLE</div>
-                        <a href="https://github.com/Aditya7032/Renewable_energy_forcasting_-_optimization" target="_blank" class="btn-small">View on GitHub</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=800&q=80" alt="Plant Disease" class="project-img">
-                    <div class="card-content">
-                        <div class="project-title">Plant Disease Detection</div>
-                        <div class="project-desc">Developed a deep learning image classification system using the PlantVillage dataset. Applied transfer learning with EfficientNet.</div>
-                        <div class="tech-stack">PYTORCH | EFFICIENTNET | DEEP LEARNING</div>
-                        <a href="https://github.com/Aditya7032/Plant-Disease-Detection-" target="_blank" class="btn-small">View on GitHub</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1493836512294-502baa1986e2?auto=format&fit=crop&w=800&q=80" alt="Mental Health" class="project-img">
-                    <div class="card-content">
-                        <div class="project-title">Mental Health Analytics</div>
-                        <div class="project-desc">Performed sentiment analysis on survey responses using VADER and NRC Lexicon. Uncovered emotional patterns across demographics.</div>
-                        <div class="tech-stack">PYTHON | VADER | NLP | SENTIMENT ANALYSIS</div>
-                        <a href="https://github.com/Aditya7032/Mental-Health-Survey-Analytics-Sentiment-Insight-Reporting" target="_blank" class="btn-small">View on GitHub</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" alt="GDP Analysis Graph" class="project-img">
-                    <div class="card-content">
-                        <div class="project-title">GDP Analysis Dashboard</div>
-                        <div class="project-desc">Built an interactive dashboard to analyze global GDP trends (2017–2024). Created complex DAX measures for YoY Growth %.</div>
-                        <div class="tech-stack">POWER BI | DAX | DATA MODELING</div>
-                        <a href="#" class="btn-small">View Project</a>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-    <section class="newsletter" id="contact">
-        <div class="container">
-            <h3>Let's Collaborate</h3>
-            <p style="margin-bottom: 30px; color: #ccc;">Open for full-time opportunities in Data Science & Analytics.</p>
-            <div class="newsletter-form">
-                <a href="mailto:adityaharsh03@gmail.com" class="btn-mail-large">Send Me an Email</a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        <div class="container">
-            <div class="footer-links">
-                <a href="#">Home</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="ADITYA_RESUME(UPDATED).pdf">Resume</a>
-            </div>
-            <div class="social-icons" style="margin-bottom: 20px;">
-                <a href="https://linkedin.com/in/aditya-raj-sinha-0220a31b6"><i class="fab fa-linkedin"></i></a>
-                <a href="https://github.com/Aditya7032"><i class="fab fa-github"></i></a>
-            </div>
-            <p>&copy; 2026 Aditya Raj Sinha. All Rights Reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        /* Mobile Menu Toggle */
-        function toggleMenu() {
-            var menu = document.getElementById("nav-menu");
-            menu.classList.toggle("active");
-        }
-
-        /* --- 10/10 INTERACTIVE NEURAL NETWORK SCRIPT --- */
-        const canvas = document.getElementById('neural-canvas');
-        const ctx = canvas.getContext('2d');
-
-        let width, height;
-        let particles = [];
-        
-        // --- MOUSE SETUP ---
-        let mouse = {
-            x: null,
-            y: null,
-            radius: 250 // Large Interaction radius
-        };
-
-        window.addEventListener('mousemove', function(event){
-            mouse.x = event.x;
-            mouse.y = event.y;
-        });
-        
-        window.addEventListener('mouseout', function(){
-            mouse.x = undefined;
-            mouse.y = undefined;
-        });
-
-        function init() {
-            width = window.innerWidth;
-            height = window.innerHeight;
-            canvas.width = width;
-            canvas.height = height;
-            
-            // Create particles (nodes)
-            particles = [];
-            // Optimize density
-            const numParticles = Math.floor(width * height / 9000); 
-            
-            for(let i=0; i<numParticles; i++) {
-                particles.push({
-                    x: Math.random() * width,
-                    y: Math.random() * height,
-                    vx: (Math.random() - 0.5) * 0.4, 
-                    vy: (Math.random() - 0.5) * 0.4,
-                    // BIGGER NODES for visibility
-                    size: Math.random() * 3 + 2 
-                });
-            }
-        }
-
-        function drawNeuralNetwork() {
-            ctx.clearRect(0, 0, width, height);
-            
-            particles.forEach((p, index) => {
-                p.x += p.vx;
-                p.y += p.vy;
-
-                // Bounce off edges
-                if(p.x < 0 || p.x > width) p.vx *= -1;
-                if(p.y < 0 || p.y > height) p.vy *= -1;
-
-                // --- MOUSE PHYSICS ---
-                if(mouse.x != undefined) {
-                    let dx = mouse.x - p.x;
-                    let dy = mouse.y - p.y;
-                    let distance = Math.sqrt(dx*dx + dy*dy);
-
-                    if (distance < mouse.radius) {
-                        // 1. Repulsion (Push away)
-                        const forceDirectionX = dx / distance;
-                        const forceDirectionY = dy / distance;
-                        const force = (mouse.radius - distance) / mouse.radius;
-                        const directionX = forceDirectionX * force * 3;
-                        const directionY = forceDirectionY * force * 3;
-                        
-                        p.x -= directionX;
-                        p.y -= directionY;
-
-                        // 2. Connection Line (Super Node)
-                        ctx.beginPath();
-                        ctx.strokeStyle = `rgba(0, 242, 255, ${0.6 - distance/mouse.radius})`; // Brighter Cyan
-                        ctx.lineWidth = 1.5; // Thicker
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(mouse.x, mouse.y);
-                        ctx.stroke();
-                    }
-                }
-
-                // Draw Nodes
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = '#00f2ff'; 
-                ctx.fill();
-
-                // Draw Particle Connections
-                for(let j=index+1; j<particles.length; j++) {
-                    const p2 = particles[j];
-                    const dx = p.x - p2.x;
-                    const dy = p.y - p2.y;
-                    const dist = Math.sqrt(dx*dx + dy*dy);
-
-                    // Increased Connectivity Distance
-                    if(dist < 180) { 
-                        ctx.beginPath();
-                        // Much Higher Opacity
-                        ctx.strokeStyle = `rgba(0, 242, 255, ${0.6 - dist/180})`; 
-                        ctx.lineWidth = 1.2; // Thicker lines
-                        ctx.moveTo(p.x, p.y);
-                        ctx.lineTo(p2.x, p2.y);
-                        ctx.stroke();
-                    }
-                }
-            });
-
-            requestAnimationFrame(drawNeuralNetwork);
-        }
-
-        /* --- TYPEWRITER EFFECT SCRIPT --- */
-        var TxtRotate = function(el, toRotate, period) {
-            this.toRotate = toRotate;
-            this.el = el;
-            this.loopNum = 0;
-            this.period = parseInt(period, 10) || 2000;
-            this.txt = '';
-            this.tick();
-            this.isDeleting = false;
-        };
-
-        TxtRotate.prototype.tick = function() {
-            var i = this.loopNum % this.toRotate.length;
-            var fullTxt = this.toRotate[i];
-
-            if (this.isDeleting) {
-                this.txt = fullTxt.substring(0, this.txt.length - 1);
-            } else {
-                this.txt = fullTxt.substring(0, this.txt.length + 1);
-            }
-
-            this.el.innerHTML = '<span class="wrap">'+this.txt+'</span>';
-
-            var that = this;
-            var delta = 200 - Math.random() * 100;
-
-            if (this.isDeleting) { delta /= 2; }
-
-            if (!this.isDeleting && this.txt === fullTxt) {
-                delta = this.period;
-                this.isDeleting = true;
-            } else if (this.isDeleting && this.txt === '') {
-                this.isDeleting = false;
-                this.loopNum++;
-                delta = 500;
-            }
-
-            setTimeout(function() {
-                that.tick();
-            }, delta);
-        };
-
-        window.addEventListener('resize', init);
-        window.onload = function() {
-            init();
-            drawNeuralNetwork();
-            
-            var elements = document.getElementsByClassName('txt-rotate');
-            for (var i=0; i<elements.length; i++) {
-                var toRotate = elements[i].getAttribute('data-rotate');
-                var period = elements[i].getAttribute('data-period');
-                if (toRotate) {
-                  new TxtRotate(elements[i], JSON.parse(toRotate), period);
-                }
-            }
-        };
-    </script>
-
+        <div class="atags"><span class="atag">Data Analytics</span><span class="atag">Power BI</span><span class="atag">Tableau</span><span class="atag">SQL</span><span class="atag">Python</span><span class="atag">NLP</span><span class="atag">Statistical Analysis</span><span class="atag">ETL Pipelines</span><span class="atag">EDA</span></div>
+      </div>
+    </div>
+  </section>
+  <div class="sdiv sdivA"><div class="sdn"></div><div class="sdn"></div><div class="sdn"></div><span class="sdtxt">skill_tree.json</span></div>
+  <section class="sec" id="skills">
+    <div class="slbl rv"><div class="sln"></div><span class="stag">Skill Tree</span></div>
+    <h2 class="stit rv1">Technical <span>Arsenal</span></h2>
+    <div class="skgrid">
+      <div class="skc rv" onclick="gainXP(20,'📊','BI Mastery!','+20 XP')"><div class="skh"><span class="skie">📊</span><span class="sknm">Business Intelligence</span><span class="sklv" data-tip="Expert — Tableau + Power BI production projects">LVL 9</span></div><div class="skbar"><div class="skf" data-w="92"></div></div><div class="tags"><span class="tag">Tableau</span><span class="tag">Power BI</span><span class="tag">DAX</span><span class="tag">Excel</span><span class="tag">KPI Dashboards</span><span class="tag">Data Modeling</span></div></div>
+      <div class="skc rv1" onclick="gainXP(20,'🗄️','SQL!','+20 XP')"><div class="skh"><span class="skie">🗄️</span><span class="sknm">SQL & Data Engineering</span><span class="sklv" data-tip="Advanced — complex queries, ETL, aggregations">LVL 8</span></div><div class="skbar"><div class="skf" data-w="88"></div></div><div class="tags"><span class="tag">SQL</span><span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">NumPy</span><span class="tag">ETL</span><span class="tag">Data Cleaning</span></div></div>
+      <div class="skc rv2" onclick="gainXP(20,'📈','Stats!','+20 XP')"><div class="skh"><span class="skie">📈</span><span class="sknm">Statistical Analysis</span><span class="sklv" data-tip="Advanced — EDA, hypothesis testing, regression">LVL 8</span></div><div class="skbar"><div class="skf" data-w="85"></div></div><div class="tags"><span class="tag">EDA</span><span class="tag">A/B Testing</span><span class="tag">Regression</span><span class="tag">Hypothesis Testing</span><span class="tag">Forecasting</span></div></div>
+      <div class="skc rv3" onclick="gainXP(20,'🔤','NLP!','+20 XP')"><div class="skh"><span class="skie">🔤</span><span class="sknm">NLP & Text Analytics</span><span class="sklv" data-tip="Advanced — Hackathon-winning NLP pipeline">LVL 8</span></div><div class="skbar"><div class="skf" data-w="82"></div></div><div class="tags"><span class="tag">TF-IDF</span><span class="tag">BM25</span><span class="tag">VADER</span><span class="tag">Sentiment</span><span class="tag">LSA</span><span class="tag">NRC Lexicon</span></div></div>
+      <div class="skc rv4" onclick="gainXP(20,'🤖','ML!','+20 XP')"><div class="skh"><span class="skie">🤖</span><span class="sknm">Machine Learning</span><span class="sklv" data-tip="Proficient — predictive modeling & classification">LVL 7</span></div><div class="skbar"><div class="skf" data-w="78"></div></div><div class="tags"><span class="tag">Scikit-learn</span><span class="tag">XGBoost</span><span class="tag">Random Forest</span><span class="tag">Time Series</span><span class="tag">PyTorch</span></div></div>
+      <div class="skc rv5" onclick="gainXP(20,'🛠️','Tools!','+20 XP')"><div class="skh"><span class="skie">🛠️</span><span class="sknm">Tools & Databases</span><span class="sklv" data-tip="Proficient — used across all 7+ projects">LVL 7</span></div><div class="skbar"><div class="skf" data-w="76"></div></div><div class="tags"><span class="tag">Jupyter</span><span class="tag">Streamlit</span><span class="tag">Git</span><span class="tag">MongoDB</span><span class="tag">Neo4j</span><span class="tag">Google Colab</span></div></div>
+    </div>
+  </section>
+  <div class="sdiv"><div class="sdn"></div><div class="sdn"></div><div class="sdn"></div><span class="sdtxt">quest_log.db</span></div>
+  <section class="sec secA" id="exp">
+    <div class="slbl rv"><div class="sln"></div><span class="stag">Quest Log</span></div>
+    <h2 class="stit rv1">Experience & <span>Education</span></h2>
+    <div class="tl">
+      <div class="tli rv" onclick="gainXP(30,'💼','Quest!','+30 XP')"><div class="tld">DEC 2025 — PRESENT</div><div class="tlt">Data Science Intern</div><div class="tlo">NullClass · Remote</div><ul><li>Engineered conditional GAN-based text-to-image pipeline using PyTorch</li><li>Applied analytical evaluation of model outputs via quantitative metrics</li><li>Collaborated on multimodal data processing workflows</li></ul></div>
+      <div class="tli rv1" onclick="gainXP(20,'🎓','Degree!','+20 XP')"><div class="tld">2024 — 2026</div><div class="tlt">M.Sc. Data Science — CGPA 8.19</div><div class="tlo">Vellore Institute of Technology – AP</div><ul><li>Core focus: Business Intelligence, Data Analytics, Statistical Analysis & NLP</li><li>7+ industry-grade analytics projects across multiple domains</li><li>GenAI Hackathon 1st Place Winner</li></ul></div>
+      <div class="tli rv2" onclick="gainXP(15,'🔬','Origin!','+15 XP')"><div class="tld">2019 — 2022</div><div class="tlt">B.Sc. Physics — CGPA 8.05</div><div class="tlo">Ranchi University, Ranchi</div><ul><li>Quantitative & analytical foundation driving every data-driven decision</li><li>Physics-first thinking: model assumptions, test rigorously, iterate</li></ul></div>
+    </div>
+  </section>
+  <div class="sdiv sdivA"><div class="sdn"></div><div class="sdn"></div><div class="sdn"></div><span class="sdtxt">projects.exe</span></div>
+  <section class="sec" id="projects">
+    <div class="slbl rv"><div class="sln"></div><span class="stag">Mission Board</span></div>
+    <h2 class="stit rv1">Featured <span>Projects</span></h2>
+    <div class="mgrid">
+      <div class="mc mcF rv" onclick="gainXP(50,'📰','Mission 01!','+50 XP')"><div class="miw"><img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80" class="mimg" alt="News"><div class="mio"></div><span class="mnum">01</span><span class="mbadge bA">⭐ FEATURED</span></div><div class="mbody"><div class="mtit">News Research & Analytics Tool</div><div class="mdesc">NLP-powered platform automating article ingestion, semantic relevance ranking & summarization. TF-IDF + BM25 scoring engine cut manual research time ~40%.</div><div class="mstk">PYTHON · TF-IDF · BM25 · LSA · STREAMLIT · NLP</div><div class="mft"><span class="mxp">+500 XP</span><a href="https://github.com/Aditya7032/News-Research-Analytics-Tool-Data-NLP-Application" target="_blank" class="mlnk" onclick="event.stopPropagation()">GitHub <svg viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></svg></a></div></div></div>
+      <div class="mc rv" onclick="gainXP(40,'📈','Mission 02!','+40 XP')"><div class="miw"><img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=800&q=80" class="mimg" alt="Stock"><div class="mio"></div><span class="mnum">02</span><span class="mbadge bD">BI · ML</span></div><div class="mbody"><div class="mtit">Stock Market Analytics</div><div class="mdesc">Python ML pipeline feeding an interactive Power BI dashboard. Random Forest model with MAE/RMSE evaluation and drill-down KPI visualizations.</div><div class="mstk">PYTHON · RANDOM FOREST · POWER BI · TIME SERIES</div><div class="mft"><span class="mxp">+350 XP</span><a href="https://github.com/Aditya7032/Stock-Market-Prediction-Analytics-Dashboard-Power-BI-Python-" target="_blank" class="mlnk" onclick="event.stopPropagation()">GitHub <svg viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></svg></a></div></div></div>
+      <div class="mc rv1" onclick="gainXP(35,'👥','Mission 03!','+35 XP')"><div class="miw"><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=800&q=80" class="mimg" alt="HR"><div class="mio"></div><span class="mnum">03</span><span class="mbadge bA">BI</span></div><div class="mbody"><div class="mtit">HR Analytics Dashboard</div><div class="mdesc">Tableau dashboard analyzing employee attrition patterns. Python data cleaning with drill-down KPI visualizations for actionable HR decisions.</div><div class="mstk">TABLEAU · PYTHON · DAX · ATTRITION ANALYSIS</div><div class="mft"><span class="mxp">+300 XP</span><a href="https://github.com/Aditya7032/HR-analytics" target="_blank" class="mlnk" onclick="event.stopPropagation()">GitHub <svg viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></svg></a></div></div></div>
+      <div class="mc rv2" onclick="gainXP(30,'🌍','Mission 04!','+30 XP')"><div class="miw"><img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80" class="mimg" alt="GDP"><div class="mio"></div><span class="mnum">04</span><span class="mbadge bA">BI</span></div><div class="mbody"><div class="mtit">Global GDP Analysis Dashboard</div><div class="mdesc">Power BI dashboard analyzing 2017–2024 GDP trends by country, region & income group. Complex DAX measures for YoY growth rate visualization.</div><div class="mstk">POWER BI · DAX · DATA MODELING · WORLD BANK DATA</div><div class="mft"><span class="mxp">+280 XP</span><a href="#" class="mlnk" onclick="event.stopPropagation()">View <svg viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></svg></a></div></div></div>
+      <div class="mc rv3" onclick="gainXP(35,'🧠','Mission 05!','+35 XP')"><div class="miw"><img src="https://images.unsplash.com/photo-1493836512294-502baa1986e2?auto=format&fit=crop&w=800&q=80" class="mimg" alt="MH"><div class="mio"></div><span class="mnum">05</span><span class="mbadge bC">NLP</span></div><div class="mbody"><div class="mtit">Mental Health Survey Analytics</div><div class="mdesc">Sentiment & emotion analysis using VADER + NRC Lexicon. Uncovered demographic emotional patterns for targeted healthcare insights.</div><div class="mstk">PYTHON · VADER · NRC LEXICON · SENTIMENT ANALYSIS</div><div class="mft"><span class="mxp">+320 XP</span><a href="https://github.com/Aditya7032/Mental-Health-Survey-Analytics-Sentiment-Insight-Reporting" target="_blank" class="mlnk" onclick="event.stopPropagation()">GitHub <svg viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></svg></a></div></div></div>
+      <div class="mc rv4" onclick="gainXP(40,'⚡','Mission 06!','+40 XP')"><div class="miw"><img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800&q=80" class="mimg" alt="Energy"><div class="mio"></div><span class="mnum">06</span><span class="mbadge bD">Analytics</span></div><div class="mbody"><div class="mtit">Renewable Energy Forecasting</div><div class="mdesc">Deep EDA on solar & wind datasets. Ensemble regression with XGBoost + LightGBM to accurately forecast energy output and optimize resource allocation.</div><div class="mstk">PYTHON · XGBOOST · LIGHTGBM · EDA · FORECASTING</div><div class="mft"><span class="mxp">+380 XP</span><a href="https://github.com/Aditya7032/Renewable_energy_forcasting_-_optimization" target="_blank" class="mlnk" onclick="event.stopPropagation()">GitHub <svg viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></svg></a></div></div></div>
+      <div class="mc rv5" onclick="gainXP(40,'🌿','Mission 07!','+40 XP')"><div class="miw"><img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=800&q=80" class="mimg" alt="Plant"><div class="mio"></div><span class="mnum">07</span><span class="mbadge bB">DL</span></div><div class="mbody"><div class="mtit">Plant Disease Detection</div><div class="mdesc">EfficientNet transfer learning on PlantVillage dataset. Data augmentation pipeline with performance analytics for agricultural decision support.</div><div class="mstk">PYTORCH · EFFICIENTNET · TRANSFER LEARNING · CNN</div><div class="mft"><span class="mxp">+400 XP</span><a href="https://github.com/Aditya7032/Plant-Disease-Detection-" target="_blank" class="mlnk" onclick="event.stopPropagation()">GitHub <svg viewBox="0 0 24 24"><path d="M7 7h10v10M7 17 17 7"/></svg></a></div></div></div>
+    </div>
+  </section>
+  <div class="hwrap rv">
+    <div class="hcard" onclick="gainXP(200,'🏆','LEGENDARY!','+200 XP')">
+      <span class="htrophy">🏆</span>
+      <h2 class="htit">GENAI HACKATHON — <em>WINNER</em></h2>
+      <p class="hdesc">Built an advanced News Research & Analytics Tool using TF-IDF, BM25, and cosine similarity — a complete NLP analytics pipeline that claimed first place in the GenAI Hackathon.</p>
+      <div class="hpill">🥇 1ST PLACE · GENERATIVE AI TRACK · +1000 XP</div>
+    </div>
+  </div>
+  <section class="sec secA rv">
+    <div class="slbl"><div class="sln"></div><span class="stag">Achievements Unlocked</span></div>
+    <h2 class="stit">Certifi<span>cations</span></h2>
+    <div class="cgrid">
+      <div class="cc rv" onclick="gainXP(50,'📊','Cert!','+50 XP')"><span class="ccico">📊</span><div class="ccn">Deloitte — Data Analytics Job Simulation</div><div class="ccby">Forage Platform</div><div class="ccb">🔓 Achievement Unlocked</div></div>
+      <div class="cc rv1" onclick="gainXP(50,'💹','Cert!','+50 XP')"><span class="ccico">💹</span><div class="ccn">JP Morgan Chase — Quantitative Research Simulation</div><div class="ccby">Forage Platform</div><div class="ccb">🔓 Achievement Unlocked</div></div>
+      <div class="cc rv2" onclick="gainXP(50,'🎓','Cert!','+50 XP')"><span class="ccico">🎓</span><div class="ccn">Python & Statistics for Financial Analysis</div><div class="ccby">Coursera</div><div class="ccb">🔓 Achievement Unlocked</div></div>
+    </div>
+  </section>
+  <section class="sec ctsec rv" id="contact">
+    <div class="slbl" style="justify-content:center"><div class="sln"></div><span class="stag">Initiate Contact</span><div class="sln"></div></div>
+    <h2 class="stit" style="text-align:center">Let's <span>Collaborate</span></h2>
+    <p class="ctsub">Open for Data Analyst · Business Intelligence Analyst · Analytics Engineer roles</p>
+    <div class="ctgrd">
+      <a href="mailto:adityaharsh03@gmail.com" class="ctc" onclick="gainXP(60,'📧','Email!','+60 XP')"><svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><span class="ctl">Email</span><span class="ctv">adityaharsh03@gmail.com</span></a>
+      <a href="https://linkedin.com/in/aditya-raj-sinha-0220a31b6" target="_blank" class="ctc" onclick="gainXP(40,'💼','LinkedIn!','+40 XP')"><svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.68 1.68 0 0 0-1.68 1.69c0 .93.76 1.68 1.68 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg><span class="ctl">LinkedIn</span><span class="ctv">aditya-raj-sinha</span></a>
+      <a href="https://github.com/Aditya7032" target="_blank" class="ctc" onclick="gainXP(40,'💻','GitHub!','+40 XP')"><svg viewBox="0 0 24 24"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg><span class="ctl">GitHub</span><span class="ctv">Aditya7032</span></a>
+      <a href="tel:+919279314598" class="ctc" onclick="gainXP(30,'📞','Calling!','+30 XP')"><svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg><span class="ctl">Phone</span><span class="ctv">+91 9279314598</span></a>
+    </div>
+    <a href="mailto:adityaharsh03@gmail.com" class="btn btnA" style="font-size:.76rem;padding:14px 46px" onclick="gainXP(60,'⚡','Message!','+60 XP')">⚡ Send Message</a>
+  </section>
+  <footer>
+    <span class="ftxt">© 2026 ADITYA RAJ SINHA · DATA ANALYST · ADITYA.EXE v3.0</span>
+    <div class="flinks"><a href="#hero">Home</a><a href="#about">About</a><a href="#skills">Skills</a><a href="#projects">Projects</a><a href="ADITYA_RESUME_UPDATED_.pdf">Resume</a><a href="https://github.com/Aditya7032" target="_blank">GitHub</a></div>
+  </footer>
+</div>
+<script>
+var bootDone=false;
+var LOGS=[{t:"Initializing ADITYA.EXE v3.0 ...",c:"",d:210},{t:"[OK] Python 3.11 runtime loaded",c:"ok",d:240},{t:"[OK] SQL engine online",c:"ok",d:220},{t:"[OK] Tableau & Power BI connected",c:"ok",d:260},{t:"[..] Loading analytics modules ...",c:"wn",d:300},{t:"[OK] NLP pipelines activated",c:"ok",d:200},{t:"[OK] 7 projects indexed",c:"ok",d:220},{t:"[OK] All systems nominal. Welcome.",c:"ok",d:160}];
+var bStep=0;
+function runBoot(){if(bStep>=LOGS.length){document.getElementById("bfill").style.width="100%";setTimeout(function(){document.getElementById("bpress").style.display="block";document.getElementById("bskip").style.display="block";},300);return;}var l=LOGS[bStep];document.getElementById("bfill").style.width=((bStep+1)/LOGS.length*100)+"%";var p=document.createElement("p");p.className=l.c;p.textContent=l.t;document.getElementById("blog").appendChild(p);bStep++;setTimeout(runBoot,l.d);}
+function enterSite(){if(bootDone)return;bootDone=true;var b=document.getElementById("boot");b.classList.add("out");setTimeout(function(){b.style.display="none";document.getElementById("main").style.display="block";setTimeout(function(){doReveal();typeWriter();animBars();},80);},900);}
+document.getElementById("bskip").addEventListener("click",function(e){e.stopPropagation();enterSite();});
+document.getElementById("boot").addEventListener("click",enterSite);
+document.addEventListener("keydown",function(){enterSite();});
+setTimeout(runBoot,440);
+var totalXP=0,playerLvl=1,XP_PER=350;
+function gainXP(amt,icon,msg,label){totalXP+=amt;var nl=Math.floor(totalXP/XP_PER)+1;if(nl>playerLvl){playerLvl=nl;document.getElementById("lvnum").textContent=playerLvl;showToast("⬆️","LEVEL UP! LVL "+playerLvl,"🎉 BONUS XP");}else showToast(icon,msg,label);document.getElementById("xpbar").style.width=((totalXP%XP_PER)/XP_PER*100)+"%";document.getElementById("lvnum").textContent=playerLvl;}
+var tTimer=null;
+function showToast(icon,msg,label){document.getElementById("ticon").textContent=icon;document.getElementById("tmsg").textContent=msg;document.getElementById("txp").textContent=label;var el=document.getElementById("toast");el.classList.add("show");clearTimeout(tTimer);tTimer=setTimeout(function(){el.classList.remove("show");},2400);}
+document.addEventListener("click",function(e){if(!bootDone)return;var d=document.createElement("div");d.className="burst";d.style.left=e.clientX+"px";d.style.top=e.clientY+"px";for(var i=0;i<3;i++){var r=document.createElement("div");r.className="br";r.style.animationDelay=(i*.1)+"s";d.appendChild(r);}for(var j=0;j<10;j++){var dot=document.createElement("div");dot.className="bd";dot.style.setProperty("--ang",(j*36)+"deg");dot.style.background=j%3===0?"var(--v2)":j%3===1?"var(--c2)":"var(--ro)";dot.style.animationDelay=(j*.025)+"s";d.appendChild(dot);}document.body.appendChild(d);setTimeout(function(){if(d.parentNode)d.parentNode.removeChild(d);},700);});
+var cv=document.getElementById("cv"),ctx=cv.getContext("2d"),W,H,pts=[],pulses=[],T=0,mx=null,my=null;
+window.addEventListener("mousemove",function(e){mx=e.clientX;my=e.clientY;});
+window.addEventListener("mouseout",function(){mx=null;my=null;});
+document.addEventListener("click",function(e){if(!bootDone)return;for(var i=0;i<4;i++)pulses.push({x:e.clientX,y:e.clientY,r:0,maxR:52+i*30,a:.52-i*.1,spd:1.7+i*.65,col:i===0?"124,58,237":i===1?"168,85,247":i===2?"6,182,212":"245,158,11"});});
+function initCv(){W=cv.width=window.innerWidth;H=cv.height=window.innerHeight;pts=[];var n=Math.floor(W*H/9500);for(var i=0;i<n;i++){var tp=Math.random();pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,r:Math.random()*1.5+.4,a:Math.random()*.45+.12,pw:Math.random()*Math.PI*2,ps:Math.random()*.022+.007,type:tp<.6?0:tp<.85?1:2});}}
+var COLS=["124,58,237","6,182,212","245,158,11"];
+function drawGrid(){var gs=72,ox=(T*.14)%gs,oy=(T*.09)%gs;ctx.lineWidth=.5;ctx.strokeStyle="rgba(124,58,237,.022)";for(var x=-gs+ox;x<W+gs;x+=gs){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}for(var y=-gs+oy;y<H+gs;y+=gs){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}ctx.strokeStyle="rgba(6,182,212,.012)";var gs2=gs*2.5,ox2=(T*.07)%gs2,oy2=(T*.05)%gs2;for(var x2=-gs2+ox2;x2<W+gs2;x2+=gs2){ctx.beginPath();ctx.moveTo(x2,0);ctx.lineTo(x2,H);ctx.stroke();}for(var y2=-gs2+oy2;y2<H+gs2;y2+=gs2){ctx.beginPath();ctx.moveTo(0,y2);ctx.lineTo(W,y2);ctx.stroke();}}
+function drawBg(){var g=ctx.createRadialGradient(W*.5,H*.38,0,W*.5,H*.5,Math.max(W,H)*.95);g.addColorStop(0,"#0a0520");g.addColorStop(.3,"#070318");g.addColorStop(.65,"#040210");g.addColorStop(1,"#03010a");ctx.fillStyle=g;ctx.fillRect(0,0,W,H);var g2=ctx.createRadialGradient(0,H,0,W*.18,H*.82,H*.65);g2.addColorStop(0,"rgba(124,58,237,.07)");g2.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=g2;ctx.fillRect(0,0,W,H);var g3=ctx.createRadialGradient(W,0,0,W*.82,H*.18,H*.55);g3.addColorStop(0,"rgba(6,182,212,.055)");g3.addColorStop(1,"rgba(0,0,0,0)");ctx.fillStyle=g3;ctx.fillRect(0,0,W,H);}
+function drawFrame(){T++;drawBg();drawGrid();var p,q,dx,dy,d,pa,pr;for(var i=0;i<pts.length;i++){p=pts[i];p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;p.pw+=p.ps;if(mx!==null){dx=mx-p.x;dy=my-p.y;d=Math.sqrt(dx*dx+dy*dy);if(d<175){var f=(175-d)/175;p.x-=dx/d*f*1.05;p.y-=dy/d*f*1.05;ctx.beginPath();ctx.strokeStyle="rgba(168,85,247,"+(.14*(1-d/175))+")";ctx.lineWidth=.45;ctx.moveTo(p.x,p.y);ctx.lineTo(mx,my);ctx.stroke();}}pa=p.a*(.72+.28*Math.sin(p.pw));pr=p.r*(.8+.2*Math.sin(p.pw));ctx.beginPath();ctx.arc(p.x,p.y,pr,0,Math.PI*2);ctx.fillStyle="rgba("+COLS[p.type]+","+pa+")";ctx.fill();if(pa>.3&&pr>1.1){ctx.beginPath();ctx.arc(p.x,p.y,pr*2.2,0,Math.PI*2);ctx.fillStyle="rgba("+COLS[p.type]+","+(pa*.06)+")";ctx.fill();}for(var j=i+1;j<pts.length;j++){q=pts[j];dx=p.x-q.x;dy=p.y-q.y;d=Math.sqrt(dx*dx+dy*dy);if(d<110){var aa=.18*(1-d/110);var lc=p.type===q.type?COLS[p.type]:p.type===1||q.type===1?COLS[1]:COLS[0];ctx.beginPath();ctx.strokeStyle="rgba("+lc+","+aa+")";ctx.lineWidth=.36;ctx.moveTo(p.x,p.y);ctx.lineTo(q.x,q.y);ctx.stroke();}}}for(var i=pulses.length-1;i>=0;i--){var pl=pulses[i];pl.r+=pl.spd;pl.a-=.016;if(pl.a<=0||pl.r>=pl.maxR){pulses.splice(i,1);continue;}ctx.beginPath();ctx.arc(pl.x,pl.y,pl.r,0,Math.PI*2);ctx.strokeStyle="rgba("+pl.col+","+pl.a+")";ctx.lineWidth=1.2;ctx.stroke();}requestAnimationFrame(drawFrame);}
+window.addEventListener("resize",initCv);initCv();drawFrame();
+var WORDS=["Business Intelligence","Data Analytics & EDA","Power BI · Tableau","SQL & Python Analytics","NLP & Text Analytics"];
+var wi=0,ci=0,del=false;
+function typeWriter(){var el=document.getElementById("typed");if(!el)return;var w=WORDS[wi];if(!del){el.textContent=w.slice(0,++ci);if(ci===w.length){del=true;setTimeout(typeWriter,1800);return;}}else{el.textContent=w.slice(0,--ci);if(ci===0){del=false;wi=(wi+1)%WORDS.length;setTimeout(typeWriter,360);return;}}setTimeout(typeWriter,del?46:88);}
+function animBars(){var bars=document.querySelectorAll(".pidbf");for(var i=0;i<bars.length;i++){(function(b,idx){setTimeout(function(){b.style.width=b.dataset.w+"%";},400+idx*80);})(bars[i],i);}}
+function doReveal(){var th=window.innerHeight-55;document.querySelectorAll(".rv,.rv1,.rv2,.rv3,.rv4,.rv5").forEach(function(el){if(el.getBoundingClientRect().top<th)el.classList.add("in");});document.querySelectorAll(".skf").forEach(function(b){if(b.getBoundingClientRect().top<window.innerHeight&&!b.dataset.done){b.dataset.done="1";setTimeout(function(){b.style.width=b.dataset.w+"%";},130);}});var s=document.documentElement.scrollTop,h=document.documentElement.scrollHeight-window.innerHeight;if(h>0)document.getElementById("prog").style.width=(s/h*100)+"%";document.getElementById("btt").classList.toggle("vis",window.scrollY>420);var secs=["hero","about","skills","exp","projects","contact"];secs.forEach(function(id){var el=document.getElementById(id);if(!el)return;var r=el.getBoundingClientRect();if(r.top<=80&&r.bottom>80){document.querySelectorAll(".hnav a").forEach(function(a){a.classList.toggle("act",a.getAttribute("href")==="#"+id);});}});}
+window.addEventListener("scroll",doReveal,{passive:true});
+var glw=document.getElementById("glw");
+window.addEventListener("mousemove",function(e){glw.style.left=e.clientX+"px";glw.style.top=e.clientY+"px";glw.style.opacity="1";});
+window.addEventListener("mouseout",function(){glw.style.opacity="0";});
+function navClick(el){document.querySelectorAll(".hnav a").forEach(function(a){a.classList.remove("act");});el.classList.add("act");gainXP(5,"🗺️","Navigating...","+5 XP");}
+function toggleMob(){document.getElementById("mobn").classList.toggle("open");}
+function closeMob(){document.getElementById("mobn").classList.remove("open");}
+</script>
 </body>
 </html>
