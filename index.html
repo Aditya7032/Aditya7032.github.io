@@ -601,12 +601,17 @@
     }
 
     /* ---------- ENGINE SOUND CONTROL ---------- */
-    .sound-control{position:fixed;right:22px;bottom:22px;z-index:180;padding:11px 14px;border:1px solid rgba(255,192,67,.28);background:rgba(8,9,12,.84);backdrop-filter:blur(14px);color:#dfe2e8;display:flex;align-items:center;gap:9px;cursor:pointer;font:700 9px var(--mono);letter-spacing:.09em;transition:.25s}
+    .sound-control{position:fixed;right:22px;bottom:22px;z-index:180;padding:9px 12px;border:1px solid rgba(255,192,67,.28);background:rgba(8,9,12,.88);backdrop-filter:blur(14px);color:#dfe2e8;display:flex;align-items:center;gap:10px;cursor:pointer;font:700 9px var(--mono);letter-spacing:.09em;transition:.25s;user-select:none}
     .sound-control:hover{border-color:var(--gold);transform:translateY(-2px)}
-    .sound-dot{width:7px;height:7px;border-radius:50%;background:#777;box-shadow:0 0 0 transparent}
-    .sound-control.on .sound-dot{background:#5ee58b;box-shadow:0 0 12px #5ee58b;animation:soundPulse .8s ease-in-out infinite alternate}
-    .sound-control.on #soundLabel{color:#fff}
-    @keyframes soundPulse{to{transform:scale(1.55);opacity:.7}}
+    .sound-label{min-width:92px;text-align:right}
+    .sound-switch{position:relative;width:44px;height:24px;display:inline-block;flex:0 0 auto}
+    .sound-switch input{position:absolute;opacity:0;width:0;height:0}
+    .sound-slider{position:absolute;inset:0;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:#17191f;transition:.22s}
+    .sound-slider::before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;border-radius:50%;background:#777;box-shadow:0 2px 7px rgba(0,0,0,.5);transition:.22s}
+    .sound-switch input:checked + .sound-slider{background:rgba(255,192,67,.18);border-color:rgba(255,192,67,.7);box-shadow:inset 0 0 12px rgba(255,192,67,.08)}
+    .sound-switch input:checked + .sound-slider::before{transform:translateX(20px);background:var(--gold);box-shadow:0 0 12px rgba(255,192,67,.65)}
+    .sound-control.on .sound-slider::before{animation:soundPulse .8s ease-in-out infinite alternate}
+    @keyframes soundPulse{to{box-shadow:0 0 14px rgba(255,192,67,.85)}}
     @media(max-width:780px){.sound-control{right:14px;bottom:14px;padding:10px 11px}.speedo-wrap{height:220px}.speedo{width:210px;height:210px}}
 
     @media(max-width:520px){.metric-speedos{grid-template-columns:1fr 1fr}.metric-dial{height:132px}.metric-speedo{min-height:190px;padding:7px}}
@@ -666,9 +671,13 @@
     <source src="engine-racing-v8-final.mp3" type="audio/mpeg">
     <source src="engine-racing-v8-final.wav" type="audio/wav">
   </audio>
-  <button class="sound-control" id="soundControl" type="button" aria-label="Toggle engine sound">
-    <span class="sound-dot"></span><span id="soundLabel">ENGINE / SOUND OFF</span>
-  </button>
+  <label class="sound-control" id="soundControl" aria-label="Toggle engine sound">
+    <span class="sound-label" id="soundLabel">ENGINE / SOUND OFF</span>
+    <span class="sound-switch">
+      <input id="soundToggle" type="checkbox" aria-label="Engine sound on or off">
+      <span class="sound-slider"></span>
+    </span>
+  </label>
 
   <nav class="nav" id="nav">
     <div class="nav-inner">
@@ -1378,6 +1387,7 @@
     const engineAudio=document.getElementById('engineAudio');
     const soundControl=document.getElementById('soundControl');
     const soundLabel=document.getElementById('soundLabel');
+    const soundToggle=document.getElementById('soundToggle');
     let soundOn=false, audioCtx, fallbackMaster;
     // Sound is ON by default. If the visitor explicitly switches it OFF,
     // remember that choice and never turn it back on from a normal page click.
@@ -1386,6 +1396,7 @@
     function setSoundUI(on){
       soundOn=on;
       soundControl.classList.toggle('on',on);
+      soundToggle.checked=on;
       soundLabel.textContent=on?'ENGINE / SOUND ON':'ENGINE / SOUND OFF';
     }
 
@@ -1439,15 +1450,22 @@
       setSoundUI(false);
     }
 
-    soundControl.addEventListener('click',e=>{
+    soundToggle.addEventListener('change',e=>{
       e.stopPropagation();
-      if(soundOn){
-        stopEngineSound();
-      }else{
+      if(e.target.checked){
         userMuted=false;
         localStorage.removeItem('adityaEngineMuted');
         startEngineSound(true);
+      }else{
+        stopEngineSound();
       }
+    });
+    soundControl.addEventListener('click',e=>{
+      // The label/container is clickable too, but the checkbox owns the state.
+      // Prevent a second toggle when the actual switch is clicked.
+      if(e.target === soundToggle || e.target.closest('.sound-switch')) return;
+      soundToggle.checked=!soundToggle.checked;
+      soundToggle.dispatchEvent(new Event('change',{bubbles:false}));
     });
 
     // Start automatically from the beginning. If the browser blocks audible
