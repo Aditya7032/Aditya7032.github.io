@@ -1379,49 +1379,97 @@
     const soundControl=document.getElementById('soundControl');
     const soundLabel=document.getElementById('soundLabel');
     let soundOn=false, audioCtx, fallbackMaster;
+    // Sound is ON by default. If the visitor explicitly switches it OFF,
+    // remember that choice and never turn it back on from a normal page click.
+    let userMuted=localStorage.getItem('adityaEngineMuted') === '1';
+
     function setSoundUI(on){
       soundOn=on;
       soundControl.classList.toggle('on',on);
       soundLabel.textContent=on?'ENGINE / SOUND ON':'ENGINE / SOUND OFF';
     }
-    async function startEngineSound(){
-      if(soundOn) return;
+
+    async function startEngineSound(fromUser=false){
+      if(soundOn || userMuted) return false;
       try{
         engineAudio.currentTime=0;
         engineAudio.volume=.72;
         await engineAudio.play();
         setSoundUI(true);
+        return true;
       }catch(e){
+        // Browsers may block audible autoplay. A real user gesture can unlock
+        // Web Audio, so we retry there without forcing the user to press the
+        // sound button specifically.
+        if(!fromUser) return false;
         try{
           audioCtx=audioCtx || new (window.AudioContext||window.webkitAudioContext)();
           if(audioCtx.state==='suspended') await audioCtx.resume();
-          const master=audioCtx.createGain(); master.gain.value=.045; master.connect(audioCtx.destination);
-          const osc=audioCtx.createOscillator(), sub=audioCtx.createOscillator();
-          osc.type='sawtooth'; sub.type='triangle'; osc.frequency.value=61; sub.frequency.value=30.5;
-          const filter=audioCtx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=1150; filter.Q.value=.9;
-          osc.connect(filter); sub.connect(filter); filter.connect(master); osc.start(); sub.start();
-          fallbackMaster=master; setSoundUI(true);
+          if(!fallbackMaster){
+            const master=audioCtx.createGain();
+            master.gain.value=.045;
+            master.connect(audioCtx.destination);
+            const osc=audioCtx.createOscillator(), sub=audioCtx.createOscillator();
+            osc.type='sawtooth'; sub.type='triangle';
+            osc.frequency.value=61; sub.frequency.value=30.5;
+            const filter=audioCtx.createBiquadFilter();
+            filter.type='lowpass'; filter.frequency.value=1150; filter.Q.value=.9;
+            osc.connect(filter); sub.connect(filter); filter.connect(master);
+            osc.start(); sub.start();
+            fallbackMaster=master;
+          }
+          setSoundUI(true);
+          return true;
         }catch(err){
           setSoundUI(false);
+          return false;
         }
       }
     }
+
     function stopEngineSound(){
+      userMuted=true;
+      localStorage.setItem('adityaEngineMuted','1');
       engineAudio.pause();
       engineAudio.currentTime=0;
+      if(fallbackMaster){
+        try{fallbackMaster.gain.setTargetAtTime(0,audioCtx.currentTime,.03);}catch(e){}
+      }
       if(audioCtx){try{audioCtx.suspend()}catch(e){}}
       setSoundUI(false);
     }
-    soundControl.addEventListener('click',e=>{e.stopPropagation(); soundOn?stopEngineSound():startEngineSound();});
 
-    // Try to start the engine immediately when the page loads. Modern browsers
-    // may block audible autoplay; in that case the first tap/key press starts it.
-    window.addEventListener('load',()=>{startEngineSound();});
-    window.addEventListener('pointerdown',()=>{if(!soundOn) startEngineSound();},{passive:true});
-    window.addEventListener('keydown',()=>{if(!soundOn) startEngineSound();},{passive:true});
+    soundControl.addEventListener('click',e=>{
+      e.stopPropagation();
+      if(soundOn){
+        stopEngineSound();
+      }else{
+        userMuted=false;
+        localStorage.removeItem('adityaEngineMuted');
+        startEngineSound(true);
+      }
+    });
+
+    // Start automatically from the beginning. If the browser blocks audible
+    // autoplay, the first normal click/tap/key interaction unlocks it.
+    window.addEventListener('load',()=>{ startEngineSound(false); });
+    window.addEventListener('pointerdown',(e)=>{
+      if(!soundOn && !userMuted && e.target !== soundControl && !soundControl.contains(e.target)){
+        startEngineSound(true);
+      }
+    },{passive:true});
+    window.addEventListener('keydown',(e)=>{
+      if(!soundOn && !userMuted && e.key !== 'Tab') startEngineSound(true);
+    },{passive:true});
+
     document.addEventListener('visibilitychange',()=>{
-      if(document.hidden){engineAudio.pause(); if(audioCtx) try{audioCtx.suspend()}catch(e){}}
-      else if(soundOn){engineAudio.play().catch(()=>{}); if(audioCtx) try{audioCtx.resume()}catch(e){}}
+      if(document.hidden){
+        engineAudio.pause();
+        if(audioCtx) try{audioCtx.suspend()}catch(e){}
+      }else if(soundOn && !userMuted){
+        engineAudio.play().catch(()=>{});
+        if(audioCtx) try{audioCtx.resume()}catch(e){}
+      }
     });
 
     /* ---------- SKID-MARK CURSOR TRAILS ----------
