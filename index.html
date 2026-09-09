@@ -204,14 +204,28 @@
       padding:13px;position:relative;overflow:hidden;
     }
     .stat::after{content:"";position:absolute;inset:auto 0 0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
-    .gauge{width:100%;height:70px;display:block}
-    .gauge-bg{fill:none;stroke:#313642;stroke-width:4}
-    .gauge-arc{fill:none;stroke:var(--gold);stroke-width:4;stroke-linecap:round;stroke-dasharray:120 160;stroke-dashoffset:120;transition:1.4s cubic-bezier(.2,.8,.2,1)}
-    .needle{stroke:#fff;stroke-width:2;stroke-linecap:round;transform-origin:100px 68px;transform:rotate(-68deg);transition:1.4s cubic-bezier(.2,.8,.2,1)}
-    .stat.ready .gauge-arc{stroke-dashoffset:0}
-    .stat.ready .needle{transform:rotate(55deg)}
-    .stat-value{font:900 31px var(--display);font-style:italic;letter-spacing:.01em}
-    .stat-label{font:700 8px var(--mono);letter-spacing:.13em;color:#8f95a4;text-transform:uppercase}
+    /* DATA SPEEDOMETERS — real automotive-style gauges for actual portfolio metrics */
+    .metric-speedos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .metric-speedo{min-height:205px;border:1px solid rgba(255,255,255,.07);background:rgba(255,255,255,.025);padding:10px;position:relative;overflow:hidden}
+    .metric-speedo::after{content:"";position:absolute;inset:auto 0 0;height:2px;background:linear-gradient(90deg,var(--gold),transparent)}
+    .metric-dial{width:100%;height:145px;display:block;overflow:visible}
+    .dial-face{fill:rgba(5,6,9,.96);stroke:#3b404c;stroke-width:2}
+    .dial-inner{fill:none;stroke:rgba(255,255,255,.06);stroke-width:1}
+    .dial-track{fill:none;stroke:#343943;stroke-width:7;stroke-linecap:round}
+    .dial-arc{fill:none;stroke:var(--gold);stroke-width:7;stroke-linecap:round;stroke-dasharray:0 500;transition:stroke-dasharray 1.7s cubic-bezier(.2,.8,.2,1)}
+    .dial-tick{stroke:#777e8b;stroke-width:1.4}
+    .dial-tick.major{stroke:#f0f2f5;stroke-width:2.4}
+    .dial-label{fill:#858b98;font:700 7px var(--mono);text-anchor:middle}
+    .dial-label.major{fill:#e8ebf1}
+    .dial-unit{fill:#c7ccd5;font:800 6px var(--mono);letter-spacing:.13em;text-anchor:middle}
+    .dial-value{fill:#fff;font:900 34px var(--display);font-style:italic;text-anchor:middle;paint-order:stroke;stroke:#07080b;stroke-width:4px;filter:drop-shadow(0 2px 5px rgba(0,0,0,.95))}
+    .dial-needle{stroke:#fff;stroke-width:2.7;stroke-linecap:round;transform-origin:100px 100px;transform:rotate(-135deg);transition:1.7s cubic-bezier(.2,.8,.2,1)}
+    .dial-tip{fill:var(--red)}
+    .dial-hub{fill:#11141a;stroke:var(--gold);stroke-width:2}
+    .metric-speedo.ready .dial-arc{stroke-dasharray:var(--arc) 500}
+    .metric-speedo.ready .dial-needle{transform:rotate(var(--needle))}
+    .metric-name{margin-top:-3px;font:900 10px var(--mono);letter-spacing:.12em;color:#fff;text-transform:uppercase;text-align:center}.metric-name::before{content:"";display:inline-block;width:5px;height:5px;margin:0 6px 2px 0;border-radius:50%;background:var(--gold);box-shadow:0 0 8px rgba(255,192,67,.65)}
+    .metric-sub{margin-top:4px;font:800 8px var(--mono);letter-spacing:.08em;color:#aeb4c0;text-align:center}
     .hero-bottom{
       position:absolute;left:0;right:0;bottom:0;z-index:6;display:flex;justify-content:space-between;
       padding:0 42px 20px;color:#6f7584;font:700 9px var(--mono);letter-spacing:.12em;text-transform:uppercase;
@@ -287,17 +301,24 @@
     .skill-desc{margin-top:9px;color:#969caa;font-size:13px;line-height:1.65;max-width:470px}
     .skill-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:19px}
     .skill-tags span{padding:6px 8px;background:#0c0e13;border:1px solid rgba(255,255,255,.07);font:700 9px var(--mono);color:#c2c6cf}
-    .smoke-layer{position:absolute;inset:auto 0 0;height:130px;pointer-events:none;opacity:0;transition:.2s}
+    /* HIGH-DENSITY EXHAUST / SMOKE */
+    .smoke-layer{position:absolute;inset:auto -8% 0;height:260px;pointer-events:none;opacity:0;transition:.2s;overflow:visible}
+    .smoke-layer::before{content:"";position:absolute;left:18%;bottom:-22px;width:64%;height:95px;background:radial-gradient(ellipse,rgba(235,238,242,.24),rgba(155,162,174,.11) 38%,transparent 72%);filter:blur(17px);animation:exhaustCore 1.65s ease-out forwards}
+    .smoke-layer::after{content:"";position:absolute;left:5%;bottom:-5px;width:90%;height:210px;background:radial-gradient(ellipse at 50% 100%,rgba(210,215,222,.16),transparent 62%);filter:blur(22px);animation:exhaustCloud 1.9s ease-out forwards}
     .skill-card.smoke-on .smoke-layer{opacity:1}
-    .smoke{
-      position:absolute;border-radius:50%;background:rgba(225,229,236,.12);filter:blur(9px);
-      animation:smokeRise 1.25s ease-out forwards;
-    }
+    .smoke{position:absolute;border-radius:50%;background:rgba(225,229,236,.15);filter:blur(10px);animation:smokeRise 1.65s ease-out forwards}
     @keyframes smokeRise{
-      0%{transform:translate(0,35px) scale(.35);opacity:0}
-      15%{opacity:.55}
-      100%{transform:translate(var(--dx),-90px) scale(1.6);opacity:0}
+      0%{transform:translate(0,45px) scale(.28);opacity:0}
+      12%{opacity:.72}
+      100%{transform:translate(var(--dx),-205px) scale(2.25);opacity:0}
     }
+    @keyframes exhaustCore{0%{transform:scale(.45);opacity:0}18%{opacity:.9}100%{transform:translateY(-115px) scale(1.45);opacity:0}}
+    @keyframes exhaustCloud{0%{transform:translateY(30px) scale(.4);opacity:0}18%{opacity:.8}100%{transform:translate(var(--cloudx),-150px) scale(1.5);opacity:0}}
+    /* Exhaust wisps between every major section */
+    section.block{position:relative}
+    .section-exhaust{position:absolute;left:0;right:0;bottom:-18px;height:170px;pointer-events:none;overflow:visible;z-index:3;opacity:.9}
+    .section-exhaust i{position:absolute;bottom:-8px;border-radius:50%;background:rgba(210,215,222,.105);filter:blur(13px);animation:sectionSmoke 2.4s ease-out forwards}
+    @keyframes sectionSmoke{0%{transform:translateY(35px) scale(.3);opacity:0}15%{opacity:.6}100%{transform:translate(var(--dx),-145px) scale(2.1);opacity:0}}
 
     /* ---------- EXPERIENCE ---------- */
     .timeline{position:relative;border-top:1px solid var(--line-white)}
@@ -448,6 +469,147 @@
     }
     .back-top.on{opacity:1;pointer-events:auto}.back-top:hover{background:var(--gold);color:#111}
 
+
+    /* ---------- V3 CINEMATIC LAYERS ---------- */
+    .hero-camera{
+      position:absolute;inset:-5%;z-index:1;pointer-events:none;
+      transform:translate3d(0,0,0) scale(1.04);
+      transition:transform .18s ease-out;
+    }
+    .hero-headlights{
+      position:absolute;inset:0;z-index:3;pointer-events:none;overflow:hidden;
+    }
+    .headlight{
+      position:absolute;width:55vw;height:16vw;max-height:190px;
+      background:linear-gradient(90deg,rgba(255,192,67,.24),rgba(255,192,67,.08),transparent);
+      filter:blur(15px);opacity:.34;transform-origin:left center;
+      mix-blend-mode:screen;
+    }
+    .headlight.one{left:43%;top:48%;transform:rotate(-7deg) skewY(-5deg);animation:beamPulse 4s ease-in-out infinite}
+    .headlight.two{left:47%;top:55%;transform:rotate(7deg) skewY(5deg);animation:beamPulse 4s 1.2s ease-in-out infinite}
+    @keyframes beamPulse{0%,100%{opacity:.16}45%{opacity:.42}65%{opacity:.28}}
+    .taillight-streak{
+      position:absolute;left:-20%;top:58%;width:72%;height:2px;z-index:4;pointer-events:none;
+      background:linear-gradient(90deg,transparent,rgba(255,42,59,.05),rgba(255,42,59,.72),transparent);
+      box-shadow:0 0 18px rgba(255,42,59,.35);
+      transform:rotate(-3deg);opacity:0;
+    }
+    .taillight-streak.fire{animation:tailSweep .85s ease-out forwards}
+    @keyframes tailSweep{0%{left:-30%;opacity:0}20%{opacity:1}100%{left:105%;opacity:0}}
+    .road-dust{
+      position:absolute;left:45%;right:0;bottom:0;height:38%;z-index:4;pointer-events:none;
+      background:radial-gradient(ellipse at 70% 100%,rgba(180,185,195,.11),transparent 58%);
+      filter:blur(10px);opacity:.65;
+    }
+    .hero-speedline{
+      position:absolute;left:0;right:0;height:1px;z-index:4;pointer-events:none;
+      background:linear-gradient(90deg,transparent,rgba(255,192,67,.18),transparent);
+      opacity:0;
+    }
+    .hero-speedline.s1{top:32%;animation:speedLine 5s 1s linear infinite}
+    .hero-speedline.s2{top:67%;animation:speedLine 7s 2s linear infinite}
+    @keyframes speedLine{0%{transform:translateX(-100%);opacity:0}12%{opacity:.7}55%{opacity:.18}100%{transform:translateX(100%);opacity:0}}
+
+    /* ---------- CINEMATIC SECTION TRANSITIONS ---------- */
+    .cinematic-break{
+      height:105px;position:relative;overflow:hidden;background:#08090c;
+      border-top:1px solid rgba(255,192,67,.08);border-bottom:1px solid rgba(255,192,67,.08);
+    }
+    .cinematic-break::before{
+      content:"";position:absolute;inset:0;
+      background:
+        linear-gradient(105deg,transparent 0 28%,rgba(255,255,255,.035) 28.2%,transparent 29%),
+        repeating-linear-gradient(100deg,transparent 0 42px,rgba(255,255,255,.025) 43px,transparent 44px);
+      transform:translateX(-10%);opacity:.7;
+    }
+    .break-light{
+      position:absolute;top:50%;left:-20%;width:38%;height:2px;
+      background:linear-gradient(90deg,transparent,var(--red),var(--gold),transparent);
+      box-shadow:0 0 24px rgba(255,42,59,.32);animation:breakLight 6s linear infinite;
+    }
+    @keyframes breakLight{0%{left:-30%;opacity:0}10%{opacity:1}65%{opacity:.7}100%{left:110%;opacity:0}}
+    .break-label{
+      position:absolute;inset:0;display:grid;place-items:center;
+      font:700 9px var(--mono);letter-spacing:.3em;color:#5e6470;text-transform:uppercase;
+    }
+
+    /* ---------- PROJECT MODALS ---------- */
+    .modal{
+      position:fixed;inset:0;z-index:150;background:rgba(3,4,6,.82);backdrop-filter:blur(18px);
+      display:grid;place-items:center;padding:24px;opacity:0;pointer-events:none;transition:.3s;
+    }
+    .modal.open{opacity:1;pointer-events:auto}
+    .modal-box{
+      width:min(920px,100%);max-height:min(820px,92vh);overflow:auto;
+      background:linear-gradient(135deg,#171a22,#0d0f14);border:1px solid rgba(255,192,67,.28);
+      box-shadow:0 50px 120px rgba(0,0,0,.7);position:relative;transform:translateY(25px) scale(.98);
+      transition:.35s;
+    }
+    .modal.open .modal-box{transform:none}
+    .modal-close{
+      position:absolute;right:16px;top:16px;width:40px;height:40px;z-index:2;
+      background:#0a0b0f;color:#fff;border:1px solid rgba(255,255,255,.12);cursor:pointer;
+      font-size:20px;transition:.2s;
+    }
+    .modal-close:hover{background:var(--gold);color:#111}
+    .modal-hero{
+      min-height:270px;padding:38px 40px;display:flex;align-items:flex-end;position:relative;overflow:hidden;
+      background:radial-gradient(circle at 80% 30%,rgba(255,192,67,.16),transparent 30%),#111319;
+    }
+    .modal-hero::after{
+      content:"";position:absolute;inset:0;opacity:.08;
+      background:repeating-linear-gradient(135deg,transparent 0 7px,rgba(255,255,255,.5) 7px 8px,transparent 8px 15px);
+    }
+    .modal-kicker{position:relative;z-index:1;color:var(--gold);font:700 9px var(--mono);letter-spacing:.15em;text-transform:uppercase}
+    .modal-title{position:relative;z-index:1;margin-top:10px;font:900 clamp(48px,7vw,78px)/.82 var(--display);font-style:italic;text-transform:uppercase;max-width:750px}
+    .modal-content{padding:32px 40px 40px}
+    .modal-grid{display:grid;grid-template-columns:1.4fr 1fr;gap:30px}
+    .modal-section-title{font:700 9px var(--mono);letter-spacing:.14em;color:var(--gold);text-transform:uppercase;margin-bottom:9px}
+    .modal-copy{font-size:14px;line-height:1.85;color:#a9afbc}
+    .modal-specs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .modal-spec{padding:13px;border:1px solid rgba(255,255,255,.07);background:#101219}
+    .modal-spec b{display:block;color:#e9ecf2;font:800 11px var(--tech);text-transform:uppercase}
+    .modal-spec span{display:block;margin-top:5px;color:#777e8c;font:700 8px var(--mono);letter-spacing:.08em}
+    .modal-actions{display:flex;gap:9px;margin-top:28px;flex-wrap:wrap}
+    .modal-actions a{padding:12px 16px;font:800 9px var(--mono);letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(255,255,255,.1)}
+    .modal-actions .primary{background:var(--gold);color:#0a0b0f;border-color:var(--gold)}
+
+    /* ---------- MAGNETIC / LIGHT SWEEP ---------- */
+    .magnetic{will-change:transform}
+    .project::marker{display:none}
+    .project-light{
+      position:absolute;top:-20%;left:-30%;width:20%;height:150%;z-index:0;pointer-events:none;
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.16),transparent);
+      transform:rotate(18deg);opacity:0;
+    }
+    .project:hover .project-light{animation:cardSweep .8s ease-out}
+    @keyframes cardSweep{0%{left:-30%;opacity:0}20%{opacity:1}100%{left:120%;opacity:0}}
+    .project-content,.project-top{z-index:2}
+    .project-inspect{
+      display:inline-flex;align-items:center;gap:7px;margin-left:6px;padding:9px 12px;
+      border:1px solid rgba(255,255,255,.14);background:rgba(8,9,12,.72);color:#fff;
+      font:800 9px var(--mono);letter-spacing:.08em;text-transform:uppercase;cursor:pointer;
+    }
+    .project-inspect:hover{border-color:var(--gold);color:var(--gold)}
+
+    @media(max-width:780px){
+      .headlight{width:90vw;height:24vw}
+      .cinematic-break{height:75px}
+      .modal{padding:10px}.modal-hero{min-height:230px;padding:28px 24px}.modal-content{padding:25px 24px 30px}
+      .modal-grid{grid-template-columns:1fr}.modal-specs{grid-template-columns:1fr 1fr}
+      .project-inspect{margin-left:0;margin-top:6px}
+    }
+
+    /* ---------- ENGINE SOUND CONTROL ---------- */
+    .sound-control{position:fixed;right:22px;bottom:22px;z-index:180;padding:11px 14px;border:1px solid rgba(255,192,67,.28);background:rgba(8,9,12,.84);backdrop-filter:blur(14px);color:#dfe2e8;display:flex;align-items:center;gap:9px;cursor:pointer;font:700 9px var(--mono);letter-spacing:.09em;transition:.25s}
+    .sound-control:hover{border-color:var(--gold);transform:translateY(-2px)}
+    .sound-dot{width:7px;height:7px;border-radius:50%;background:#777;box-shadow:0 0 0 transparent}
+    .sound-control.on .sound-dot{background:#5ee58b;box-shadow:0 0 12px #5ee58b;animation:soundPulse .8s ease-in-out infinite alternate}
+    .sound-control.on #soundLabel{color:#fff}
+    @keyframes soundPulse{to{transform:scale(1.55);opacity:.7}}
+    @media(max-width:780px){.sound-control{right:14px;bottom:14px;padding:10px 11px}.speedo-wrap{height:220px}.speedo{width:210px;height:210px}}
+
+    @media(max-width:520px){.metric-speedos{grid-template-columns:1fr 1fr}.metric-dial{height:132px}.metric-speedo{min-height:190px;padding:7px}}
     /* ---------- MOBILE ---------- */
     @media(max-width:1050px){
       .nav-inner{padding:17px 25px}.nav-links{gap:15px}.nav-status{display:none}
@@ -498,6 +660,15 @@
 <body>
   <div id="cursor"></div>
   <div id="cursor-dot"></div>
+  <audio id="engineAudio" preload="auto" loop playsinline>
+    <!-- Official Jaguar Media F-TYPE V8 recording; local V8 fallbacks keep the site usable offline. -->
+    <source src="https://media.production.jlrms.com/2023-07-17/video/15d06145-5099-48f2-9308-9a848827bd2f/30%20Second.mp4?VersionId=ejOITeCRmjDXFrttG2YvXJeZQi6G11wO" type="audio/mp4">
+    <source src="engine-racing-v8-final.mp3" type="audio/mpeg">
+    <source src="engine-racing-v8-final.wav" type="audio/wav">
+  </audio>
+  <button class="sound-control" id="soundControl" type="button" aria-label="Toggle engine sound">
+    <span class="sound-dot"></span><span id="soundLabel">ENGINE / SOUND OFF</span>
+  </button>
 
   <nav class="nav" id="nav">
     <div class="nav-inner">
@@ -532,6 +703,17 @@
         <source src="https://cdn.pixabay.com/video/2023/02/09/149878-797491481_large.mp4" type="video/mp4">
       </video>
       <div class="hero-shade"></div>
+      <div class="hero-camera" id="heroCamera">
+        <div class="hero-headlights">
+          <div class="headlight one"></div>
+          <div class="headlight two"></div>
+        </div>
+      </div>
+      <div class="taillight-streak" id="tailStreak"></div>
+      <div class="road-dust"></div>
+      <div class="hero-speedline s1"></div>
+      <div class="hero-speedline s2"></div>
+
       <div class="hero-grid"></div>
       <canvas class="hero-canvas" id="heroCanvas"></canvas>
       <div class="hero-vignette"></div>
@@ -563,40 +745,36 @@
         <aside class="hero-panel" data-reveal data-testid="hero-telemetry">
           <div class="panel-top">
             <span class="panel-code">DRIVER TELEMETRY / 2026</span>
-            <span class="panel-live">SYSTEM READY</span>
+            <span class="panel-live">JAGUAR V8 / SYSTEM READY</span>
           </div>
-          <div class="stats">
-            <div class="stat" data-stat="8.28">
-              <svg class="gauge" viewBox="0 0 200 78" aria-hidden="true">
-                <path class="gauge-bg" d="M25 68 A75 75 0 0 1 175 68"/>
-                <path class="gauge-arc" d="M25 68 A75 75 0 0 1 175 68"/>
-                <line class="needle" x1="100" y1="68" x2="100" y2="22"/>
+          <div class="metric-speedos" aria-label="Portfolio metric speedometers">
+            <div class="metric-speedo" data-value="8.28" data-max="10" style="--needle:88deg;--arc:260">
+              <svg class="metric-dial" viewBox="0 0 200 150" role="img" aria-label="CGPA 8.28 out of 10">
+                <circle class="dial-face" cx="100" cy="100" r="88"/>
+                <circle class="dial-inner" cx="100" cy="100" r="78"/>
+                <path class="dial-track" d="M30 145 A78 78 0 1 1 170 145"/>
+                <path class="dial-arc" d="M30 145 A78 78 0 1 1 170 145"/>
+                <g class="dial-ticks"></g>
+                <line class="dial-needle" x1="100" y1="100" x2="100" y2="34"/>
+                <circle class="dial-hub" cx="100" cy="100" r="7"/><circle cx="100" cy="100" r="2.5" fill="#fff"/>
+                <text class="dial-unit" x="100" y="70">ACADEMIC</text>
+                <text class="dial-value" x="100" y="118">8.28</text>
               </svg>
-              <div class="stat-value">8.28</div><div class="stat-label">CGPA / VIT–AP</div>
+              <div class="metric-name">CGPA / 10</div><div class="metric-sub">VIT–AP</div>
             </div>
-            <div class="stat" data-stat="7">
-              <svg class="gauge" viewBox="0 0 200 78" aria-hidden="true">
-                <path class="gauge-bg" d="M25 68 A75 75 0 0 1 175 68"/>
-                <path class="gauge-arc" d="M25 68 A75 75 0 0 1 175 68"/>
-                <line class="needle" x1="100" y1="68" x2="100" y2="22"/>
+            <div class="metric-speedo" data-value="7" data-max="10" style="--needle:54deg;--arc:220">
+              <svg class="metric-dial" viewBox="0 0 200 150" role="img" aria-label="7 plus projects shipped">
+                <circle class="dial-face" cx="100" cy="100" r="88"/>
+                <circle class="dial-inner" cx="100" cy="100" r="78"/>
+                <path class="dial-track" d="M30 145 A78 78 0 1 1 170 145"/>
+                <path class="dial-arc" d="M30 145 A78 78 0 1 1 170 145"/>
+                <g class="dial-ticks"></g>
+                <line class="dial-needle" x1="100" y1="100" x2="100" y2="34"/>
+                <circle class="dial-hub" cx="100" cy="100" r="7"/><circle cx="100" cy="100" r="2.5" fill="#fff"/>
+                <text class="dial-unit" x="100" y="73">SHIPPED</text>
+                <text class="dial-value" x="100" y="118">7+</text>
               </svg>
-              <div class="stat-value">7+</div><div class="stat-label">Projects shipped</div>
-            </div>
-            <div class="stat" data-stat="1">
-              <svg class="gauge" viewBox="0 0 200 78" aria-hidden="true">
-                <path class="gauge-bg" d="M25 68 A75 75 0 0 1 175 68"/>
-                <path class="gauge-arc" d="M25 68 A75 75 0 0 1 175 68"/>
-                <line class="needle" x1="100" y1="68" x2="100" y2="22"/>
-              </svg>
-              <div class="stat-value">#1</div><div class="stat-label">GenAI hackathon</div>
-            </div>
-            <div class="stat" data-stat="3">
-              <svg class="gauge" viewBox="0 0 200 78" aria-hidden="true">
-                <path class="gauge-bg" d="M25 68 A75 75 0 0 1 175 68"/>
-                <path class="gauge-arc" d="M25 68 A75 75 0 0 1 175 68"/>
-                <line class="needle" x1="100" y1="68" x2="100" y2="22"/>
-              </svg>
-              <div class="stat-value">03</div><div class="stat-label">Certifications</div>
+              <div class="metric-name">PROJECTS</div><div class="metric-sub">7+ SHIPPED</div>
             </div>
           </div>
         </aside>
@@ -619,6 +797,8 @@
         <div class="tape-item">PYTHON</div><div class="tape-item">PYTORCH</div><div class="tape-item">EDA</div><div class="tape-item">MACHINE LEARNING</div>
       </div>
     </div>
+
+    <div class="cinematic-break" aria-hidden="true"><div class="break-light"></div><div class="break-label">DATA / MOTION / PRECISION</div></div>
 
     <!-- ABOUT -->
     <section class="block" id="about">
@@ -664,6 +844,8 @@
         </div>
       </div>
     </section>
+
+    <div class="cinematic-break" aria-hidden="true"><div class="break-light"></div><div class="break-label">SYSTEMS ONLINE / PERFORMANCE SPEC</div></div>
 
     <!-- SKILLS -->
     <section class="block" id="skills" style="padding-top:30px">
@@ -726,6 +908,8 @@
       </div>
     </section>
 
+    <div class="cinematic-break" aria-hidden="true"><div class="break-light"></div><div class="break-label">TELEMETRY / TRACK RECORD</div></div>
+
     <!-- EXPERIENCE -->
     <section class="block" id="experience">
       <div class="wrap">
@@ -782,6 +966,8 @@
       </div>
     </section>
 
+    <div class="cinematic-break" aria-hidden="true"><div class="break-light"></div><div class="break-label">GARAGE ACCESS / SELECTED WORK</div></div>
+
     <!-- PROJECTS -->
     <section class="block" id="projects">
       <div class="wrap">
@@ -802,77 +988,77 @@
           <article class="project featured" data-category="nlp" data-reveal data-testid="project-news">
             <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1400&q=85" alt="News analytics project">
             <div class="project-top"><span class="project-num">01</span><span class="project-cat">NLP / FEATURED</span></div>
-            <div class="project-content">
+            <i class="project-light"></i><div class="project-content">
               <h3 class="project-title">News Research & Analytics Tool</h3>
               <p class="project-desc">NLP-powered platform for article ingestion, semantic relevance ranking and summarization using TF-IDF + BM25 scoring.</p>
               <div class="stack"><span>PYTHON</span><span>TF-IDF</span><span>BM25</span><span>LSA</span><span>STREAMLIT</span></div>
-              <a class="project-link" href="https://github.com/Aditya7032/News-Research-Analytics-Tool-Data-NLP-Application" target="_blank" rel="noopener" data-testid="project-news-github">Inspect GitHub ↗</a>
+              <i class="project-light"></i><button class="project-inspect" data-project="news" data-testid="inspect-news">Inspect ↗</button><a class="project-link" href="https://github.com/Aditya7032/News-Research-Analytics-Tool-Data-NLP-Application" target="_blank" rel="noopener" data-testid="project-news-github">Inspect GitHub ↗</a>
             </div>
           </article>
 
           <article class="project" data-category="bi ml" data-reveal data-testid="project-stock">
             <img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1000&q=85" alt="Stock market analytics">
             <div class="project-top"><span class="project-num">02</span><span class="project-cat">BI · ML</span></div>
-            <div class="project-content">
+            <i class="project-light"></i><div class="project-content">
               <h3 class="project-title">Stock Market Analytics</h3>
               <p class="project-desc">Python ML pipeline feeding an interactive Power BI dashboard with Random Forest and KPI analysis.</p>
               <div class="stack"><span>PYTHON</span><span>RANDOM FOREST</span><span>POWER BI</span><span>TIME SERIES</span></div>
-              <a class="project-link" href="https://github.com/Aditya7032/Stock-Market-Prediction-Analytics-Dashboard-Power-BI-Python-" target="_blank" rel="noopener" data-testid="project-stock-github">Inspect GitHub ↗</a>
+              <button class="project-inspect" data-project="stock" data-testid="inspect-stock">Inspect ↗</button><a class="project-link" href="https://github.com/Aditya7032/Stock-Market-Prediction-Analytics-Dashboard-Power-BI-Python-" target="_blank" rel="noopener" data-testid="project-stock-github">Inspect GitHub ↗</a>
             </div>
           </article>
 
           <article class="project" data-category="bi" data-reveal data-testid="project-hr">
             <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1000&q=85" alt="HR analytics dashboard">
             <div class="project-top"><span class="project-num">03</span><span class="project-cat">BI</span></div>
-            <div class="project-content">
+            <i class="project-light"></i><div class="project-content">
               <h3 class="project-title">HR Analytics Dashboard</h3>
               <p class="project-desc">Tableau dashboard analyzing employee attrition patterns with drill-down KPI visualizations.</p>
               <div class="stack"><span>TABLEAU</span><span>PYTHON</span><span>DAX</span><span>ATTRITION</span></div>
-              <a class="project-link" href="https://github.com/Aditya7032/HR-analytics" target="_blank" rel="noopener" data-testid="project-hr-github">Inspect GitHub ↗</a>
+              <button class="project-inspect" data-project="hr" data-testid="inspect-hr">Inspect ↗</button><a class="project-link" href="https://github.com/Aditya7032/HR-analytics" target="_blank" rel="noopener" data-testid="project-hr-github">Inspect GitHub ↗</a>
             </div>
           </article>
 
           <article class="project" data-category="bi" data-reveal data-testid="project-gdp">
             <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=85" alt="Global GDP analysis">
             <div class="project-top"><span class="project-num">04</span><span class="project-cat">BI</span></div>
-            <div class="project-content">
+            <i class="project-light"></i><div class="project-content">
               <h3 class="project-title">Global GDP Analysis</h3>
               <p class="project-desc">Power BI dashboard analyzing 2017–2024 GDP trends by country with DAX measures.</p>
               <div class="stack"><span>POWER BI</span><span>DAX</span><span>DATA MODELING</span><span>WORLD BANK</span></div>
-              <a class="project-link" href="https://github.com/Aditya7032/GDP-analysis" target="_blank" rel="noopener" data-testid="project-gdp-github">Inspect GitHub ↗</a>
+              <button class="project-inspect" data-project="gdp" data-testid="inspect-gdp">Inspect ↗</button><a class="project-link" href="https://github.com/Aditya7032/GDP-analysis" target="_blank" rel="noopener" data-testid="project-gdp-github">Inspect GitHub ↗</a>
             </div>
           </article>
 
           <article class="project" data-category="nlp" data-reveal data-testid="project-mental-health">
             <img src="https://images.unsplash.com/photo-1493836512294-502baa1986e2?auto=format&fit=crop&w=1000&q=85" alt="Mental health analytics">
             <div class="project-top"><span class="project-num">05</span><span class="project-cat">NLP</span></div>
-            <div class="project-content">
+            <i class="project-light"></i><div class="project-content">
               <h3 class="project-title">Mental Health Analytics</h3>
               <p class="project-desc">Sentiment and emotion analysis using VADER + NRC Lexicon on survey data for insight reporting.</p>
               <div class="stack"><span>PYTHON</span><span>VADER</span><span>NRC</span><span>SENTIMENT</span></div>
-              <a class="project-link" href="https://github.com/Aditya7032/Mental-Health-Survey-Analytics-Sentiment-Insight-Reporting" target="_blank" rel="noopener" data-testid="project-mental-health-github">Inspect GitHub ↗</a>
+              <button class="project-inspect" data-project="mental" data-testid="inspect-mental">Inspect ↗</button><a class="project-link" href="https://github.com/Aditya7032/Mental-Health-Survey-Analytics-Sentiment-Insight-Reporting" target="_blank" rel="noopener" data-testid="project-mental-health-github">Inspect GitHub ↗</a>
             </div>
           </article>
 
           <article class="project" data-category="ml" data-reveal data-testid="project-energy">
             <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1000&q=85" alt="Renewable energy forecasting">
             <div class="project-top"><span class="project-num">06</span><span class="project-cat">FORECASTING</span></div>
-            <div class="project-content">
+            <i class="project-light"></i><div class="project-content">
               <h3 class="project-title">Renewable Energy Forecasting</h3>
               <p class="project-desc">Ensemble XGBoost + LightGBM forecasting solar and wind energy output with deep EDA.</p>
               <div class="stack"><span>PYTHON</span><span>XGBOOST</span><span>LIGHTGBM</span><span>FORECASTING</span></div>
-              <a class="project-link" href="https://github.com/Aditya7032/Renewable_energy_forcasting_-_optimization" target="_blank" rel="noopener" data-testid="project-energy-github">Inspect GitHub ↗</a>
+              <button class="project-inspect" data-project="energy" data-testid="inspect-energy">Inspect ↗</button><a class="project-link" href="https://github.com/Aditya7032/Renewable_energy_forcasting_-_optimization" target="_blank" rel="noopener" data-testid="project-energy-github">Inspect GitHub ↗</a>
             </div>
           </article>
 
           <article class="project" data-category="ml" data-reveal data-testid="project-plant">
             <img src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=1000&q=85" alt="Plant disease detection">
             <div class="project-top"><span class="project-num">07</span><span class="project-cat">DEEP LEARNING</span></div>
-            <div class="project-content">
+            <i class="project-light"></i><div class="project-content">
               <h3 class="project-title">Plant Disease Detection</h3>
               <p class="project-desc">EfficientNet transfer learning on PlantVillage with augmentation for agricultural support.</p>
               <div class="stack"><span>PYTORCH</span><span>EFFICIENTNET</span><span>TRANSFER LEARNING</span></div>
-              <a class="project-link" href="https://github.com/Aditya7032/Plant-Disease-Detection-" target="_blank" rel="noopener" data-testid="project-plant-github">Inspect GitHub ↗</a>
+              <button class="project-inspect" data-project="plant" data-testid="inspect-plant">Inspect ↗</button><a class="project-link" href="https://github.com/Aditya7032/Plant-Disease-Detection-" target="_blank" rel="noopener" data-testid="project-plant-github">Inspect GitHub ↗</a>
             </div>
           </article>
         </div>
@@ -941,6 +1127,35 @@
       </div>
     </section>
   </main>
+
+
+  <div class="modal" id="projectModal" role="dialog" aria-modal="true" aria-hidden="true" data-testid="project-modal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose" aria-label="Close project inspection" data-testid="modal-close">×</button>
+      <div class="modal-hero">
+        <div>
+          <div class="modal-kicker" id="modalKicker">PROJECT / 01</div>
+          <h2 class="modal-title" id="modalTitle">News Research & Analytics Tool</h2>
+        </div>
+      </div>
+      <div class="modal-content">
+        <div class="modal-grid">
+          <div>
+            <div class="modal-section-title">Architecture / approach</div>
+            <p class="modal-copy" id="modalCopy"></p>
+          </div>
+          <div>
+            <div class="modal-section-title">Telemetry</div>
+            <div class="modal-specs" id="modalSpecs"></div>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <a class="primary" id="modalGithub" href="#" target="_blank" rel="noopener" data-testid="modal-github">Open GitHub ↗</a>
+          <button class="project-inspect" id="modalDone" data-testid="modal-done">Back to garage</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <button class="back-top" id="backTop" aria-label="Back to top" data-testid="back-to-top">↑</button>
 
@@ -1036,55 +1251,104 @@
       else heroVideo.play().catch(()=>{});
     });
 
-    /* ---------- TACHOMETER SWEEP ---------- */
-    const stats = [...document.querySelectorAll('.stat')];
-    const statObserver = new IntersectionObserver((entries, obs) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          stats.forEach((stat,i) => setTimeout(() => stat.classList.add('ready'), i*130));
-          obs.disconnect();
+    /* ---------- REALISTIC DATA SPEEDOMETERS ---------- */
+    const metricSpeedos=[...document.querySelectorAll('.metric-speedo')];
+    metricSpeedos.forEach(dial=>{
+      const ticks=dial.querySelector('.dial-ticks');
+      const max=Number(dial.dataset.max)||10;
+      for(let v=0;v<=max;v+=0.5){
+        const angle=(-135+(v/max)*270)*Math.PI/180;
+        const major=Math.abs(v-Math.round(v))<0.01;
+        const r1=major?68:73, r2=82;
+        const x1=100+Math.cos(angle)*r1, y1=100+Math.sin(angle)*r1;
+        const x2=100+Math.cos(angle)*r2, y2=100+Math.sin(angle)*r2;
+        const tick=document.createElementNS('http://www.w3.org/2000/svg','line');
+        tick.setAttribute('x1',x1);tick.setAttribute('y1',y1);tick.setAttribute('x2',x2);tick.setAttribute('y2',y2);
+        tick.setAttribute('class','dial-tick'+(major?' major':'')); ticks.appendChild(tick);
+        if(major){
+          const tx=100+Math.cos(angle)*57, ty=103+Math.sin(angle)*57;
+          const label=document.createElementNS('http://www.w3.org/2000/svg','text');
+          label.setAttribute('x',tx);label.setAttribute('y',ty);label.setAttribute('class','dial-label major');
+          label.textContent=v; ticks.appendChild(label);
         }
-      });
-    }, {threshold:.35});
-    statObserver.observe(document.querySelector('.hero-panel'));
+      }
+      const value=Number(dial.dataset.value)||0;
+      const circumference=2*Math.PI*78;
+      const progress=Math.max(0,Math.min(1,value/max));
+      dial.style.setProperty('--arc',`${circumference*0.75*progress}`);
+    });
+    const panel=document.querySelector('.hero-panel');
+    const metricObserver=new IntersectionObserver((entries,obs)=>{
+      if(entries.some(e=>e.isIntersecting)){
+        metricSpeedos.forEach((dial,i)=>setTimeout(()=>dial.classList.add('ready'),i*180));
+        obs.disconnect();
+      }
+    },{threshold:.35});
+    if(panel) metricObserver.observe(panel);
 
-    /* ---------- SKILL SMOKE BURSTS ---------- */
+    /* ---------- HIGH-DENSITY EXHAUST BURSTS ---------- */
     function smokeBurst(card){
       const layer = card.querySelector('.smoke-layer');
       if(!layer) return;
       layer.innerHTML='';
-      const count = window.innerWidth < 700 ? 12 : 22;
+      const count = window.innerWidth < 700 ? 26 : 46;
       for(let i=0;i<count;i++){
-        const puff = document.createElement('i');
+        const puff=document.createElement('i');
         puff.className='smoke';
-        const size = 18 + Math.random()*42;
-        puff.style.width = size+'px';
-        puff.style.height = (size*.62)+'px';
-        puff.style.left = (18 + Math.random()*70)+'%';
-        puff.style.bottom = (-8 + Math.random()*18)+'px';
-        puff.style.setProperty('--dx', ((Math.random()-.5)*150)+'px');
-        puff.style.animationDelay = (Math.random()*.18)+'s';
+        const size=26+Math.random()*58;
+        puff.style.width=size+'px';
+        puff.style.height=(size*(.55+Math.random()*.28))+'px';
+        puff.style.left=(-2+Math.random()*104)+'%';
+        puff.style.bottom=(-15+Math.random()*38)+'px';
+        puff.style.setProperty('--dx',((Math.random()-.5)*260)+'px');
+        puff.style.animationDelay=(Math.random()*.28)+'s';
         layer.appendChild(puff);
       }
       card.classList.remove('smoke-on');
       void card.offsetWidth;
       card.classList.add('smoke-on');
-      setTimeout(() => card.classList.remove('smoke-on'), 1350);
+      setTimeout(()=>card.classList.remove('smoke-on'),2050);
     }
-
-    const skillObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
+    const skillObserver=new IntersectionObserver(entries=>{
+      entries.forEach(entry=>{
         if(entry.isIntersecting){
           smokeBurst(entry.target);
+          setInterval(()=>{ if(entry.target.matches(':hover') || entry.isIntersecting) smokeBurst(entry.target); },3400);
           skillObserver.unobserve(entry.target);
         }
       });
-    }, {threshold:.45});
-
-    document.querySelectorAll('.skill-card').forEach(card => {
+    },{threshold:.28});
+    document.querySelectorAll('.skill-card').forEach(card=>{
       skillObserver.observe(card);
-      card.addEventListener('mouseenter', () => smokeBurst(card));
-      card.addEventListener('focus', () => smokeBurst(card));
+      card.addEventListener('mouseenter',()=>smokeBurst(card));
+      card.addEventListener('focus',()=>smokeBurst(card));
+    });
+
+    /* Every major section gets its own drifting exhaust haze. */
+    document.querySelectorAll('section.block').forEach(section=>{
+      const exhaust=document.createElement('div');
+      exhaust.className='section-exhaust';
+      for(let i=0;i<18;i++){
+        const p=document.createElement('i');
+        const size=22+Math.random()*60;
+        p.style.width=size+'px'; p.style.height=size*.62+'px';
+        p.style.left=(5+Math.random()*90)+'%';
+        p.style.setProperty('--dx',((Math.random()-.5)*320)+'px');
+        p.style.animationDelay=(Math.random()*.9)+'s';
+        exhaust.appendChild(p);
+      }
+      section.appendChild(exhaust);
+      const io=new IntersectionObserver(entries=>{
+        entries.forEach(entry=>{
+          if(entry.isIntersecting){
+            exhaust.querySelectorAll('i').forEach(p=>{
+              p.style.animation='none'; void p.offsetWidth; p.style.animation='';
+            });
+            io.unobserve(section);
+          }
+        });
+      },{threshold:.08});
+      io.observe(section);
     });
 
     /* ---------- EXPERIENCE ACCORDION ---------- */
@@ -1107,76 +1371,58 @@
       });
     });
 
-    /* ---------- REALISTIC-ENOUGH SYNTHETIC ENGINE REV ----------
-       Uses Web Audio only after the visitor interacts, avoiding
-       autoplay restrictions and keeping GitHub Pages asset-free.
+    /* ---------- FULL ENGINE SOUND SYSTEM ----------
+       Uses the bundled V8 recording first. Web Audio fallback remains
+       available if the local file cannot be decoded by the browser.
     ---------- */
-    let engineStarted = false;
-    let audioCtx, master, osc, subOsc, filter, gain, lfo, lfoGain;
-
-    function startEngineSound(){
-      if(engineStarted || reduceMotion) return;
-      engineStarted = true;
-
+    const engineAudio=document.getElementById('engineAudio');
+    const soundControl=document.getElementById('soundControl');
+    const soundLabel=document.getElementById('soundLabel');
+    let soundOn=false, audioCtx, fallbackMaster;
+    function setSoundUI(on){
+      soundOn=on;
+      soundControl.classList.toggle('on',on);
+      soundLabel.textContent=on?'ENGINE / SOUND ON':'ENGINE / SOUND OFF';
+    }
+    async function startEngineSound(){
+      if(soundOn) return;
       try{
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-        master = audioCtx.createGain();
-        master.gain.value = 0.0001;
-        master.connect(audioCtx.destination);
-
-        filter = audioCtx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.value = 900;
-        filter.Q.value = 1.1;
-        filter.connect(master);
-
-        gain = audioCtx.createGain();
-        gain.gain.value = 0.0001;
-        gain.connect(filter);
-
-        osc = audioCtx.createOscillator();
-        osc.type = 'sawtooth';
-        osc.frequency.value = 54;
-        osc.connect(gain);
-
-        subOsc = audioCtx.createOscillator();
-        subOsc.type = 'triangle';
-        subOsc.frequency.value = 27;
-        const subGain = audioCtx.createGain();
-        subGain.gain.value = .28;
-        subOsc.connect(subGain).connect(gain);
-
-        lfo = audioCtx.createOscillator();
-        lfo.type = 'sine';
-        lfo.frequency.value = 4.2;
-        lfoGain = audioCtx.createGain();
-        lfoGain.gain.value = 0.12;
-        lfo.connect(lfoGain).connect(gain.gain);
-
-        osc.start(); subOsc.start(); lfo.start();
-
-        const now = audioCtx.currentTime;
-        gain.gain.setValueAtTime(.0001,now);
-        gain.gain.exponentialRampToValueAtTime(.065,now+.12);
-        gain.gain.exponentialRampToValueAtTime(.0001,now+1.45);
-        filter.frequency.setValueAtTime(480,now);
-        filter.frequency.exponentialRampToValueAtTime(1350,now+.55);
-        filter.frequency.exponentialRampToValueAtTime(520,now+1.35);
-        master.gain.setValueAtTime(.0001,now);
-        master.gain.exponentialRampToValueAtTime(.16,now+.12);
-        master.gain.exponentialRampToValueAtTime(.0001,now+1.55);
-
-        setTimeout(() => {
-          try{osc.stop();subOsc.stop();lfo.stop();}catch(e){}
-        },1700);
+        engineAudio.currentTime=0;
+        engineAudio.volume=.72;
+        await engineAudio.play();
+        setSoundUI(true);
       }catch(e){
-        /* Audio is an enhancement; never block the portfolio. */
+        try{
+          audioCtx=audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+          if(audioCtx.state==='suspended') await audioCtx.resume();
+          const master=audioCtx.createGain(); master.gain.value=.045; master.connect(audioCtx.destination);
+          const osc=audioCtx.createOscillator(), sub=audioCtx.createOscillator();
+          osc.type='sawtooth'; sub.type='triangle'; osc.frequency.value=61; sub.frequency.value=30.5;
+          const filter=audioCtx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=1150; filter.Q.value=.9;
+          osc.connect(filter); sub.connect(filter); filter.connect(master); osc.start(); sub.start();
+          fallbackMaster=master; setSoundUI(true);
+        }catch(err){
+          setSoundUI(false);
+        }
       }
     }
+    function stopEngineSound(){
+      engineAudio.pause();
+      engineAudio.currentTime=0;
+      if(audioCtx){try{audioCtx.suspend()}catch(e){}}
+      setSoundUI(false);
+    }
+    soundControl.addEventListener('click',e=>{e.stopPropagation(); soundOn?stopEngineSound():startEngineSound();});
 
-    window.addEventListener('pointerdown', startEngineSound, {once:true, passive:true});
-    window.addEventListener('keydown', startEngineSound, {once:true, passive:true});
+    // Try to start the engine immediately when the page loads. Modern browsers
+    // may block audible autoplay; in that case the first tap/key press starts it.
+    window.addEventListener('load',()=>{startEngineSound();});
+    window.addEventListener('pointerdown',()=>{if(!soundOn) startEngineSound();},{passive:true});
+    window.addEventListener('keydown',()=>{if(!soundOn) startEngineSound();},{passive:true});
+    document.addEventListener('visibilitychange',()=>{
+      if(document.hidden){engineAudio.pause(); if(audioCtx) try{audioCtx.suspend()}catch(e){}}
+      else if(soundOn){engineAudio.play().catch(()=>{}); if(audioCtx) try{audioCtx.resume()}catch(e){}}
+    });
 
     /* ---------- SKID-MARK CURSOR TRAILS ----------
        Deliberately sparse: faint marks only in/near the hero,
@@ -1227,6 +1473,152 @@
         heroPanel.style.transform=`translate3d(${x*7}px,${y*4}px,0)`;
       }, {passive:true});
     }
+
+
+    /* ---------- V3 CINEMATIC CAMERA RIG ---------- */
+    const hero = document.getElementById('hero');
+    const heroCamera = document.getElementById('heroCamera');
+    const tailStreak = document.getElementById('tailStreak');
+
+    if(!reduceMotion && window.matchMedia('(pointer:fine)').matches){
+      let targetX=0,targetY=0,currentX=0,currentY=0;
+      window.addEventListener('pointermove', e => {
+        const nx=e.clientX/window.innerWidth-.5;
+        const ny=e.clientY/window.innerHeight-.5;
+        targetX=nx; targetY=ny;
+      }, {passive:true});
+
+      function cameraTick(){
+        currentX += (targetX-currentX)*.055;
+        currentY += (targetY-currentY)*.055;
+        heroCamera.style.transform =
+          `translate3d(${currentX*22}px,${currentY*12}px,0) scale(${1.045 + Math.abs(currentX)*.012})`;
+        requestAnimationFrame(cameraTick);
+      }
+      cameraTick();
+
+      let lastTail=0;
+      window.addEventListener('pointermove', e=>{
+        const r=hero.getBoundingClientRect();
+        if(e.clientY>=r.top && e.clientY<=r.bottom && performance.now()-lastTail>2200){
+          if(Math.abs(e.movementX)>10){
+            lastTail=performance.now();
+            tailStreak.classList.remove('fire');
+            void tailStreak.offsetWidth;
+            tailStreak.classList.add('fire');
+          }
+        }
+      }, {passive:true});
+    }
+
+    /* ---------- SCROLL CAMERA / SECTION MOTION ---------- */
+    if(!reduceMotion){
+      window.addEventListener('scroll',()=>{
+        const y=window.scrollY;
+        const heroHeight=Math.max(hero.offsetHeight,1);
+        const progress=Math.min(y/heroHeight,1);
+        const videoScale=1.03 + progress*.045;
+        heroVideo.style.transform=`scale(${videoScale}) translateY(${progress*-1.5}%)`;
+        heroCamera.style.opacity = String(Math.max(.55,1-progress*.35));
+      }, {passive:true});
+    }
+
+    /* ---------- MAGNETIC BUTTONS ---------- */
+    if(!reduceMotion && window.matchMedia('(pointer:fine)').matches){
+      document.querySelectorAll('.btn,.resume-btn,.project-inspect,.project-link,.contact-link').forEach(el=>{
+        el.addEventListener('pointermove', e=>{
+          const r=el.getBoundingClientRect();
+          const x=(e.clientX-r.left-r.width/2)/r.width;
+          const y=(e.clientY-r.top-r.height/2)/r.height;
+          el.style.transform=`translate(${x*5}px,${y*5}px)`;
+        });
+        el.addEventListener('pointerleave',()=>el.style.transform='');
+      });
+    }
+
+    /* ---------- PROJECT INSPECTION MODALS ---------- */
+    const projectData = {
+      news:{
+        number:'PROJECT / 01', title:'News Research & Analytics Tool',
+        copy:'NLP research and analytics workflow for article ingestion, relevance ranking and text analysis. The pipeline combines TF-IDF, BM25 and cosine similarity with a Streamlit interface for fast research workflows.',
+        specs:[['DOMAIN','NLP / INFORMATION RETRIEVAL'],['RETRIEVAL','TF-IDF + BM25'],['LANGUAGE','PYTHON'],['DELIVERY','STREAMLIT']],
+        github:'https://github.com/Aditya7032/News-Research-Analytics-Tool-Data-NLP-Application'
+      },
+      stock:{
+        number:'PROJECT / 02', title:'Stock Market Analytics',
+        copy:'Market analytics workflow combining exploratory analysis, Random Forest modeling and Power BI visualization to turn market data into an interactive decision-support dashboard.',
+        specs:[['DOMAIN','FINANCE / BI'],['MODEL','RANDOM FOREST'],['VISUALS','POWER BI'],['METHOD','TIME SERIES + EDA']],
+        github:'https://github.com/Aditya7032/Stock-Market-Prediction-Analytics-Dashboard-Power-BI-Python-'
+      },
+      hr:{
+        number:'PROJECT / 03', title:'HR Analytics Dashboard',
+        copy:'Interactive HR analytics experience focused on employee attrition, KPI exploration and business-facing dashboard storytelling using Tableau and supporting Python analysis.',
+        specs:[['DOMAIN','HR / BI'],['PLATFORM','TABLEAU'],['FOCUS','ATTRITION'],['METHOD','EDA + KPI ANALYSIS']],
+        github:'https://github.com/Aditya7032/HR-analytics'
+      },
+      gdp:{
+        number:'PROJECT / 04', title:'Global GDP Analysis',
+        copy:'Global economic analysis presented as a Power BI dashboard with DAX measures and structured data modeling to explore country-level GDP trends across multiple years.',
+        specs:[['DOMAIN','ECONOMICS / BI'],['PLATFORM','POWER BI'],['LANGUAGE','DAX'],['DATA','GLOBAL GDP']],
+        github:'https://github.com/Aditya7032/GDP-analysis'
+      },
+      mental:{
+        number:'PROJECT / 05', title:'Mental Health Analytics',
+        copy:'Text analytics workflow using VADER and NRC Lexicon techniques to extract sentiment and emotion signals from survey responses for structured insight reporting.',
+        specs:[['DOMAIN','TEXT ANALYTICS'],['SENTIMENT','VADER'],['EMOTION','NRC LEXICON'],['LANGUAGE','PYTHON']],
+        github:'https://github.com/Aditya7032/Mental-Health-Survey-Analytics-Sentiment-Insight-Reporting'
+      },
+      energy:{
+        number:'PROJECT / 06', title:'Renewable Energy Forecasting',
+        copy:'Predictive forecasting workflow combining exploratory analysis with XGBoost and LightGBM to estimate renewable energy output and investigate the drivers of generation.',
+        specs:[['DOMAIN','FORECASTING'],['MODELS','XGBOOST + LIGHTGBM'],['DATA','RENEWABLE ENERGY'],['METHOD','EDA + ENSEMBLES']],
+        github:'https://github.com/Aditya7032/Renewable_energy_forcasting_-_optimization'
+      },
+      plant:{
+        number:'PROJECT / 07', title:'Plant Disease Detection',
+        copy:'Computer vision pipeline using PyTorch and EfficientNet transfer learning to classify plant disease imagery, with augmentation and model evaluation for agricultural support.',
+        specs:[['DOMAIN','COMPUTER VISION'],['MODEL','EFFICIENTNET'],['FRAMEWORK','PYTORCH'],['METHOD','TRANSFER LEARNING']],
+        github:'https://github.com/Aditya7032/Plant-Disease-Detection-'
+      }
+    };
+
+    const projectModal=document.getElementById('projectModal');
+    const modalClose=document.getElementById('modalClose');
+    const modalDone=document.getElementById('modalDone');
+    const modalTitle=document.getElementById('modalTitle');
+    const modalKicker=document.getElementById('modalKicker');
+    const modalCopy=document.getElementById('modalCopy');
+    const modalSpecs=document.getElementById('modalSpecs');
+    const modalGithub=document.getElementById('modalGithub');
+
+    function openProjectModal(id){
+      const p=projectData[id];
+      if(!p) return;
+      modalKicker.textContent=p.number;
+      modalTitle.textContent=p.title;
+      modalCopy.textContent=p.copy;
+      modalSpecs.innerHTML=p.specs.map(s=>`<div class="modal-spec"><b>${s[0]}</b><span>${s[1]}</span></div>`).join('');
+      modalGithub.href=p.github;
+      projectModal.classList.add('open');
+      projectModal.setAttribute('aria-hidden','false');
+      document.body.style.overflow='hidden';
+      tailStreak.classList.remove('fire'); void tailStreak.offsetWidth; tailStreak.classList.add('fire');
+    }
+    function closeProjectModal(){
+      projectModal.classList.remove('open');
+      projectModal.setAttribute('aria-hidden','true');
+      document.body.style.overflow='';
+    }
+    document.querySelectorAll('.project-inspect').forEach(btn=>{
+      btn.addEventListener('click',e=>{
+        e.preventDefault();e.stopPropagation();
+        openProjectModal(btn.dataset.project);
+      });
+    });
+    modalClose.addEventListener('click',closeProjectModal);
+    modalDone.addEventListener('click',closeProjectModal);
+    projectModal.addEventListener('click',e=>{if(e.target===projectModal)closeProjectModal()});
+    document.addEventListener('keydown',e=>{if(e.key==='Escape' && projectModal.classList.contains('open'))closeProjectModal()});
 
     /* ---------- HERO CANVAS: EXHAUST / DRIFT ATMOSPHERE ---------- */
     const canvas = document.getElementById('heroCanvas');
